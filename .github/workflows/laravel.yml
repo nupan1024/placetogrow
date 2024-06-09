@@ -59,3 +59,9 @@ jobs:
         run: vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+
+      - name: onarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
