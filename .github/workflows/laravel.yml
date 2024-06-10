@@ -35,7 +35,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: dom, curl, mysql, mbstring
+          extensions: dom, curl, mysql, mbstring, xml
           coverage: xdebug
 
       - name: Copy .env
@@ -50,6 +50,9 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      - name: Install JS Dependencies
+        run: npm install && npm run build
+
       - name: Create Database
         run: |
           mkdir -p database
@@ -60,7 +63,7 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
-      - name: onarCloud Scan
+      - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
