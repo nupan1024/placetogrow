@@ -1,0 +1,18 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Support\Definitions\Roles;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class RolSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        DB::table('roles')->insert(Roles::toArray());
+    }
+}
