@@ -5,6 +5,7 @@ namespace App\Support\Definitions;
 enum Roles: int
 {
     case ADMIN = 1;
+    case GUEST = 2;
 
     public static function toArray(): array
     {
