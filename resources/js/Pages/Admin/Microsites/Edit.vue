@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import Select from '@/Components/Select.vue';
 import FileInput from '@/Components/FileInput.vue';
+import Breadcrumb from '@/Components/Breadcrumb.vue';
 
 defineProps({
     categories: Array,
@@ -13,11 +14,12 @@ defineProps({
     currencies: Array,
     microsite: Object
 })
+
+const  crumbs = ["Dashboard", "Listado de micrositios", "Editar micrositio"];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const microsite = usePage().props.microsite;
-console.log(microsite);
 
 const form = useForm({
     name: microsite.name,
@@ -39,14 +41,8 @@ const submit = () => {
     <Head title="Micrositios"/>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Actualizar micrositio</h2>
-            <div class="breadcrumbs text-sm">
-                <ul>
-                    <li><a :href="route('dashboard')">Dashboard</a></li>
-                    <li><a :href="route('microsites')">Listado de micrositios</a></li>
-                    <li>Editar micrositio</li>
-                </ul>
-            </div>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar micrositio</h2>
+            <Breadcrumb :crumbs="crumbs"/>
         </template>
 
         <div

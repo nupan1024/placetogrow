@@ -1,6 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import Breadcrumb from '@/Components/Breadcrumb.vue';
+
+const  crumbs = ['Dashboard'];
 </script>
 
 <template>
@@ -9,11 +12,7 @@ import { Head } from '@inertiajs/vue3';
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-            <div class="breadcrumbs text-sm">
-                <ul>
-                    <li>Dashboard</li>
-                </ul>
-            </div>
+            <Breadcrumb :crumbs="crumbs" @selected="selected" />
         </template>
 
         <div class="py-12">

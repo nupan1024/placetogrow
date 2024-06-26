@@ -18,7 +18,7 @@ class MicrositesController extends Controller
         return Inertia::render('Admin/Microsites/Create', new CreateViewModel());
     }
 
-    public function edit(): Response {
-        return Inertia::render('Admin/Microsites/Edit', new EditViewModel());
+    public function edit($id): Response {
+        return Inertia::render('Admin/Microsites/Edit', new EditViewModel($id));
     }
 }

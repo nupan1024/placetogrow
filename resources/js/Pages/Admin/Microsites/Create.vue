@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import Select from '@/Components/Select.vue';
 import FileInput from '@/Components/FileInput.vue';
+import Breadcrumb from '@/Components/Breadcrumb.vue';
 
 defineProps({
     categories: Array,
@@ -13,6 +14,7 @@ defineProps({
     currencies: Array,
 })
 
+const  crumbs = ["Dashboard", "Listado de micrositios", "Crear micrositio"];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
@@ -38,13 +40,7 @@ const submit = () => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear micrositio</h2>
-            <div class="breadcrumbs text-sm">
-                <ul>
-                    <li><a :href="route('dashboard')">Dashboard</a></li>
-                    <li><a :href="route('microsites')">Listado de micrositios</a></li>
-                    <li>Crear micrositio</li>
-                </ul>
-            </div>
+            <Breadcrumb :crumbs="crumbs"/>
         </template>
 
         <div class="mx-auto w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg justify-center">

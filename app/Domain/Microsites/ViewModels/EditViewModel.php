@@ -11,9 +11,10 @@ use App\Support\ViewModels\ViewModel;
 
 class EditViewModel extends ViewModel
 {
-    public function __construct()
+    public function __construct($id)
     {
-        parent::__construct(new Microsite());
+        $microsite = Microsite::find($id);
+        parent::__construct($microsite ?: new Microsite);
     }
 
     public function toArray(): array

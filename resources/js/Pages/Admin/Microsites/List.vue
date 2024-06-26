@@ -5,6 +5,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Modal from '@/Components/Modal.vue';
+import Breadcrumb from '@/Components/Breadcrumb.vue';
+
+const  crumbs = ["Dashboard", "Listado de micrositios"];
 
 const searchFilter = ref('');
 const props = defineProps({ microsites: Array });
@@ -30,12 +33,7 @@ const showModal = ref(false);
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Listado de micrositios</h2>
-            <div class="breadcrumbs text-sm">
-                <ul>
-                    <li><a :href="route('dashboard')">Dashboard</a></li>
-                    <li>Listado de micrositios</li>
-                </ul>
-            </div>
+            <Breadcrumb :crumbs="crumbs"/>
         </template>
         <div class="py-12">
             <div class="p-8 bg-gray-100 min-h-screen">
@@ -66,7 +64,7 @@ const showModal = ref(false);
                             <td class="px-4 py-3">{{ microsite.type.name }}</td>
                             <td class="px-4 py-3 font-medium text-gray-900">{{ microsite.status }}</td>
                             <td class="px-4 py-3 flex items-center justify-end">
-                                <button :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline"> Editar</button>&nbsp;
+                                <a :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
                                 <button @click="showModal=true" class="text-indigo-500 hover:underline"> Eliminar</button>
                             </td>
                         </tr>
