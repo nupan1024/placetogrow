@@ -6,7 +6,7 @@ use App\Support\Definitions\Roles as RolesDefinition;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rol extends Model
+class Role extends Model
 {
     use HasFactory;
 
@@ -19,7 +19,7 @@ class Rol extends Model
     {
         return match ($this->id) {
             RolesDefinition::ADMIN->value => RolesDefinition::ADMIN,
-            default => throw new \Exception('Rol incorrecto!'),
+            default => throw new \Exception('Role incorrecto!'),
         };
     }
 }

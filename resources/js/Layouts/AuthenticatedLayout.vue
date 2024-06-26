@@ -64,10 +64,14 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> Perfil </DropdownLink>
+                                        <DropdownLink :href="route('user.create')"> Crear usuario </DropdownLink>
+                                        <DropdownLink :href="route('roles')"> Gestión de roles </DropdownLink>
+                                        <DropdownLink :href="route('microsites')"> Micrositios </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            Cerrar sesión
                                         </DropdownLink>
+
                                     </template>
                                 </Dropdown>
                             </div>

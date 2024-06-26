@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Support\ViewModels;
-
+namespace App\Domain\Microsites\ViewModels;
 
 use App\Domain\Microsites\Models\Microsite;
-use Illuminate\Support\Facades\Route;
+use App\Support\Definitions\Status;
+use App\Support\ViewModels\ViewModel;
 
-class HomeViewModel extends ViewModel
+class ListViewModel extends ViewModel
 {
     public function __construct()
     {
         parent::__construct(new Microsite());
     }
+
     public function toArray(): array
     {
         return [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
             'microsites' => Microsite::with(['category','type'])->get()
         ];
     }

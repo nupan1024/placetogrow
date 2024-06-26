@@ -9,7 +9,9 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
     ],
-
+    daisyui: {
+        themes: ["light"],
+    },
     theme: {
         extend: {
             fontFamily: {
@@ -18,5 +20,8 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('daisyui')
+    ],
 };
