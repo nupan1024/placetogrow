@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use  \App\Support\Http\Middleware\IsAdmin;
+use \App\Support\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\Admin\DashboardController;

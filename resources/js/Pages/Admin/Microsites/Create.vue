@@ -24,7 +24,7 @@ const form = useForm({
     category_id: '',
     microsites_type_id: '',
     currency_id: '',
-    time_expire_pay: '',
+    date_expire_pay: '',
     logo_path: '',
     status: '',
 });
@@ -94,16 +94,16 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.currency_id"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="time_expire_pay" value="Tiempo de duración de pago" />
+                    <InputLabel for="date_expire_pay" value="Tiempo de duración de pago" />
                     <TextInput
-                        id="time_expire_pay"
+                        id="date_expire_pay"
                         type="number"
                         class="mt-1 block w-full"
-                        v-model="form.time_expire_pay"
+                        v-model="form.date_expire_pay"
                         required
                         autofocus
                     />
-                    <InputError class="mt-2" :message="form.errors.time_expire_pay"/>
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
                 <div class="mt-3">
                     <InputLabel for="logo_path" value="Logo"/>

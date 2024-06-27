@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Domain\Currencies\Models\Currency;
+use \App\Domain\Microsites\Models\MicrositeType;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Currency>
+ * @extends Factory<MicrositeType>
  */
-class CurrencyFactory extends Factory
+class MicrositeTypeFactory extends Factory
 {
 
-    protected $model = Currency::class;
+    protected $model = MicrositeType::class;
 
     /**
      * Define the model's default state.

@@ -3,9 +3,7 @@
 namespace App\Domain\Microsites\Models;
 
 use App\Domain\Categories\Models\Category;
-use App\Support\Definitions\Status;
 use Database\Factories\MicrositeFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +21,9 @@ class Microsite extends Model
         'name',
         'logo_path',
         'currency_id',
-        'time_expire_pay',
+        'date_expire_pay',
         'status',
+        'description',
     ];
 
     protected static function newFactory(): Factory

@@ -31,7 +31,7 @@ defineProps({
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight">Listado de micrositios</h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-6 ml-12">
             <div v-for="microsite in microsites" :key="microsite.id" class="card card-compact bg-base-100 w-96 shadow-xl">
                 <figure>
                     <img
@@ -40,8 +40,8 @@ defineProps({
                 </figure>
                 <div class="card-body">
                     <h2 class="card-title">{{ microsite.name }}</h2>
-                    <p>Tipo: {{ microsite.type.name }}</p>
                     <p>Categoría: {{ microsite.category.name }}</p>
+                    <p> {{ microsite.description }}</p>
                     <div class="card-actions justify-end">
                         <button class="btn btn-primary">Visitar</button>
                     </div>

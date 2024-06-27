@@ -12,10 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([RolSeeder::class, UserSeeder::class]);
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+            CurrencySeeder::class,
+            CategorySeeder::class,
+            MicrositeTypeSeeder::class
+        ]);
+
 
         if (env('APP_ENV') !== 'production') {
-            $this->call([CurrencySeeder::class, CategorySeeder::class, MicrositeTypeSeeder::class]);
+            $this->call(MicrositeSeeder::class);
         }
+
     }
 }

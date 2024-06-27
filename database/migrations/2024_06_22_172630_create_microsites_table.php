@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('logo_path')->nullable()->default(null);
             $table->foreignId('currency_id')->constrained();
-            $table->integer('time_expire_pay');
+            $table->date('date_expire_pay');
+            $table->text('description');
             $table->boolean('status');
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domain\Categories\Models\Category;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -12,6 +13,13 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()->count(5)->create();
+        Category::factory()
+        ->count(4)
+        ->state(new Sequence(
+            ['name' => 'General'],
+            ['name' => 'Salud'],
+            ['name' => 'Economía'],
+            ['name' => 'Noticias']
+        ))->create();
     }
 }

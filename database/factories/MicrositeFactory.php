@@ -24,12 +24,13 @@ class MicrositeFactory extends Factory
     public function definition(): array
     {
         return [
-            'microsite_type_id' => fake()->randomElement(MicrositeType::all())['id'],
-            'category_id' => fake()->randomElement(Category::all())['id'],
+            'microsites_type_id' => MicrositeType::factory(),
+            'category_id' => Category::factory(),
             'name' => fake()->name,
             'logo_path' => '',
-            'currency_id' => fake()->randomElement(Currency::all())['id'],
-            'time_expire_pay' => 900,
+            'description' => fake()->paragraph(),
+            'currency_id' => Currency::factory(),
+            'date_expire_pay' => fake()->date(),
             'status' => Status::ACTIVE->value
         ];
     }

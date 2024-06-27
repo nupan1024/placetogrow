@@ -6,7 +6,7 @@ use App\Support\Definitions\Roles;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RolSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
