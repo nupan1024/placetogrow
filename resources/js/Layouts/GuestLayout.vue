@@ -12,5 +12,4 @@ import { Link } from '@inertiajs/vue3';
             </main>
         </div>
     </div>
-
 </template>

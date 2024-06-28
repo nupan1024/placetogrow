@@ -1,46 +1,61 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { ref } from 'vue';
+import Pagination from '@/Components/Pagination.vue';
+import SearchForm from '@/Components/SearchForm.vue';
 defineProps({
-    microsites: Array,
+    microsites: Object,
     canLogin: {
         type: Boolean,
     }
 });
+
+const searchTerm = ref('');
+const microsites = ref([]);
+const message = "Puedes buscar micrositios por nombre, descripción o categoría";
+const searchMicrosites = (text, cat) => {
+    searchTerm.value = text;
+
+    loadMicrosites(`${route('api.microsites.list')}/?filter=${text}`);
+}
+const loadMicrosites = (url = null) => {
+    axios.get(url || route('api.microsites.list')).then((response) => {
+        microsites.value = response.data.data
+
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+loadMicrosites();
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Micrositios" />
     <GuestLayout>
-        <div class="navbar bg-base-100 flex flex-col sm:flex-row items-center justify-between">
-            <div class="flex-1 text-center sm:text-left">
-                <a class="btn btn-ghost text-xl" href="/">Place to Grow</a>
-            </div>
-            <div class="flex-none">
-                <ul class="menu menu-horizontal px-1 text-base flex flex-col sm:flex-row">
-                    <li v-if="$page.props.auth.user">
-                        <a :href="route('dashboard')">Dashboard</a>
-                    </li>
-                    <li v-else>
-                        <a :href="route('login')">Iniciar sesión</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-1 text-base flex flex-col sm:flex-row">
+                <li v-if="$page.props.auth.user">
+                    <a :href="route('dashboard')">Dashboard</a>
+                </li>
+                <li v-else>
+                    <a :href="route('login')">Iniciar sesión</a>
+                </li>
+            </ul>
         </div>
-        <div class="text-center py-12 underline">
-            <h2 class="font-semibold text-2xl text-gray-800 leading-tight">Listado de micrositios</h2>
+        <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Listado de micrositios</h2>
+            <SearchForm @search="searchMicrosites" :message="message" />
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 py-6 ml-12">
-            <div v-for="microsite in microsites" :key="microsite.id" class="card card-compact bg-base-100 w-96 shadow-xl">
+        <div class="container px-3 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
+            <div v-for="microsite in microsites.data" :key="microsite.id" class="card card-compact bg-base-100 shadow-lg mt-6">
                 <figure>
-                    <img
-                        src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-                        alt="Micrositio" />
+                    <img v-if="microsite.logo_path" :src="`/storage/${microsite.logo_path}`"
+                        :alt="microsite.name" />
                 </figure>
                 <div class="card-body">
                     <h2 class="card-title">{{ microsite.name }}</h2>
-                    <p>Categoría: {{ microsite.category.name }}</p>
+                    <p>Categoría: {{ microsite.category }}</p>
                     <p> {{ microsite.description }}</p>
                     <div class="card-actions justify-end">
                         <button class="btn btn-primary">Visitar</button>
@@ -48,5 +63,8 @@ defineProps({
                 </div>
             </div>
         </div>
+
+        <Pagination v-if="microsites && microsites.data?.length > 0" class="mt-6 mb-6" :links="microsites.links"
+                    :filter="`&filter=${searchTerm}`" :click="loadMicrosites"/>
     </GuestLayout>
 </template>

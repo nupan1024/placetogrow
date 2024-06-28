@@ -7,14 +7,15 @@ import InputError from '@/Components/InputError.vue';
 import Select from '@/Components/Select.vue';
 import FileInput from '@/Components/FileInput.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
-
+import TextArea from '@/Components/TextArea.vue';
+import { ref } from 'vue'
 defineProps({
     categories: Array,
     types: Array,
     currencies: Array,
 })
 
-const  crumbs = ["Dashboard", "Listado de micrositios", "Crear micrositio"];
+const crumbs = ["Dashboard", "Listado de micrositios", "Crear micrositio"];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
@@ -24,12 +25,13 @@ const form = useForm({
     category_id: '',
     microsites_type_id: '',
     currency_id: '',
-    date_expire_pay: '',
+    date_expire_pay: ref([]),
     logo_path: '',
     status: '',
+    description: ''
 });
 const submit = () => {
-    form.post(route('microsites.store'), {
+    form.post(route('microsite.store'), {
         forceFormData: true,
     });
 };
@@ -94,16 +96,20 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.currency_id"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="date_expire_pay" value="Tiempo de duración de pago" />
-                    <TextInput
-                        id="date_expire_pay"
-                        type="number"
+                    <InputLabel for="date_expire_pay" value="Fecha límite de pago" />
+                    <vue-tailwind-datepicker id="date_expire_pay" name="date_expire_pay" v-model="form.date_expire_pay" class="mt-1 block w-full" as-single required autofocus />
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
+                </div>
+                <div class="mt-3">
+                    <InputLabel for="description" value="Descripción" />
+                    <TextArea
+                        id="description"
                         class="mt-1 block w-full"
-                        v-model="form.date_expire_pay"
+                        v-model="form.description"
                         required
                         autofocus
                     />
-                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
+                    <InputError class="mt-2" :message="form.errors.description"/>
                 </div>
                 <div class="mt-3">
                     <InputLabel for="logo_path" value="Logo"/>

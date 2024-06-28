@@ -3,7 +3,9 @@
 namespace App\Domain\Microsites\Models;
 
 use App\Domain\Categories\Models\Category;
+use App\Support\Definitions\Status;
 use Database\Factories\MicrositeFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,5 +40,19 @@ class Microsite extends Model
     public function type(): BelongsTo
     {
         return $this->belongsTo(MicrositeType::class, 'microsites_type_id', 'id');
+    }
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int $value) => match ($value) {
+                Status::ACTIVE->value => Status::ACTIVE,
+                Status::INACTIVE->value => Status::INACTIVE,
+                default => null
+            },
+            set: static function ($value) {
+                return $value ? Status::ACTIVE->value : Status::INACTIVE->value;
+            }
+        );
     }
 }
