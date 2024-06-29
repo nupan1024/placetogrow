@@ -1,9 +1,10 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { ref } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
 import SearchForm from '@/Components/SearchForm.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 defineProps({
     microsites: Object,
     canLogin: {
@@ -33,17 +34,22 @@ loadMicrosites();
 <template>
     <Head title="Micrositios" />
     <GuestLayout>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-1 text-base flex flex-col sm:flex-row">
-                <li v-if="$page.props.auth.user">
-                    <a :href="route('dashboard')">Dashboard</a>
-                </li>
-                <li v-else>
-                    <a :href="route('login')">Iniciar sesión</a>
-                </li>
-            </ul>
+        <div class="static">
+            <div class="relative md:absolute" v-if="$page.props.auth.user">
+                <a :href="route('dashboard')">Dashboard</a>
+            </div>
+            <div class="relative md:absolute" v-else>
+                <a :href="route('login')">Iniciar sesión</a>
+            </div>
         </div>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
+            <div class="shrink-0 flex items-center">
+                <Link :href="route('dashboard')">
+                    <ApplicationLogo
+                        class="block h-9 w-auto fill-current text-gray-800"
+                    />
+                </Link>
+            </div>
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Listado de micrositios</h2>
             <SearchForm @search="searchMicrosites" :message="message" />
         </div>

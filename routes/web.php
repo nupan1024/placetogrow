@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use \App\Support\Http\Middleware\IsAdmin;
-use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\Admin\DashboardController;
-use \App\Http\Controllers\Web\Admin\MicrositeController;
+use App\Http\Controllers\Web\Admin\MicrositeController;
+use App\Http\Controllers\Web\HomeController;
+use App\Support\Http\Middleware\IsAdmin;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -13,11 +13,13 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/microsites', [MicrositeController::class, 'index'])->name('microsites');
-    Route::get('/create-microsite', [MicrositeController::class, 'create'])->name('microsite.create');
-    Route::post('/store-microsite', [MicrositeController::class, 'store'])->name('microsite.store');
+    Route::get('/view-create-microsite', [MicrositeController::class, 'viewCreate'])->name('microsite.viewCreate');
+    Route::post('/create-microsite', [MicrositeController::class, 'create'])->name('microsite.create');
 
-    Route::get('/edit-microsite/{id}', [MicrositeController::class, 'edit'])->name('microsite.edit');
-    Route::put('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
+    Route::get('/edit-microsite/{id}', [MicrositeController::class, 'viewUpdate'])->name('microsite.viewUpdate');
+    Route::post('/update-microsite', [MicrositeController::class, 'edit'])->name('microsite.update');
+
+    Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
 
     Route::get('/create-user', [DashboardController::class, 'index'])->name('user.create');
     Route::get('/roles', [DashboardController::class, 'index'])->name('roles');

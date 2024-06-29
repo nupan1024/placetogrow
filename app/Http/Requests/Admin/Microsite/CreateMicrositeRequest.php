@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin\Microsite;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
 class CreateMicrositeRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -22,7 +19,7 @@ class CreateMicrositeRequest extends FormRequest
             'description' => ['required', 'string'],
             'currency_id' => ['required', 'exists:currencies,id'],
             'date_expire_pay' => ['required'],
-            'status' => ['required', 'boolean']
+            'status' => ['required', 'boolean'],
         ];
     }
 }

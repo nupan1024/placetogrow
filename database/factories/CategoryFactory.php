@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'status' => Status::ACTIVE->value
+            'status' => Status::ACTIVE->value,
         ];
     }
 }

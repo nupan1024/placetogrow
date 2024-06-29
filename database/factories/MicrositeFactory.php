@@ -31,7 +31,7 @@ class MicrositeFactory extends Factory
             'description' => fake()->paragraph(),
             'currency_id' => Currency::factory(),
             'date_expire_pay' => fake()->date(),
-            'status' => Status::ACTIVE->value
+            'status' => Status::ACTIVE->value,
         ];
     }
 }

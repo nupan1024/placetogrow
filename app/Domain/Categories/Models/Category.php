@@ -15,7 +15,7 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'status'
+        'status',
     ];
 
     protected static function newFactory(): Factory

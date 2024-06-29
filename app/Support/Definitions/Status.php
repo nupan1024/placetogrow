@@ -7,13 +7,13 @@ enum Status: int
     case INACTIVE = 0;
     case ACTIVE = 1;
 
-    public static function toArray(): array
+    public static function asOptions(): array
     {
         $cases = self::cases();
         $array = [];
 
-        foreach ($cases as $c) {
-            $array[strtolower($c->name)] = $c->value;
+        foreach ($cases as $case) {
+            $array[] = ['name' => ucfirst(strtolower($case->name)), 'id' => $case->value];
         }
 
         return $array;

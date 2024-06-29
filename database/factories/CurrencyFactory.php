@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CurrencyFactory extends Factory
 {
-
     protected $model = Currency::class;
 
     /**
@@ -23,7 +22,7 @@ class CurrencyFactory extends Factory
     {
         return [
             'name' => fake()->unique()->currencyCode(),
-            'status' => Status::ACTIVE->value
+            'status' => Status::ACTIVE->value,
         ];
     }
 }

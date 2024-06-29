@@ -9,7 +9,8 @@ use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index(): Response {
+    public function index(): Response
+    {
         return Inertia::render('Welcome', new HomeViewModel());
     }
 }

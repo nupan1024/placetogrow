@@ -37,6 +37,7 @@ class Microsite extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
     public function type(): BelongsTo
     {
         return $this->belongsTo(MicrositeType::class, 'microsites_type_id', 'id');

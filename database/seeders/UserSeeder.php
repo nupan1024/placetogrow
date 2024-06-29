@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Domain\Users\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 class UserSeeder extends Seeder
 {
     /**

@@ -5,9 +5,10 @@ namespace App\Domain\Microsites\Actions;
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
 
-class UpdateMicrosite implements Action {
-
-    public static function execute(array $params): bool {
+class UpdateMicrosite implements Action
+{
+    public static function execute(array $params): bool
+    {
         $response = false;
 
         try {
@@ -18,7 +19,7 @@ class UpdateMicrosite implements Action {
             $microsite->logo_path = $params['logo_path'];
             $microsite->description = $params['description'];
             $microsite->currency_id = $params['currency_id'];
-            $microsite->date_expire_pay = $params['date_expire_pay'];
+            $microsite->date_expire_pay = $params['date_expire_pay'][0];
             $microsite->status = $params['status'];
             $response = $microsite->save();
         } catch (\Exception $e) {
@@ -27,5 +28,4 @@ class UpdateMicrosite implements Action {
 
         return $response;
     }
-
 }

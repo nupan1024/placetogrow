@@ -17,12 +17,10 @@ class MicrositeSeeder extends Seeder
     {
         Microsite::factory()
             ->count(5)
-            ->state(fn (array $attributes) =>
-            [
-                    'microsites_type_id'=> MicrositeType::all()->random(),
-                    'category_id'=> Category::all()->random(),
-                    'currency_id'=> Currency::all()->random()
+            ->state(fn (array $attributes) => [
+                'microsites_type_id' => MicrositeType::all()->random(),
+                'category_id' => Category::all()->random(),
+                'currency_id' => Currency::all()->random(),
             ])->create();
     }
-
 }

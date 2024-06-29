@@ -1,22 +1,44 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Modal from '@/Components/Modal.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 
 const  crumbs = ["Dashboard", "Listado de micrositios"];
 
-const searchFilter = ref('');
 const props = defineProps({ microsites: Object });
 
 const message = "Puedes buscar micrositios por nombre, tipo o categoría";
 const searchTerm = ref('');
 const microsites = ref([]);
+const isOpenModal = ref(false);
+const closeModal = () => {
+    isOpenModal.value = false;
 
+    form.reset();
+};
+
+const micrositeId = ref('');
+const micrositeName = ref('');
+const openModal = (e) => {
+    micrositeId.value = e.target.dataset.id ?? "";
+    micrositeName.value = e.target.dataset.name ?? "";
+    isOpenModal.value = true;
+};
+const form = useForm({});
+const deleteMicrositio = () => {
+    form.delete(route('microsite.delete', micrositeId.value), {
+        forceFormData: true,
+        onSuccess: () => closeModal(),
+        onFinish: () => form.reset(),
+    });
+};
 const searchMicrosites = (text, cat) => {
     searchTerm.value = text;
 
@@ -31,7 +53,6 @@ const loadMicrosites = (url = null) => {
     });
 }
 loadMicrosites();
-const showModal = ref(false);
 </script>
 
 <template>
@@ -46,10 +67,10 @@ const showModal = ref(false);
 
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
-                        <SearchForm @search="searchMicrosites" :message="message"/>
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a :href="route('microsite.create')" class="btn btn-link">Crear micrositio</a>
+                            <a :href="route('microsite.viewCreate')" class="btn btn-link">Crear micrositio</a>
                         </div>
+                        <SearchForm @search="searchMicrosites" :message="message"/>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -70,8 +91,8 @@ const showModal = ref(false);
                                 <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
-                                    <a :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
-                                    <button @click="showModal=true" class="text-indigo-500 hover:underline"> Eliminar</button>
+                                    <a :href="route('microsite.viewUpdate', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
+                                    <button :data-id="microsite.id" :data-name="microsite.name" @click="openModal" class="text-indigo-500 hover:underline"> Eliminar</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -82,13 +103,23 @@ const showModal = ref(false);
                             :filter="`&filter=${searchTerm}`" :click="loadMicrosites"/>
             </div>
         </div>
-        <Modal :show="showModal" @close="showModal = false">
+        <Modal :show="isOpenModal" @close="closeModal">
             <!-- Contenido del Modal -->
             <template v-slot>
                 <div class="p-6">
                     <h2 class="text-lg font-semibold">Eliminar micrositio</h2>
-                    <p class="mt-4">¿Está seguro de eliminar el micrositio ...?</p>
-                    <button @click="showModal = false" class="btn mt-4">Cerrar</button>
+                    <p class="mt-4">¿Está seguro de eliminar el micrositio {{ micrositeName }}?</p>
+                    <div class="mt-6 flex justify-end">
+                        <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+                        <DangerButton
+                            class="ml-3"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            @click="deleteMicrositio"
+                        >
+                            Eliminar micrositio
+                        </DangerButton>
+                    </div>
                 </div>
             </template>
         </Modal>

@@ -3,7 +3,6 @@
 namespace App\Domain\Microsites\ViewModels;
 
 use App\Domain\Microsites\Models\Microsite;
-use App\Support\Definitions\Status;
 use App\Support\ViewModels\ViewModel;
 
 class ListViewModel extends ViewModel
@@ -16,7 +15,7 @@ class ListViewModel extends ViewModel
     public function toArray(): array
     {
         return [
-            'microsites' => Microsite::with(['category','type'])->get()
+            'microsites' => Microsite::with(['category', 'type'])->get(),
         ];
     }
 }

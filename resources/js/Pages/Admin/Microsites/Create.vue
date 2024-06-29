@@ -9,16 +9,24 @@ import FileInput from '@/Components/FileInput.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import TextArea from '@/Components/TextArea.vue';
 import { ref } from 'vue'
+import FormLayout from '@/Layouts/FormLayout.vue';
 defineProps({
     categories: Array,
     types: Array,
     currencies: Array,
+    states: Array
 })
 
 const crumbs = ["Dashboard", "Listado de micrositios", "Crear micrositio"];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
+const states = usePage().props.states;
+const hiddenField = ref(true);
+console.log(states);
+const changeType = (e) => {
+    hiddenField.value = e.target.value !== '1';
+}
 
 const form = useForm({
     name: '',
@@ -31,7 +39,7 @@ const form = useForm({
     description: ''
 });
 const submit = () => {
-    form.post(route('microsite.store'), {
+    form.post(route('microsite.create'), {
         forceFormData: true,
     });
 };
@@ -44,8 +52,7 @@ const submit = () => {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear micrositio</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
-
-        <div class="mx-auto w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg justify-center">
+        <FormLayout>
             <form  @submit.prevent="submit" enctype="multipart/form-data">
                 <div class="mt-3">
                     <InputLabel for="name" value="Nombre" />
@@ -60,6 +67,24 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.name"/>
                 </div>
                 <div class="mt-3">
+                    <InputLabel for="microsites_type_id" value="Tipo"/>
+                    <Select
+                        v-on:change="changeType"
+                        id="microsites_type_id"
+                        class="input mt-1 block w-full select"
+                        v-model="form.microsites_type_id"
+                        :options="types"
+                        required
+                        autofocus
+                    />
+                    <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
+                </div>
+                <div class="date mt-3" v-show="!hiddenField">
+                    <InputLabel for="date_expire_pay" value="Fecha límite de pago" />
+                    <vue-tailwind-datepicker id="date_expire_pay" name="date_expire_pay" v-model="form.date_expire_pay" class="mt-1 block w-full" as-single required autofocus />
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
+                </div>
+                <div class="mt-3">
                     <InputLabel for="category_id" value="Categoría"/>
                     <Select
                         id="category_id"
@@ -70,18 +95,6 @@ const submit = () => {
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.category_id"/>
-                </div>
-                <div class="mt-3">
-                    <InputLabel for="microsites_type_id" value="Tipo"/>
-                    <Select
-                        id="microsites_type_id"
-                        class="input mt-1 block w-full select"
-                        v-model="form.microsites_type_id"
-                        :options="types"
-                        required
-                        autofocus
-                    />
-                    <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
                 </div>
                 <div class="mt-3">
                     <InputLabel for="currency_id" value="Moneda"/>
@@ -96,11 +109,6 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.currency_id"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="date_expire_pay" value="Fecha límite de pago" />
-                    <vue-tailwind-datepicker id="date_expire_pay" name="date_expire_pay" v-model="form.date_expire_pay" class="mt-1 block w-full" as-single required autofocus />
-                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
-                </div>
-                <div class="mt-3">
                     <InputLabel for="description" value="Descripción" />
                     <TextArea
                         id="description"
@@ -110,6 +118,17 @@ const submit = () => {
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.description"/>
+                </div>
+                <div class="mt-3">
+                    <InputLabel for="status" value="Estado"/>
+                    <Select
+                        id="category_id"
+                        class="input mt-1 block w-full select"
+                        v-model="form.status"
+                        :options="states"
+                        required
+                        autofocus
+                    />
                 </div>
                 <div class="mt-3">
                     <InputLabel for="logo_path" value="Logo"/>
@@ -123,21 +142,12 @@ const submit = () => {
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
                 </div>
-                <div class="mt-3">
-                    <InputLabel for="status" value="Estado"/>
-                    <input type="checkbox"
-                           name="status" id="status"
-                           v-model="form.status"
-                           class="toggle"/>
-                </div>
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">
-                       Crear
+                        Crear
                     </button>
                 </div>
             </form>
-        </div>
-
-
+        </FormLayout>
     </AuthenticatedLayout>
 </template>

@@ -14,12 +14,12 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::factory()
-        ->count(4)
-        ->state(new Sequence(
-            ['name' => 'General'],
-            ['name' => 'Salud'],
-            ['name' => 'Economía'],
-            ['name' => 'Noticias']
-        ))->create();
+            ->count(4)
+            ->state(new Sequence(
+                ['name' => 'General'],
+                ['name' => 'Salud'],
+                ['name' => 'Economía'],
+                ['name' => 'Noticias']
+            ))->create();
     }
 }
