@@ -4,6 +4,7 @@ namespace App\Domain\Users\Actions;
 
 use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Hash;
 
 class CreateUser implements Action
 {
@@ -14,7 +15,8 @@ class CreateUser implements Action
             $user->name = $params['name'];
             $user->email = $params['email'];
             $user->role_id = $params['role_id'];
-            $user->password = $params['password'];
+            $user->status = $params['status'];
+            $user->password = Hash::make($params['password']);
 
             return $user->save();
         } catch (\Exception $e) {

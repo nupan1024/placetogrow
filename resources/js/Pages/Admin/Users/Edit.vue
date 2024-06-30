@@ -1,46 +1,49 @@
 <script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
-import FormLayout from '@/Layouts/FormLayout.vue';
 import Select from '@/Components/Select.vue';
+import FormLayout from '@/Layouts/FormLayout.vue';
 
 defineProps({
+    status: Array,
     roles: Array,
-    status: Array
-})
-const roles = usePage().props.roles;
-const status = usePage().props.status;
-const crumbs = ["Dashboard", "Listado de usuarios", "Crear usuario"];
-const form = useForm({
-    name: '',
-    email: '',
-    role_id: '',
-    status: '',
-    password: '',
-    password_confirmation: '',
+    user: Object,
 });
 
+const roles = usePage().props.roles;
+const status = usePage().props.status;
+const user = usePage().props.user;
+const crumbs = ["Dashboard", "Listado de usuarios", "Editar usuario"];
+const form = useForm({
+    name: user.name,
+    email: user.email,
+    role_id: user.role_id,
+    status: user.status,
+    _method: 'patch'
+});
 const submit = () => {
-    form.post(route('user.store'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route('user.update', user.id), {
+        forceFormData: true,
     });
 };
 </script>
 
 <template>
     <Head title="Usuarios" />
+
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear usuario</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar usuario</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
+
         <FormLayout>
-            <form @submit.prevent="submit">
+            <form @submit.prevent="submit" class="mt-6 space-y-6">
                 <div>
                     <InputLabel for="name" value="Nombre" />
 
@@ -57,7 +60,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
 
-                <div class="mt-4">
+                <div>
                     <InputLabel for="email" value="Correo electrónico" />
 
                     <TextInput
@@ -85,7 +88,6 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.role_id"/>
                 </div>
 
-
                 <div class="mt-3">
                     <InputLabel for="status" value="Estado"/>
                     <Select
@@ -98,40 +100,10 @@ const submit = () => {
                     />
                 </div>
 
-                <div class="mt-4">
-                    <InputLabel for="password" value="Contraseña" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        class="mt-1 block w-full"
-                        v-model="form.password"
-                        required
-                        autocomplete="new-password"
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.password" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="password_confirmation" value="Confirmar contraseña" />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        class="mt-1 block w-full"
-                        v-model="form.password_confirmation"
-                        required
-                        autocomplete="new-password"
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.password_confirmation" />
-                </div>
-
                 <div class="flex items-center justify-end mt-4">
-                    <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Crear
-                    </PrimaryButton>
+                    <button class="btn" :disabled="form.processing">
+                        Editar
+                    </button>
                 </div>
             </form>
         </FormLayout>

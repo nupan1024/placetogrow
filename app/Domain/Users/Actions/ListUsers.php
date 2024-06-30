@@ -14,6 +14,7 @@ class ListUsers implements Action
             'users.id',
             'users.name',
             'users.email',
+            'users.status',
             'roles.name as role',
         )->join('roles', 'users.role_id', '=', 'roles.id')
             ->when($params['filter'], function ($query, $filter) {

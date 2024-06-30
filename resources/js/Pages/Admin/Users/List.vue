@@ -33,8 +33,8 @@ const openModal = (e) => {
 };
 
 const form = useForm({});
-const deleteMicrositio = () => {
-    form.delete(route('microsite.delete', userId.value), {
+const deleteUser = () => {
+    form.delete(route('user.delete', userId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
         onFinish: () => router.visit('/users'),
@@ -57,7 +57,7 @@ loadUsers();
 </script>
 
 <template>
-    <Head title="Micrositios" />
+    <Head title="Usuarios" />
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Listado de usuarios</h2>
@@ -80,6 +80,7 @@ loadUsers();
                                 <th>Nombre</th>
                                 <th>Correo electrónico</th>
                                 <th>Rol</th>
+                                <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
                             </thead>
@@ -88,6 +89,7 @@ loadUsers();
                                 <th>{{ user.name }}</th>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.role }}</td>
+                                <td>{{ user.status }}</td>
                                 <td>
                                     <a :href="route('user.edit', user.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
                                     <button :data-id="user.id" :data-name="user.name" @click="openModal" class="text-indigo-500 hover:underline"> Eliminar</button>
@@ -105,17 +107,17 @@ loadUsers();
             <!-- Contenido del Modal -->
             <template v-slot>
                 <div class="p-6">
-                    <h2 class="text-lg font-semibold">Eliminar micrositio</h2>
-                    <p class="mt-4">¿Está seguro de eliminar el micrositio {{ userName }}?</p>
+                    <h2 class="text-lg font-semibold">Eliminar usuario</h2>
+                    <p class="mt-4">¿Está seguro de eliminar el usuario {{ userName }}?</p>
                     <div class="mt-6 flex justify-end">
                         <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
                         <DangerButton
                             class="ml-3"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
-                            @click="deleteMicrositio"
+                            @click="deleteUser"
                         >
-                            Eliminar micrositio
+                            Eliminar usuario
                         </DangerButton>
                     </div>
                 </div>

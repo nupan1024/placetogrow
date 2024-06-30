@@ -7,16 +7,18 @@ use App\Domain\Users\Models\User;
 use App\Support\Definitions\Status;
 use App\Support\ViewModels\ViewModel;
 
-class CreateViewModel extends ViewModel
+class EditViewModel extends ViewModel
 {
-    public function __construct()
+    public function __construct($id)
     {
-        parent::__construct(new User());
+        $user = User::find($id);
+        parent::__construct($user ?: new User());
     }
 
     public function toArray(): array
     {
         return [
+            'user' => $this->model()->getRawOriginal(),
             'roles' => Role::all(),
             'status' => Status::asOptions(),
         ];
