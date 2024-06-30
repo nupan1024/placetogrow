@@ -12,10 +12,10 @@ enum Roles: int
         $cases = self::cases();
         $array = [];
 
-        foreach ($cases as $c) {
+        foreach ($cases as $case) {
             $array[] = [
-                'id' => $c->value,
-                'name' => strtolower($c->name),
+                'id' => $case->value,
+                'name' => ucfirst(strtolower($case->name)),
                 'guard_name' => 'web',
             ];
         }

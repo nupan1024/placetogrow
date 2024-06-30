@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
+use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
 use App\Support\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,8 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
 
     Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
 
-    Route::get('/create-user', [DashboardController::class, 'index'])->name('user.create');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users-edit', [UserController::class, 'index'])->name('user.edit');
     Route::get('/roles', [DashboardController::class, 'index'])->name('roles');
 });
 
