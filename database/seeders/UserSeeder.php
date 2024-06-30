@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domain\Users\Models\User;
+use App\Support\Definitions\Roles;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -13,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::insert([
+        User::create([
             'name' => 'Super Admin',
             'email' => 'admin@placetogrow.com',
             'role_id' => 1,

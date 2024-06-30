@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
@@ -9,6 +9,8 @@ import FileInput from '@/Components/FileInput.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
 import TextArea from '@/Components/TextArea.vue';
+import { ref } from 'vue';
+import LogoMicrositio from '@/Components/LogoMicrositio.vue';
 
 defineProps({
     categories: Array,
@@ -24,19 +26,31 @@ const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const microsite = usePage().props.microsite;
 const states = usePage().props.states;
+const hiddenField = ref(true);
+const formatter = ref({
+    date: 'YYYY-MM-DD',
+    month:'MMM',
+});
 
+function disableData(date) {
+    return date < new Date();
+}
+const changeType = (e) => {
+    hiddenField.value = e.target.value !== '1';
+}
 const form = useForm({
     name: microsite.name,
     category_id: microsite.category_id,
     microsites_type_id: microsite.microsites_type_id,
     currency_id: microsite.currency_id,
     date_expire_pay: microsite.date_expire_pay,
-    logo_path: microsite.logo_path,
+    logo_path: '',
     status: microsite.status,
-    description: microsite.description
+    description: microsite.description,
+    _method: 'patch'
 });
 const submit = () => {
-    form.post(route('microsites.update'), {
+    form.post(route('microsite.update', microsite.id), {
         forceFormData: true,
     });
 };
@@ -51,6 +65,9 @@ const submit = () => {
         </template>
 
         <FormLayout>
+            <div class="text-center">
+                <LogoMicrositio :url="`/storage/${microsite.logo_path}`" class="w-20 h-20 fill-current text-gray-500" />
+            </div>
             <form @submit.prevent="submit" enctype="multipart/form-data">
                 <div class="mt-3">
                     <InputLabel for="name" value="Nombre"/>
@@ -61,12 +78,14 @@ const submit = () => {
                         v-model="form.name"
                         required
                         autofocus
+                        :autocomplete="form.name"
                     />
                     <InputError class="mt-2" :message="form.errors.name"/>
                 </div>
                 <div class="mt-3">
                     <InputLabel for="microsites_type_id" value="Tipo"/>
                     <Select
+                        v-on:change="changeType"
                         id="microsites_type_id"
                         class="input mt-1 block w-full select"
                         v-model="form.microsites_type_id"
@@ -76,9 +95,18 @@ const submit = () => {
                     />
                     <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
                 </div>
-                <div class="mt-3">
+                <div class="mt-3" v-if="!hiddenField">
                     <InputLabel for="date_expire_pay" value="Fecha límite de pago" />
-                    <vue-tailwind-datepicker id="date_expire_pay" name="date_expire_pay" v-model="form.date_expire_pay" class="mt-1 block w-full" as-single required autofocus />
+                    <vue-tailwind-datepicker
+                        id="date_expire_pay"
+                        name="date_expire_pay"
+                        :disable-date="disableData"
+                        v-model="form.date_expire_pay"
+                        :formatter="formatter"
+                        class="mt-1 block w-full"
+                        as-single
+                        required
+                        autofocus />
                     <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
                 <div class="mt-3">
@@ -119,7 +147,7 @@ const submit = () => {
                 <div class="mt-3">
                     <InputLabel for="status" value="Estado"/>
                     <Select
-                        id="category_id"
+                        id="status"
                         class="input mt-1 block w-full select"
                         v-model="form.status"
                         :options="states"
@@ -133,7 +161,6 @@ const submit = () => {
                         id="logo_path"
                         class="input mt-1 block w-full"
                         v-model="form.logo_path"
-                        required
                         autofocus
                         autocomplete="logo_path"
                     />

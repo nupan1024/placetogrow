@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin\Microsite;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateMicrositeRequest extends FormRequest
+class UpdateMicrositeRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,7 +15,7 @@ class CreateMicrositeRequest extends FormRequest
             'name' => ['required', 'min:3', 'max:255'],
             'microsites_type_id' => ['required', 'exists:microsites_types,id'],
             'category_id' => ['required', 'exists:categories,id'],
-            'logo_path' => ['required', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:2048'],
+            'logo_path' => ['nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:2048'],
             'description' => ['required', 'string'],
             'currency_id' => ['required', 'exists:currencies,id'],
             'date_expire_pay' => ['date'],

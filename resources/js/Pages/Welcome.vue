@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
 import SearchForm from '@/Components/SearchForm.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import LogoMicrositio from '@/Components/LogoMicrositio.vue';
 defineProps({
     microsites: Object,
     canLogin: {
@@ -55,10 +56,9 @@ loadMicrosites();
         </div>
         <div class="container px-3 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
             <div v-for="microsite in microsites.data" :key="microsite.id" class="card card-compact bg-base-100 shadow-lg mt-6">
-                <figure>
-                    <img v-if="microsite.logo_path" :src="`/storage/${microsite.logo_path}`"
-                        :alt="microsite.name" />
-                </figure>
+                <div class="text-center mt-4">
+                    <LogoMicrositio :url="`/storage/${microsite.logo_path}`" />
+                </div>
                 <div class="card-body">
                     <h2 class="card-title">{{ microsite.name }}</h2>
                     <p>Categoría: {{ microsite.category }}</p>

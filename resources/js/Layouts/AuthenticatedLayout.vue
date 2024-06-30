@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import Alert from '@/Components/Alert.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -149,6 +150,9 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main>
+                <div v-if="$page.props.flash.message">
+                    <Alert :type="$page.props.flash.type" :message="$page.props.flash.message" />
+                </div>
                 <slot />
             </main>
         </div>

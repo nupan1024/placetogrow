@@ -17,7 +17,7 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::post('/create-microsite', [MicrositeController::class, 'create'])->name('microsite.create');
 
     Route::get('/edit-microsite/{id}', [MicrositeController::class, 'viewUpdate'])->name('microsite.viewUpdate');
-    Route::post('/update-microsite', [MicrositeController::class, 'edit'])->name('microsite.update');
+    Route::patch('/update-microsite/{id}', [MicrositeController::class, 'update'])->name('microsite.update');
 
     Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
 

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Modal from '@/Components/Modal.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
@@ -31,14 +31,15 @@ const openModal = (e) => {
     micrositeName.value = e.target.dataset.name ?? "";
     isOpenModal.value = true;
 };
+
 const form = useForm({});
 const deleteMicrositio = () => {
     form.delete(route('microsite.delete', micrositeId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => form.reset(),
+        onFinish: () => router.visit('/microsites'),
     });
-};
+}
 const searchMicrosites = (text, cat) => {
     searchTerm.value = text;
 
@@ -64,7 +65,6 @@ loadMicrosites();
         </template>
         <div class="py-12">
             <div class="p-8 bg-gray-100 min-h-screen">
-
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">

@@ -47,8 +47,8 @@ class Microsite extends Model
     {
         return Attribute::make(
             get: fn (int $value) => match ($value) {
-                Status::ACTIVE->value => Status::ACTIVE,
-                Status::INACTIVE->value => Status::INACTIVE,
+                Status::ACTIVE->value => ucfirst(strtolower(Status::ACTIVE->name)),
+                Status::INACTIVE->value => ucfirst(strtolower(Status::INACTIVE->name)),
                 default => null
             },
             set: static function ($value) {

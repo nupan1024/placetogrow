@@ -18,7 +18,7 @@ class CreateMicrosite implements Action
             $microsite->logo_path = Storage::disk('public')->putFile('microsites_logo', $params['logo_path']);
             $microsite->description = $params['description'];
             $microsite->currency_id = $params['currency_id'];
-            $microsite->date_expire_pay = $params['date_expire_pay'][0];
+            $microsite->date_expire_pay = $params['date_expire_pay'] ?? null;
             $microsite->status = $params['status'];
 
             return $microsite->save();

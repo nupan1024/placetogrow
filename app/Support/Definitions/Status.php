@@ -13,7 +13,10 @@ enum Status: int
         $array = [];
 
         foreach ($cases as $case) {
-            $array[] = ['name' => ucfirst(strtolower($case->name)), 'id' => $case->value];
+            $array[] = [
+                'name' => ucfirst(strtolower($case->name)),
+                'id' => $case->value,
+            ];
         }
 
         return $array;
