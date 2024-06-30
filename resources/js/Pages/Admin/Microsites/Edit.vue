@@ -17,7 +17,8 @@ defineProps({
     types: Array,
     currencies: Array,
     microsite: Object,
-    states: Array
+    states: Array,
+    is_invoice: Boolean
 })
 
 const  crumbs = ["Dashboard", "Listado de micrositios", "Editar micrositio"];
@@ -26,7 +27,7 @@ const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const microsite = usePage().props.microsite;
 const states = usePage().props.states;
-const hiddenField = ref(true);
+const is_invoice = usePage().props.is_invoice;
 const formatter = ref({
     date: 'YYYY-MM-DD',
     month:'MMM',
@@ -35,9 +36,7 @@ const formatter = ref({
 function disableData(date) {
     return date < new Date();
 }
-const changeType = (e) => {
-    hiddenField.value = e.target.value !== '1';
-}
+
 const form = useForm({
     name: microsite.name,
     category_id: microsite.category_id,
@@ -65,7 +64,7 @@ const submit = () => {
         </template>
 
         <FormLayout>
-            <div class="text-center">
+            <div class="text-center" v-if="microsite.logo_path">
                 <LogoMicrositio :url="`/storage/${microsite.logo_path}`" class="w-20 h-20 fill-current text-gray-500" />
             </div>
             <form @submit.prevent="submit" enctype="multipart/form-data">
@@ -85,17 +84,17 @@ const submit = () => {
                 <div class="mt-3">
                     <InputLabel for="microsites_type_id" value="Tipo"/>
                     <Select
-                        v-on:change="changeType"
                         id="microsites_type_id"
                         class="input mt-1 block w-full select"
                         v-model="form.microsites_type_id"
                         :options="types"
                         required
+                        disabled
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
                 </div>
-                <div class="mt-3" v-if="!hiddenField">
+                <div class="mt-3" v-if="is_invoice">
                     <InputLabel for="date_expire_pay" value="Fecha límite de pago" />
                     <vue-tailwind-datepicker
                         id="date_expire_pay"

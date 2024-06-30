@@ -139,7 +139,7 @@ const submit = () => {
                 <div class="mt-3">
                     <InputLabel for="status" value="Estado"/>
                     <Select
-                        id="category_id"
+                        id="status"
                         class="input mt-1 block w-full select"
                         v-model="form.status"
                         :options="states"

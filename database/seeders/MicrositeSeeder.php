@@ -21,6 +21,7 @@ class MicrositeSeeder extends Seeder
                 'microsites_type_id' => MicrositeType::all()->random(),
                 'category_id' => Category::all()->random(),
                 'currency_id' => Currency::all()->random(),
+                'date_expire_pay' => date('Y-m-d'),
             ])->create();
     }
 }
