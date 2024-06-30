@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import FormLayout from '@/Layouts/FormLayout.vue';
 
 defineProps({
     canResetPassword: {
@@ -36,7 +37,10 @@ const submit = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-        <div class="mx-auto w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg justify-center">
+        <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Iniciar sesión</h2>
+        </div>
+        <FormLayout>
             <form @submit.prevent="submit">
                 <div>
                     <InputLabel for="email" value="Email" />
@@ -90,6 +94,6 @@ const submit = () => {
                     </PrimaryButton>
                 </div>
             </form>
-        </div>
+        </FormLayout>
     </GuestLayout>
 </template>
