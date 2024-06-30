@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
+use \App\Http\Controllers\Web\Admin\RolesController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
 use App\Support\Http\Middleware\IsAdmin;
@@ -31,7 +32,7 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
 
     Route::delete('/users-delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 
-    Route::get('/roles', [DashboardController::class, 'index'])->name('roles');
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles');
 });
 
 Route::middleware('auth')->group(function () {

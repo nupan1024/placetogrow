@@ -59,7 +59,7 @@ jobs:
           touch database/database.sql
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-        run: vendor/bin/phpunit
+        run: vendor/bin/pest
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
