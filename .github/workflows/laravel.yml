@@ -38,9 +38,6 @@ jobs:
           extensions: dom, curl, mysql, mbstring, xml
           coverage: xdebug
 
-      - name: Copy .env.testing
-        run: php -r "copy('.env.example', '.env.testing');"
-
       - name: Copy .env
         run: php -r "copy('.env.example', '.env');"
 
@@ -49,6 +46,9 @@ jobs:
 
       - name: Generate key
         run: php artisan key:generate
+
+      - name: Copy .env.testing
+        run: php -r "copy('.env.example', '.env.testing');"
 
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
