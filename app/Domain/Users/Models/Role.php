@@ -19,6 +19,7 @@ class Role extends Model
     {
         return match ($this->id) {
             RolesDefinition::ADMIN->value => RolesDefinition::ADMIN,
+            RolesDefinition::GUEST->value => RolesDefinition::GUEST,
             default => throw new \Exception('Role incorrecto!'),
         };
     }

@@ -8,7 +8,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Support\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -23,6 +23,9 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/user-create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user-store', [UserController::class, 'store'])->name('user.store');
+
     Route::get('/users-edit', [UserController::class, 'index'])->name('user.edit');
     Route::get('/roles', [DashboardController::class, 'index'])->name('roles');
 });

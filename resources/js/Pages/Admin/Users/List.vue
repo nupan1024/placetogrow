@@ -68,7 +68,7 @@ loadUsers();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a :href="route('microsite.create')" class="btn btn-link">Crear usuario</a>
+                            <a :href="route('user.create')" class="btn btn-link">Crear usuario</a>
                         </div>
                         <SearchForm @search="searchUsers" :message="message"/>
                     </div>

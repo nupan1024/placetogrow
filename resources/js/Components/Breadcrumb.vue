@@ -34,6 +34,8 @@ export default {
                     return route('dashboard');
                 case 'Listado de micrositios':
                     return route('microsites');
+                case 'Listado de usuarios':
+                    return route('users');
             }
         }
     },
