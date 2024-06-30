@@ -68,7 +68,7 @@ loadMicrosites();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a :href="route('microsite.viewCreate')" class="btn btn-link">Crear micrositio</a>
+                            <a :href="route('microsite.create')" class="btn btn-link">Crear micrositio</a>
                         </div>
                         <SearchForm @search="searchMicrosites" :message="message"/>
                     </div>
@@ -91,7 +91,7 @@ loadMicrosites();
                                 <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
-                                    <a :href="route('microsite.viewUpdate', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
+                                    <a :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
                                     <button :data-id="microsite.id" :data-name="microsite.name" @click="openModal" class="text-indigo-500 hover:underline"> Eliminar</button>
                                 </td>
                             </tr>

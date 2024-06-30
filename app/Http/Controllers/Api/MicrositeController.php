@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Microsites\Actions\CreateMicrosite;
-use App\Domain\Microsites\Models\Microsite;
+use App\Domain\Microsites\Actions\ListMicrositesForGuest;
 use App\Domain\Microsites\ViewModels\CreateViewModel;
 use App\Domain\Microsites\ViewModels\EditViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Microsite\CreateMicrositeRequest;
 use App\Http\Resources\Api\StandardResource;
-use App\Support\Definitions\Status;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,24 +21,9 @@ class MicrositeController extends Controller
     {
         $filter = $request->get('filter');
 
-        $microsites = Microsite::select(
-            'microsites.id',
-            'microsites.name',
-            'categories.name as category',
-            'microsites.logo_path',
-            'microsites.description',
-        )
-            ->where('microsites.status', Status::ACTIVE->value)
-            ->join('categories', 'microsites.category_id', '=', 'categories.id')
-            ->when($filter, function ($query, $filter) {
-                return $query->where(function ($query) use ($filter) {
-                    $query->where('microsites.name', 'like', '%'.$filter.'%')
-                        ->orWhere('categories.name', 'like', '%'.$filter.'%')
-                        ->orWhere('microsites.description', 'like', '%'.$filter.'%');
-                });
-            })->latest('microsites.id')->paginate(4);
-
-        return response()->json(new StandardResource($microsites));
+        return response()->json(
+            new StandardResource(ListMicrositesForGuest::execute(['filter' => $filter]))
+        );
     }
 
     public function create(): Response

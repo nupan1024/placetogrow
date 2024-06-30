@@ -21,7 +21,7 @@ class MicrositeTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->currencyCode(),
+            'name' => fake()->unique()->name(),
             'status' => Status::ACTIVE->value,
         ];
     }

@@ -23,7 +23,7 @@ class EditViewModel extends ViewModel
             'categories' => Category::where('status', Status::ACTIVE->value)->get(),
             'microsites_types' => MicrositeType::where('status', Status::ACTIVE->value)->get(),
             'currencies' => Currency::where('status', Status::ACTIVE->value)->get(),
-            'microsite' => $this->model(),
+            'microsite' => $this->model()->getRawOriginal(),
             'states' => Status::asOptions(),
         ];
     }

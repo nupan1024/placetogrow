@@ -46,7 +46,7 @@ const form = useForm({
     description: ''
 });
 const submit = () => {
-    form.post(route('microsite.create'), {
+    form.post(route('microsite.store'), {
         forceFormData: true,
     });
 };

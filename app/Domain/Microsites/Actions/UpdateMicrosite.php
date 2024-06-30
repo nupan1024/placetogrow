@@ -27,9 +27,11 @@ class UpdateMicrosite implements Action
 
                 $microsite->logo_path = Storage::disk('public')->putFile('microsites_logo', $params['fields']['logo_path']);
             }
+
             return $microsite->save();
         } catch (\Exception $e) {
             logger()->error($e->getMessage());
+
             return false;
         }
     }

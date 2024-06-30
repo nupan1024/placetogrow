@@ -13,10 +13,10 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/microsites', [MicrositeController::class, 'index'])->name('microsites');
-    Route::get('/view-create-microsite', [MicrositeController::class, 'viewCreate'])->name('microsite.viewCreate');
-    Route::post('/create-microsite', [MicrositeController::class, 'create'])->name('microsite.create');
+    Route::get('/create', [MicrositeController::class, 'create'])->name('microsite.create');
+    Route::post('/store', [MicrositeController::class, 'store'])->name('microsite.store');
 
-    Route::get('/edit-microsite/{id}', [MicrositeController::class, 'viewUpdate'])->name('microsite.viewUpdate');
+    Route::get('/edit/{id}', [MicrositeController::class, 'edit'])->name('microsite.edit');
     Route::patch('/update-microsite/{id}', [MicrositeController::class, 'update'])->name('microsite.update');
 
     Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
