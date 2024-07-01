@@ -77,16 +77,16 @@ loadMicrosites();
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Categoría</th>
-                                <th>Tipo</th>
-                                <th>Estado</th>
-                                <th>Opciones</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Opciones</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="microsite in microsites.data" :key="microsite.id" class="hover">
-                                <th>{{ microsite.name }}</th>
+                                <td>{{ microsite.name }}</td>
                                 <td>{{ microsite.category }}</td>
                                 <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
