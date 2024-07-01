@@ -5,7 +5,7 @@ use App\Domain\Users\Models\User;
 $url = '/profile';
 $name = 'Test User';
 
-test('profile page is displayed', function () use($url) {
+test('profile page is displayed', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this
@@ -15,7 +15,7 @@ test('profile page is displayed', function () use($url) {
     $response->assertOk();
 });
 
-test('profile information can be updated', function () use($url, $name) {
+test('profile information can be updated', function () use ($url, $name) {
     $user = User::factory()->create();
 
     $response = $this
@@ -36,7 +36,7 @@ test('profile information can be updated', function () use($url, $name) {
     $this->assertNull($user->email_verified_at);
 });
 
-test('email verification status is unchanged when the email address is unchanged', function () use($url, $name) {
+test('email verification status is unchanged when the email address is unchanged', function () use ($url, $name) {
     $user = User::factory()->create();
 
     $response = $this
@@ -53,7 +53,7 @@ test('email verification status is unchanged when the email address is unchanged
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
 
-test('user can delete their account', function () use($url) {
+test('user can delete their account', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this
@@ -70,7 +70,7 @@ test('user can delete their account', function () use($url) {
     $this->assertNull($user->fresh());
 });
 
-test('correct password must be provided to delete account', function () use($url) {
+test('correct password must be provided to delete account', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this

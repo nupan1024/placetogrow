@@ -6,6 +6,7 @@ import Pagination from '@/Components/Pagination.vue';
 import SearchForm from '@/Components/SearchForm.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import LogoMicrositio from '@/Components/LogoMicrositio.vue';
+
 defineProps({
     microsites: Object,
     canLogin: {
@@ -35,28 +36,35 @@ loadMicrosites();
 <template>
     <Head title="Micrositios" />
     <GuestLayout>
-        <div class="static">
-            <div class="relative md:absolute" v-if="$page.props.auth.user">
-                <a :href="route('dashboard')">Dashboard</a>
-            </div>
-            <div class="relative md:absolute" v-else>
-                <a :href="route('login')">Iniciar sesión</a>
-            </div>
-        </div>
+
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
             <div class="shrink-0 flex items-center">
-                <Link :href="route('dashboard')">
+                <Link :href="route('home')">
                     <ApplicationLogo
                         class="block h-9 w-auto fill-current text-gray-800"
                     />
                 </Link>
+
             </div>
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Listado de micrositios</h2>
-            <SearchForm @search="searchMicrosites" :message="message" />
+            <div>
+                <div class="text-right pr-4">
+                    <div v-if="$page.props.auth.user">
+                        <Link v-if="$page.props.auth.user.role_id !== 1" :href="route('logout')" method="post" as="button">Cerrar sesión</Link>
+                        <a v-else :href="route('dashboard')">Dashboard</a>
+                    </div>
+                    <div v-else>
+                        <a :href="route('login')">Iniciar sesión</a>
+                    </div>
+                </div>
+                <SearchForm @search="searchMicrosites" :message="message" />
+            </div>
+
         </div>
+
         <div class="container px-3 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
             <div v-for="microsite in microsites.data" :key="microsite.id" class="card card-compact bg-base-100 shadow-lg mt-6">
-                <div class="text-center mt-4">
+                <div class="text-center mt-4" v-if="microsite.logo_path">
                     <LogoMicrositio :url="`/storage/${microsite.logo_path}`" />
                 </div>
                 <div class="card-body">
@@ -64,7 +72,7 @@ loadMicrosites();
                     <p>Categoría: {{ microsite.category }}</p>
                     <p> {{ microsite.description }}</p>
                     <div class="card-actions justify-end">
-                        <button class="btn btn-primary">Visitar</button>
+                        <a class="btn btn-link" :href="route('micrositio.form', microsite.id)">Visitar</a>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@ const  crumbs = ['Dashboard'];
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-            <Breadcrumb :crumbs="crumbs" @selected="selected" />
+            <Breadcrumb :crumbs="crumbs" />
         </template>
 
         <div class="py-12">

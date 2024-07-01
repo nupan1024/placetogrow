@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Hash;
 
 $url = '/profile';
 
-test('password can be updated', function () use($url) {
+test('password can be updated', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this
@@ -24,7 +24,7 @@ test('password can be updated', function () use($url) {
     $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
 });
 
-test('correct password must be provided to update password', function () use($url) {
+test('correct password must be provided to update password', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this
