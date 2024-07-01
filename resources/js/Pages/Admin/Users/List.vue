@@ -77,16 +77,16 @@ loadUsers();
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Correo electrónico</th>
-                                <th>Rol</th>
-                                <th>Estado</th>
-                                <th>Opciones</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Correo electrónico</th>
+                                <th scope="col">Rol</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Opciones</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="user in users.data" :key="user.id" class="hover">
-                                <th>{{ user.name }}</th>
+                                <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.role }}</td>
                                 <td>{{ user.status }}</td>
