@@ -3,6 +3,7 @@
 namespace App\Domain\Microsites\Models;
 
 use App\Domain\Categories\Models\Category;
+use App\Domain\Currencies\Models\Currency;
 use App\Support\Definitions\Status;
 use Database\Factories\MicrositeFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -41,6 +42,11 @@ class Microsite extends Model
     public function type(): BelongsTo
     {
         return $this->belongsTo(MicrositeType::class, 'microsites_type_id', 'id');
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 
     protected function status(): Attribute

@@ -10,6 +10,7 @@ use App\Support\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/form-microsite/{id}', [HomeController::class, 'formMicrosite'])->name('micrositio.form');
 
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

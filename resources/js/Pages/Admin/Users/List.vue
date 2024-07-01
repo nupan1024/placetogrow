@@ -57,7 +57,7 @@ loadUsers();
 </script>
 
 <template>
-    <Head title="Usuarios" />
+    <Head><title>Usuarios</title></Head>
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Listado de usuarios</h2>

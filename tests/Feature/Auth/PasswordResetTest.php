@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Notification;
 
 $url = '/forgot-password';
 
-test('reset password link screen can be rendered', function () use($url) {
+test('reset password link screen can be rendered', function () use ($url) {
     $response = $this->get($url);
 
     $response->assertStatus(200);
 });
 
-test('reset password link can be requested', function () use($url) {
+test('reset password link can be requested', function () use ($url) {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -22,7 +22,7 @@ test('reset password link can be requested', function () use($url) {
     Notification::assertSentTo($user, ResetPassword::class);
 });
 
-test('reset password screen can be rendered', function () use($url) {
+test('reset password screen can be rendered', function () use ($url) {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -38,7 +38,7 @@ test('reset password screen can be rendered', function () use($url) {
     });
 });
 
-test('password can be reset with valid token', function () use($url) {
+test('password can be reset with valid token', function () use ($url) {
     Notification::fake();
 
     $user = User::factory()->create();

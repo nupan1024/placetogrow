@@ -9,7 +9,7 @@ const  crumbs = ['Dashboard', 'Listado de roles'];
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head><title>Dashboard</title></Head>
 
     <AuthenticatedLayout>
         <template #header>

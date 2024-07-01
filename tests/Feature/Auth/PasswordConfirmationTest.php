@@ -2,9 +2,9 @@
 
 use App\Domain\Users\Models\User;
 
- $url = '/confirm-password';
+$url = '/confirm-password';
 
-test('confirm password screen can be rendered', function () use($url) {
+test('confirm password screen can be rendered', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->get($url);
@@ -12,7 +12,7 @@ test('confirm password screen can be rendered', function () use($url) {
     $response->assertStatus(200);
 });
 
-test('password can be confirmed', function () use($url) {
+test('password can be confirmed', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->post($url, [
@@ -23,7 +23,7 @@ test('password can be confirmed', function () use($url) {
     $response->assertSessionHasNoErrors();
 });
 
-test('password is not confirmed with invalid password', function () use($url) {
+test('password is not confirmed with invalid password', function () use ($url) {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->post($url, [
