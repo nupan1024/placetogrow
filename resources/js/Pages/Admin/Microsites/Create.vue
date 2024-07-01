@@ -155,7 +155,7 @@ const submit = () => {
                         v-model="form.logo_path"
                         required
                         autofocus
-                        autocomplete="logo_path"
+                        autocomplete="on"
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
                 </div>

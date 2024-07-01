@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { Head,useForm, usePage } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
@@ -161,7 +161,7 @@ const submit = () => {
                         class="input mt-1 block w-full"
                         v-model="form.logo_path"
                         autofocus
-                        autocomplete="logo_path"
+                        autocomplete="on"
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
                 </div>
