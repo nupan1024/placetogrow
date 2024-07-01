@@ -1,13 +1,32 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+const colors = '@tailwindcss/colors';
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue',
+        "./node_modules/vue-tailwind-datepicker/**/*.js",
     ],
-    theme: {
-        extend: {},
+    daisyui: {
+        themes: ["light"],
     },
-    plugins: [],
-}
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                "vtd-primary": colors.sky, // Light mode Datepicker color
+                "vtd-secondary": colors.gray, // Dark mode Datepicker color
+            },
+        },
+    },
 
+    plugins: [
+        forms,
+        require('daisyui')
+    ],
+};
