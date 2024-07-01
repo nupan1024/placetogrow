@@ -9,11 +9,10 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Select from '@/Components/Select.vue';
 import TextInput from '@/Components/TextInput.vue';
-import TextArea from '@/Components/TextArea.vue';
 import LogoMicrositio from '@/Components/LogoMicrositio.vue';
 
 defineProps({
-    microsite: Array,
+    microsite: Object,
 })
 
 const microsite = usePage().props.microsite;
@@ -25,7 +24,7 @@ const form = useForm({
 });
 </script>
 <template>
-    <Head title="Micrositios" />
+    <Head><title>Micrositios</title></Head>
     <GuestLayout>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
             <div class="shrink-0 flex items-center">

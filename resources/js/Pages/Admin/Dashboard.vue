@@ -7,7 +7,7 @@ const  crumbs = ['Dashboard'];
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head><title>Dashboard</title></Head>
 
     <AuthenticatedLayout>
         <template #header>

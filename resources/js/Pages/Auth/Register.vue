@@ -23,7 +23,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head><title>Register</title></Head>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Register</h2>
         </div>

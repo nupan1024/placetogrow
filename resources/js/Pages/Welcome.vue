@@ -34,7 +34,7 @@ loadMicrosites();
 </script>
 
 <template>
-    <Head title="Micrositios" />
+    <Head><title>Micrositios</title></Head>
     <GuestLayout>
 
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">

@@ -33,7 +33,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Usuarios" />
+    <Head><title>Usuarios</title></Head>
 
     <AuthenticatedLayout>
         <template #header>
