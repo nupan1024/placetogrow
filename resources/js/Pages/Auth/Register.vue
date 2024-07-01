@@ -35,7 +35,7 @@ const submit = () => {
                     v-model="form.name"
                     required
                     autofocus
-                    autocomplete="name"
+                    autocomplete="on"
                 />
 
                 <InputError class="mt-2" :message="form.errors.name" />
@@ -50,7 +50,7 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.email"
                     required
-                    autocomplete="username"
+                    autocomplete="on"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />

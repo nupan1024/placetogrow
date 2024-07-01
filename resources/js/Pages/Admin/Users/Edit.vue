@@ -3,7 +3,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Select from '@/Components/Select.vue';
@@ -54,7 +53,7 @@ const submit = () => {
                         v-model="form.name"
                         required
                         autofocus
-                        autocomplete="name"
+                        autocomplete="on"
                     />
 
                     <InputError class="mt-2" :message="form.errors.name" />
@@ -69,7 +68,7 @@ const submit = () => {
                         class="mt-1 block w-full"
                         v-model="form.email"
                         required
-                        autocomplete="username"
+                        autocomplete="on"
                     />
 
                     <InputError class="mt-2" :message="form.errors.email" />

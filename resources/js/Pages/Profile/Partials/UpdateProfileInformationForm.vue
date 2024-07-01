@@ -43,7 +43,7 @@ const form = useForm({
                     v-model="form.name"
                     required
                     autofocus
-                    autocomplete="name"
+                    autocomplete="on"
                 />
 
                 <InputError class="mt-2" :message="form.errors.name" />
