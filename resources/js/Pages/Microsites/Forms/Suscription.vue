@@ -1,6 +1,6 @@
 <script setup>
 
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
