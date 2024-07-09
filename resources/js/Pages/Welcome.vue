@@ -69,7 +69,7 @@ loadMicrosites();
                 </div>
                 <div class="card-body">
                     <h2 class="card-title">{{ microsite.name }}</h2>
-                    <p>Categoría: {{ microsite.category }}</p>
+                    <p>Categoría: {{ microsite.category.name }}</p>
                     <p> {{ microsite.description }}</p>
                     <div class="card-actions justify-end">
                         <a class="btn btn-link" :href="route('micrositio.form', microsite.id)">Visitar</a>

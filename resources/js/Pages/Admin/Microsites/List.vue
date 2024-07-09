@@ -87,8 +87,8 @@ loadMicrosites();
                             <tbody>
                             <tr v-for="microsite in microsites.data" :key="microsite.id" class="hover">
                                 <td>{{ microsite.name }}</td>
-                                <td>{{ microsite.category }}</td>
-                                <td>{{ microsite.type }}</td>
+                                <td>{{ microsite.category.name }}</td>
+                                <td>{{ microsite.type.name }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
                                     <a :href="route('micrositio.form', microsite.id)" target="_blank" class="text-indigo-500 hover:underline"> Ver</a>

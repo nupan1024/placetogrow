@@ -22,25 +22,10 @@ class MicrositeController extends Controller
         $filter = $request->get('filter');
 
         return response()->json(
-            new StandardResource(ListMicrositesForGuest::execute(['filter' => $filter]))
+            new StandardResource(ListMicrositesForGuest::execute([
+                'filter' => $filter,
+                'page' => $request->get('page', 1),
+            ]))
         );
-    }
-
-    public function create(): Response
-    {
-        return Inertia::render('Admin/Microsites/Create', new CreateViewModel());
-    }
-
-    public function store(CreateMicrositeRequest $request): RedirectResponse
-    {
-        CreateMicrosite::execute($request->validated());
-        session()->flash('success', __('products.success_create'));
-
-        return redirect()->route('microsites');
-    }
-
-    public function edit(string $id): Response
-    {
-        return Inertia::render('Admin/Microsites/Edit', new EditViewModel($id));
     }
 }

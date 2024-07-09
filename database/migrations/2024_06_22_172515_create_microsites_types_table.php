@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('microsites_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', length: 20)->unique();
             $table->boolean('status');
             $table->timestamps();
         });

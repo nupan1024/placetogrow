@@ -88,7 +88,7 @@ loadUsers();
                             <tr v-for="user in users.data" :key="user.id" class="hover">
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
-                                <td>{{ user.role }}</td>
+                                <td>{{ user.role.name }}</td>
                                 <td>{{ user.status }}</td>
                                 <td>
                                     <a :href="route('user.edit', user.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;

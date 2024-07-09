@@ -16,7 +16,7 @@ class ListViewModel extends ViewModel
     public function toArray(): array
     {
         return [
-            'roles' => Role::all(),
+            'roles' => Role::select('name')->get(),
         ];
     }
 }
