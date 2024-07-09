@@ -129,6 +129,17 @@ return [
             'path' => storage_path($defaultLogs),
         ],
 
+        'MicrositesAdmin' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/controllers/MicrositesAdmin.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Users' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/controllers/Users.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
     ],
 
 ];

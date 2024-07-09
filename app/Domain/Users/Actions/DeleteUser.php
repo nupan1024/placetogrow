@@ -4,6 +4,7 @@ namespace App\Domain\Users\Actions;
 
 use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Log;
 
 class DeleteUser implements Action
 {
@@ -18,7 +19,7 @@ class DeleteUser implements Action
 
             return $user->delete();
         } catch (\Exception $e) {
-            logger()->error($e->getMessage());
+            Log::channel('Users')->error('Error deleting microsite: '.$e->getMessage());
 
             return false;
         }

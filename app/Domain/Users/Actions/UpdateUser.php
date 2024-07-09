@@ -4,6 +4,7 @@ namespace App\Domain\Users\Actions;
 
 use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Log;
 
 class UpdateUser implements Action
 {
@@ -18,7 +19,7 @@ class UpdateUser implements Action
 
             return $user->save();
         } catch (\Exception $e) {
-            logger()->error($e->getMessage());
+            Log::channel('Users')->error('Error updating microsite: '.$e->getMessage());
 
             return false;
         }
