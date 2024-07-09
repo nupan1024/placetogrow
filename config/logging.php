@@ -131,13 +131,13 @@ return [
 
         'MicrositesAdmin' => [
             'driver' => 'single',
-            'path' => storage_path('logs/controllers/MicrositesAdmin.log'),
+            'path' => storage_path('logs/MicrositesAdmin.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'Users' => [
             'driver' => 'single',
-            'path' => storage_path('logs/controllers/Users.log'),
+            'path' => storage_path('logs/Users.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
     ],

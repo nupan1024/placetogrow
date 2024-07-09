@@ -25,6 +25,7 @@ class CreateMicrosite implements Action
             return $microsite->save();
         } catch (\Exception $e) {
             Log::channel('MicrositesAdmin')->error('Error creating microsite: '.$e->getMessage());
+
             return false;
         }
     }

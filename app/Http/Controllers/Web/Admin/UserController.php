@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Domain\Users\Actions\CreateUser;
 use App\Domain\Users\Actions\DeleteUser;
 use App\Domain\Users\Actions\UpdateUser;
+use App\Domain\Users\Models\User;
 use App\Domain\Users\ViewModels\CreateViewModel;
 use App\Domain\Users\ViewModels\EditViewModel;
 use App\Http\Controllers\Controller;
@@ -38,9 +39,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit(int $id): Response
+    public function edit(User $user): Response
     {
-        return Inertia::render('Admin/Users/Edit', new EditViewModel($id));
+        return Inertia::render('Admin/Users/Edit', new EditViewModel($user));
     }
 
     public function update(UpdateUserRequest $request, int $id): RedirectResponse

@@ -4,7 +4,6 @@ namespace App\Domain\Microsites\ViewModels;
 
 use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
-use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
 use App\Support\Definitions\MicrositesTypes;
 use App\Support\Definitions\Status;
@@ -12,12 +11,6 @@ use App\Support\ViewModels\ViewModel;
 
 class EditViewModel extends ViewModel
 {
-    public function __construct($id)
-    {
-        $microsite = Microsite::find($id);
-        parent::__construct($microsite ?: new Microsite);
-    }
-
     public function toArray(): array
     {
         return [

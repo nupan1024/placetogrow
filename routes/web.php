@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
+use App\Support\Http\Middleware\ClearMicrositeCache;
+use App\Support\Http\Middleware\ClearUserCache;
 use App\Support\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -17,21 +19,24 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
 
     Route::get('/microsites', [MicrositeController::class, 'index'])->name('microsites');
     Route::get('/create', [MicrositeController::class, 'create'])->name('microsite.create');
-    Route::post('/store', [MicrositeController::class, 'store'])->name('microsite.store');
+    Route::post('/store', [MicrositeController::class, 'store'])->name('microsite.store')
+        ->middleware(ClearMicrositeCache::class);
 
-    Route::get('/edit/{id}', [MicrositeController::class, 'edit'])->name('microsite.edit');
-    Route::patch('/update-microsite/{id}', [MicrositeController::class, 'update'])->name('microsite.update');
+    Route::get('/edit/{microsite}', [MicrositeController::class, 'edit'])->name('microsite.edit');
+    Route::patch('/update-microsite/{id}', [MicrositeController::class, 'update'])
+        ->name('microsite.update')->middleware(ClearMicrositeCache::class);
 
-    Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])->name('microsite.delete');
+    Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])
+        ->name('microsite.delete')->middleware(ClearMicrositeCache::class);
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/user-create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/user-store', [UserController::class, 'store'])->name('user.store');
+    Route::post('/user-store', [UserController::class, 'store'])->name('user.store')->middleware(ClearUserCache::class);
 
-    Route::get('/users-edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::patch('/users-update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::get('/users-edit/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::patch('/users-update/{id}', [UserController::class, 'update'])->name('user.update')->middleware(ClearUserCache::class);
 
-    Route::delete('/users-delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+    Route::delete('/users-delete/{id}', [UserController::class, 'delete'])->name('user.delete')->middleware(ClearUserCache::class);
 
     Route::get('/roles', [RolesController::class, 'index'])->name('roles');
 });

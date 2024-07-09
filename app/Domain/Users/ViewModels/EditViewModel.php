@@ -9,12 +9,6 @@ use App\Support\ViewModels\ViewModel;
 
 class EditViewModel extends ViewModel
 {
-    public function __construct($id)
-    {
-        $user = User::find($id);
-        parent::__construct($user ?: new User());
-    }
-
     public function toArray(): array
     {
         return [
