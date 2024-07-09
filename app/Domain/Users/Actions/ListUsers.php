@@ -11,7 +11,7 @@ class ListUsers implements Action
 {
     public static function execute(array $params): LengthAwarePaginator
     {
-        $cacheKey = 'users_'.md5(json_encode($params));
+        $cacheKey = 'users_page_'.$params['page'].'_filter_'.$params['filter'];
 
         return Cache::remember($cacheKey, now()->addMinutes(60), function () use ($params) {
             return User::select(

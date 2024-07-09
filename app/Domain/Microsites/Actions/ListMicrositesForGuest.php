@@ -12,7 +12,7 @@ class ListMicrositesForGuest implements Action
 {
     public static function execute(array $params): LengthAwarePaginator
     {
-        $cacheKey = 'microsites_'.md5(json_encode($params));
+        $cacheKey = 'microsites_page_'.$params['page'].'_filter_'.$params['filter'];
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($params) {
             return Microsite::select(
