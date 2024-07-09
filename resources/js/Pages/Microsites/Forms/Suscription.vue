@@ -1,6 +1,6 @@
 <script setup>
 
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
@@ -24,6 +24,7 @@ const form = useForm({
 });
 </script>
 <template>
+    <Head><title>Micrositio</title></Head>
     <GuestLayout>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
             <div class="shrink-0 flex items-center">

@@ -91,6 +91,7 @@ loadMicrosites();
                                 <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
+                                    <a :href="route('micrositio.form', microsite.id)" target="_blank" class="text-indigo-500 hover:underline"> Ver</a>
                                     <a :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
                                     <button :data-id="microsite.id" :data-name="microsite.name" @click="openModal" class="text-indigo-500 hover:underline"> Eliminar</button>
                                 </td>

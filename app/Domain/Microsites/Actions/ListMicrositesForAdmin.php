@@ -4,7 +4,6 @@ namespace App\Domain\Microsites\Actions;
 
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
-use App\Support\Definitions\Status;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListMicrositesForAdmin implements Action
@@ -18,7 +17,6 @@ class ListMicrositesForAdmin implements Action
             'microsites_types.name as type',
             'microsites.status',
         )
-            ->where('microsites.status', Status::ACTIVE->value)
             ->join('categories', 'microsites.category_id', '=', 'categories.id')
             ->join('microsites_types', 'microsites.microsites_type_id', '=', 'microsites_types.id')
             ->when($params['filter'], function ($query, $filter) {
