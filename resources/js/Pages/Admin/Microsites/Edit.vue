@@ -21,7 +21,7 @@ defineProps({
     is_invoice: Boolean
 })
 
-const  crumbs = ["Dashboard", "Listado de micrositios", "Editar micrositio"];
+const  crumbs = ["Dashboard", usePage().props.$t.microsites.list, usePage().props.$t.microsites.edit];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
@@ -56,10 +56,10 @@ const submit = () => {
 </script>
 
 <template>
-    <Head><title>Micrositios</title></Head>
+    <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar micrositio</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.microsites.edit }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
 
@@ -69,7 +69,7 @@ const submit = () => {
             </div>
             <form @submit.prevent="submit" enctype="multipart/form-data">
                 <div class="mt-3">
-                    <InputLabel for="name" value="Nombre"/>
+                    <InputLabel for="name" :value="$page.props.$t.labels.name"/>
                     <TextInput
                         id="name"
                         type="text"
@@ -82,7 +82,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.name"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="microsites_type_id" value="Tipo"/>
+                    <InputLabel for="microsites_type_id" :value="$page.props.$t.labels.type"/>
                     <Select
                         id="microsites_type_id"
                         class="input mt-1 block w-full select"
@@ -95,7 +95,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
                 </div>
                 <div class="mt-3" v-if="is_invoice">
-                    <InputLabel for="date_expire_pay" value="Fecha límite de pago" />
+                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
                     <vue-tailwind-datepicker
                         id="date_expire_pay"
                         name="date_expire_pay"
@@ -109,7 +109,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="category_id" value="Categoría"/>
+                    <InputLabel for="category_id" :value="$page.props.$t.categories.title"/>
                     <Select
                         id="category_id"
                         class="input mt-1 block w-full select"
@@ -121,7 +121,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.category_id"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="currency_id" value="Moneda"/>
+                    <InputLabel for="currency_id" :value="$page.props.$t.labels.currency"/>
                     <Select
                         id="currency_id"
                         class="input mt-1 block w-full select"
@@ -133,7 +133,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.currency_id"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="description" value="Descripción" />
+                    <InputLabel for="description" :value="$page.props.$t.labels.description" />
                     <TextArea
                         id="description"
                         class="mt-1 block w-full"
@@ -144,7 +144,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.description"/>
                 </div>
                 <div class="mt-3">
-                    <InputLabel for="status" value="Estado"/>
+                    <InputLabel for="status" :value="$page.props.$t.labels.status"/>
                     <Select
                         id="status"
                         class="input mt-1 block w-full select"
@@ -167,7 +167,7 @@ const submit = () => {
                 </div>
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">
-                        Editar
+                        {{ $page.props.$t.labels.edit }}
                     </button>
                 </div>
             </form>

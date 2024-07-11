@@ -33,8 +33,10 @@ export default {
                 case 'Dashboard':
                     return route('dashboard');
                 case 'Listado de micrositios':
+                case 'Microsites list':
                     return route('microsites');
                 case 'Listado de usuarios':
+                case 'Users list':
                     return route('users');
             }
         }

@@ -24,7 +24,7 @@ const form = useForm({
 });
 </script>
 <template>
-    <Head><title>Micrositio</title></Head>
+    <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <GuestLayout>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
             <div class="shrink-0 flex items-center">
@@ -43,7 +43,7 @@ const form = useForm({
                         <a v-else :href="route('dashboard')">Dashboard</a>
                     </div>
                     <div v-else>
-                        <a :href="route('login')">Iniciar sesión</a>
+                        <a :href="route('login')">{{ $page.props.$t.auth.login }}</a>
                     </div>
                 </div>
             </div>
@@ -56,13 +56,13 @@ const form = useForm({
             </div>
             <div class="text-align mb-6">
                 <p>{{ microsite.description }}</p>
-                <h2>Categoría: {{ microsite.category.name }}</h2>
-                <h2>Tipo: {{ microsite.type.name }}</h2>
-                <h2>Moneda: {{ microsite.currency.name }}</h2>
+                <h2>{{ $page.props.$t.categories.title }}: {{ microsite.category.name }}</h2>
+                <h2>{{ $page.props.$t.labels.type }}: {{ microsite.type.name }}</h2>
+                <h2>{{ $page.props.$t.labels.currency }}: {{ microsite.currency.name }}</h2>
             </div>
             <form>
                 <div>
-                    <InputLabel for="name" value="Nombre" />
+                    <InputLabel for="name" :value="$page.props.$t.labels.name" />
 
                     <TextInput
                         id="name"
@@ -78,7 +78,7 @@ const form = useForm({
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="email" value="Correo electrónico" />
+                    <InputLabel for="email" :value="$page.props.$t.labels.email" />
 
                     <TextInput
                         id="email"
@@ -93,7 +93,7 @@ const form = useForm({
                 </div>
 
                 <div class="mt-3">
-                    <InputLabel for="description" value="¿Por qué quieres hacer una donación?" />
+                    <InputLabel for="description" :value="$page.props.$t.labels.description" />
                     <TextArea
                         id="description"
                         class="mt-1 block w-full"
@@ -105,7 +105,7 @@ const form = useForm({
                 </div>
 
                 <div class="mt-3">
-                    <InputLabel for="value" value="Valor de donación" />
+                    <InputLabel for="value" :value="$page.props.$t.labels.value" />
                     <TextInput
                     id="value"
                     type="number"
@@ -120,7 +120,7 @@ const form = useForm({
 
                 <div class="flex items-center justify-end mt-4">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Donar
+                        {{ $page.props.$t.labels.donate }}
                     </PrimaryButton>
                 </div>
             </form>
