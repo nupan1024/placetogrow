@@ -5,15 +5,15 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
 
 const props = defineProps({ roles: Array });
 const roles = usePage().props.roles;
-const  crumbs = ['Dashboard', 'Listado de roles'];
+const  crumbs = ['Dashboard', usePage().props.$t.roles.list];
 </script>
 
 <template>
-    <Head><title>Dashboard</title></Head>
+    <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Listado de roles</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.roles.list }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
 
@@ -24,7 +24,7 @@ const  crumbs = ['Dashboard', 'Listado de roles'];
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Nombre</th>
+                                <th>{{ $page.props.$t.labels.name }}</th>
                             </tr>
                             </thead>
                             <tbody>

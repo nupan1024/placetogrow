@@ -22,5 +22,9 @@ return [
     'subscribe' => 'Subcribirme!',
     'subscription_type' => 'Tipo de suscripción',
     'select' => 'Seleccionar',
+    'pay' => 'Pagar',
+    'select_invoice' => 'Selecciona factura a pagar',
+    'role' => 'Rol',
+    'password' => 'Contraseña',
 
 ];

@@ -22,5 +22,9 @@ return [
     'subscribe' => 'Subscribe me!',
     'subscription_type' => 'Subscription type',
     'select' => 'Select',
+    'pay' => 'Pay',
+    'select_invoice' => 'Select invoice to pay',
+    'role' => 'Role',
+    'password' => 'Password',
 
 ];

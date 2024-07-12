@@ -12,5 +12,7 @@ return [
     'error_status_update' => 'No se pudo actualizar el micrositio.',
     'error_status_create' => 'No se pudo crear el micrositio.',
     'error_status_delete' => 'No se pudo eliminar el micrositio.',
+    'tooltip' => 'Busca por nombre, tipo o categoría',
+    'tooltip_user' => 'Busca por nombre, descripción o categoría',
 
 ];

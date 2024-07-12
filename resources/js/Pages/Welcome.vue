@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { ref } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
@@ -16,7 +16,7 @@ defineProps({
 
 const searchTerm = ref('');
 const microsites = ref([]);
-const message = "Puedes buscar micrositios por nombre, descripción o categoría";
+const message = usePage().props.$t.microsites.tooltip;
 const searchMicrosites = (text, cat) => {
     searchTerm.value = text;
 
@@ -54,7 +54,7 @@ loadMicrosites();
                         <a v-else :href="route('dashboard')">Dashboard</a>
                     </div>
                     <div v-else>
-                        <a :href="route('login')">Iniciar sesión</a>
+                        <a :href="route('login')">{{ $page.props.$t.auth.login }}</a>
                     </div>
                 </div>
                 <SearchForm @search="searchMicrosites" :message="message" />

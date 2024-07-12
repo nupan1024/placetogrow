@@ -16,6 +16,9 @@ return [
     'failed' => 'Estas credenciales no coinciden con nuestros registros.',
     'password' => 'Contraseña incorrecta.',
     'throttle' => 'Demasiados intentos!. Por favor intenta de nuevo en :seconds segundos.',
-    'do_login' => 'Por favor inicia sesión antes de comprar',
     'login' => 'Iniciar sesión',
+    'sign_off' => 'Cerrar sesión',
+    'forget' => 'Olvide la contraseña',
+    'remember' => 'Recuérdame',
+
 ];

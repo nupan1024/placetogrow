@@ -34,6 +34,8 @@ class HandleInertiaRequests extends Middleware
                 'categories' => __('categories'),
                 'labels' => __('labels'),
                 'auth' => __('auth'),
+                'roles' => __('roles'),
+                'users' => __('users'),
             ],
         ]);
     }

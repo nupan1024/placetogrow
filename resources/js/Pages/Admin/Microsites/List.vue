@@ -13,8 +13,7 @@ import DangerButton from '@/Components/DangerButton.vue';
 const  crumbs = ["Dashboard", usePage().props.$t.microsites.list];
 
 const props = defineProps({ microsites: Object });
-console.log(usePage().props.$t.microsites.list)
-const message = "Puedes buscar micrositios por nombre, tipo o categoría";
+const message = usePage().props.$t.microsites.tooltip;
 const searchTerm = ref('');
 const microsites = ref([]);
 const isOpenModal = ref(false);
