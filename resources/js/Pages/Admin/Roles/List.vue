@@ -5,7 +5,7 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
 
 const props = defineProps({ roles: Array });
 const roles = usePage().props.roles;
-const  crumbs = ['Dashboard', usePage().props.$t.roles.list];
+const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.roles.list];
 </script>
 
 <template>

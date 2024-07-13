@@ -17,7 +17,7 @@ defineProps({
 const roles = usePage().props.roles;
 const status = usePage().props.status;
 const user = usePage().props.user;
-const crumbs = ["Dashboard", usePage().props.$t.users.list, usePage().props.$t.users.edit];
+const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.users.list, usePage().props.$t.users.edit];
 const form = useForm({
     name: user.name,
     email: user.email,

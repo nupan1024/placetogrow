@@ -10,7 +10,7 @@ import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 
-const  crumbs = ["Dashboard", usePage().props.$t.microsites.list];
+const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list];
 
 const props = defineProps({ microsites: Object });
 const message = usePage().props.$t.microsites.tooltip;

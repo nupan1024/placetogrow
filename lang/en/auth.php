@@ -19,6 +19,8 @@ return [
     'login' => 'Login',
     'sign_off' => 'Sign off',
     'forget' => 'Forget the password',
+    'msj_forget' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
     'remember' => 'Remember me',
+    'btn_forget' => 'Email Password Reset Link',
 
 ];

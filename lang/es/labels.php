@@ -26,5 +26,7 @@ return [
     'select_invoice' => 'Selecciona factura a pagar',
     'role' => 'Rol',
     'password' => 'Contraseña',
+    'password_confirmation' => 'Confirmar contraseña',
+    'dashboard' => 'Dashboard',
 
 ];

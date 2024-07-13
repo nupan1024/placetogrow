@@ -26,5 +26,7 @@ return [
     'select_invoice' => 'Select invoice to pay',
     'role' => 'Role',
     'password' => 'Password',
+    'password_confirmation' => 'Password confirmation',
+    'dashboard' => 'Dashboard',
 
 ];

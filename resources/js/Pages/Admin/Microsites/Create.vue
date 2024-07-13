@@ -18,7 +18,7 @@ defineProps({
     states: Array
 })
 
-const  crumbs = ["Dashboard", usePage().props.$t.microsites.list, usePage().props.$t.microsites.create];
+const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list, usePage().props.$t.microsites.create];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
