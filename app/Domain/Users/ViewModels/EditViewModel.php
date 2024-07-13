@@ -3,7 +3,6 @@
 namespace App\Domain\Users\ViewModels;
 
 use App\Domain\Users\Models\Role;
-use App\Domain\Users\Models\User;
 use App\Support\Definitions\Status;
 use App\Support\ViewModels\ViewModel;
 

@@ -10,7 +10,7 @@ class FormMicrosite extends ViewModel
     public function __construct($id)
     {
         $microsite = Microsite::with(['category', 'type', 'currency'])->find($id);
-        parent::__construct($microsite ?: new Microsite);
+        parent::__construct($microsite ?: new Microsite());
     }
 
     public function toArray(): array

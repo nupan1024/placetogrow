@@ -19,7 +19,8 @@ class ListMicrositesForAdmin implements Action
                 'name',
                 'category_id',
                 'microsites_type_id',
-                'status')
+                'status'
+            )
                 ->with(['category:id,name', 'type:id,name'])
                 ->when($params['filter'], function ($query, $filter) {
                     return $query->where(function ($query) use ($filter) {

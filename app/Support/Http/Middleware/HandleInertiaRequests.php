@@ -2,10 +2,8 @@
 
 namespace App\Support\Http\Middleware;
 
-use App\Support\Definitions\Roles;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
