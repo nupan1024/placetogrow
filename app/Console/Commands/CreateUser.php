@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Domain\Users\Models\User;
 use App\Support\Definitions\Roles;
 use App\Support\Definitions\Status;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
+use App\Domain\Users\Actions\CreateUser as ActionCreateUser;
 
 class CreateUser extends Command
 {
@@ -29,22 +28,20 @@ class CreateUser extends Command
      */
     public function handle(): void
     {
-        try {
-            $result = User::insert([
-                'name' => $this->ask('What is your name?'),
-                'email' => $this->ask('What is your email?'),
-                'password' => Hash::make($this->secret('Enter your password')),
-                'status' => Status::ACTIVE->value,
-                'role_id' => Roles::ADMIN->value,
-                'email_verified_at' => now(),
-            ]);
+        $name = $this->ask('What is your name?');
+        $email = $this->ask('What is your email?');
+        $password = $this->ask('Enter your password');
 
-            if ($result) {
-                $this->info('User has been created!');
-            }
-        } catch (\Exception $e) {
-            $this->error('Error to create user');
-            $this->error($e->getMessage());
-        }
+        $params = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'status' => Status::ACTIVE->value,
+            'role_id' => Roles::ADMIN->value,
+        ];
+
+        $result = ActionCreateUser::execute($params);
+        (!$result) ? $this->error('Error to create user') : $this->info('User has been created!');
     }
+
 }
