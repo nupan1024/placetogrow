@@ -8,6 +8,7 @@ use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\UploadedFile;
 
 /**
  * @extends Factory<Microsite>
@@ -27,7 +28,8 @@ class MicrositeFactory extends Factory
             'microsites_type_id' => MicrositeType::factory(),
             'category_id' => Category::factory(),
             'name' => fake()->name,
-            'logo_path' => '',
+            'logo_path' => UploadedFile::fake()
+                ->image('microsite_image.png', 640, 480),
             'description' => fake()->paragraph(),
             'currency_id' => Currency::factory(),
             'date_expire_pay' => fake()->date(),
