@@ -63,7 +63,7 @@ jobs:
           touch database/database.sql
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-        run: vendor/bin/pest
+        run: vendor/bin/pest --coverage --coverage-clover=coverage.xml
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
