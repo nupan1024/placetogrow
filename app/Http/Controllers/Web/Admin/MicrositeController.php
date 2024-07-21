@@ -32,7 +32,7 @@ class MicrositeController extends Controller
         CreateMicrosite::execute($request->validated());
 
         return redirect()->route('microsites')->with([
-            'message' => 'Se ha creado el micrositio con éxito.',
+            'message' => __('microsites.success_create'),
             'type' => 'success',
         ]);
     }
@@ -47,7 +47,7 @@ class MicrositeController extends Controller
         UpdateMicrosite::execute(['fields' => $request->validated(), 'id' => $id]);
 
         return redirect()->route('microsites')->with([
-            'message' => 'Se actualizó el micrositio con éxito.',
+            'message' => __('microsites.success_update'),
             'type' => 'success',
         ]);
     }
