@@ -10,18 +10,14 @@ class DeleteUser implements Action
 {
     public static function execute(array $params): bool
     {
-        try {
-            $user = User::find($params['id']);
+        $user = User::find($params['id']);
 
-            if (! $user) {
-                return false;
-            }
-
-            return $user->delete();
-        } catch (\Exception $e) {
-            Log::channel('Users')->error('Error deleting microsite: '.$e->getMessage());
-
+        if (!$user) {
+            Log::channel('Users')->error('Error deleting microsite: Not found the user');
             return false;
         }
+
+        return $user->delete();
     }
+
 }

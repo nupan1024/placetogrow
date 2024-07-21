@@ -19,7 +19,7 @@ class UpdateUser implements Action
 
             return $user->save();
         } catch (\Exception $e) {
-            Log::channel('Users')->error('Error updating microsite: '.$e->getMessage());
+            Log::channel('Users')->error('Error updating user: '.$e->getMessage());
 
             return false;
         }
