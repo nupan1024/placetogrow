@@ -1,16 +1,12 @@
 <?php
 
 use App\Domain\Users\Actions\CreateUser;
-use App\Domain\Users\Models\Role;
 use App\Support\Definitions\Roles;
 use App\Support\Definitions\Status;
+use Spatie\Permission\Models\Role;
 
 test('it create the user', function () {
-    Role::factory()
-        ->create([
-            'id' => Roles::ADMIN->value,
-            'name' => Roles::ADMIN->name,
-        ]);
+    Role::create(['name' => Roles::SUPER_ADMIN->name]);
 
     $this->artisan('app:create-user')
         ->expectsQuestion('What is your name?', 'gabriela')
@@ -25,18 +21,14 @@ test('it create the user', function () {
 });
 
 test('it fail when user exist', function () {
-    Role::factory()
-        ->create([
-            'id' => Roles::ADMIN->value,
-            'name' => Roles::ADMIN->name,
-        ]);
+    Role::create(['name' => Roles::SUPER_ADMIN->name]);
 
     $params = [
         'name' => 'admin',
         'email' => 'admin@placetogrow.com',
         'password' => '12345678',
         'status' => Status::ACTIVE->value,
-        'role_id' => Roles::ADMIN->value,
+        'role_id' => Roles::SUPER_ADMIN->value,
     ];
     CreateUser::execute($params);
 

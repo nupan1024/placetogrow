@@ -2,30 +2,29 @@
 
 namespace App\Support\Definitions;
 
-enum Permissions: int
+enum Permissions: string
 {
-    case MICROSITES = 1;
-    case CREATE_MICROSITE = 2;
-    case UPDATE_MICROSITE = 3;
-    case DELETE_MICROSITE = 4;
-    case USERS = 5;
-    case CREATE_USER = 7;
-    case UPDATE_USER = 8;
-    case DELETE_USER = 9;
-    case ROLES = 10;
-    case CREATE_ROLE = 11;
-    case UPDATE_ROLE = 12;
-    case DELETE_ROLE = 13;
+    case MICROSITES = 'List microsites';
+    case CREATE_MICROSITE = 'Create microsites';
+    case UPDATE_MICROSITE = 'Update microsites';
+    case DELETE_MICROSITE = 'Delete microsites';
+    case USERS = 'List users';
+    case CREATE_USER = 'Create User';
+    case UPDATE_USER = 'Update user';
+    case DELETE_USER = 'Delete user';
+    case ROLES = 'List roles';
+    case CREATE_ROLE = 'Create roles';
+    case UPDATE_ROLE = 'Update roles';
+    case DELETE_ROLE = 'Delete roles';
 
     public static function toArray(): array
     {
-        $cases = self::cases();
+        $permissions = self::cases();
         $array = [];
 
-        foreach ($cases as $case) {
+        foreach ($permissions as $permission) {
             $array[] = [
-                'id' => $case->value,
-                'name' => ucwords(strtolower(str_replace('_', ' ', $case->name))),
+                'name' => ucwords(strtolower(str_replace('.', ' ', $permission->value))),
                 'guard_name' => 'web',
             ];
         }

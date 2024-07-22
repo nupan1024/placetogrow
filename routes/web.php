@@ -6,9 +6,11 @@ use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
+use App\Support\Definitions\Permissions;
 use App\Support\Http\Middleware\ClearMicrositeCache;
 use App\Support\Http\Middleware\ClearUserCache;
 use App\Support\Http\Middleware\IsAdmin;
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -17,10 +19,10 @@ Route::get('/form-microsite/{id}', [HomeController::class, 'formMicrosite'])->na
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/microsites', [MicrositeController::class, 'index'])->name('microsites');
-    Route::get('/create', [MicrositeController::class, 'create'])->name('microsite.create');
+    Route::get('/microsites', [MicrositeController::class, 'index'])->name('microsites')->middleware([Authorize::using(Permissions::MICROSITES->value)]);
+    Route::get('/create', [MicrositeController::class, 'create'])->name('microsite.create')->middleware([Authorize::using(Permissions::CREATE_MICROSITE->value)]);
     Route::post('/store', [MicrositeController::class, 'store'])->name('microsite.store')
-        ->middleware(ClearMicrositeCache::class);
+        ->middleware([ClearMicrositeCache::class, Authorize::using('List User')]);
 
     Route::get('/edit/{microsite}', [MicrositeController::class, 'edit'])->name('microsite.edit');
     Route::patch('/update-microsite/{id}', [MicrositeController::class, 'update'])
@@ -29,9 +31,9 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::delete('/delete-microsite/{id}', [MicrositeController::class, 'delete'])
         ->name('microsite.delete')->middleware(ClearMicrositeCache::class);
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
-    Route::get('/user-create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/user-store', [UserController::class, 'store'])->name('user.store')->middleware(ClearUserCache::class);
+    Route::get('/users', [UserController::class, 'index'])->name('users')->middleware([Authorize::using(Permissions::USERS->value)]);
+    Route::get('/user-create', [UserController::class, 'create'])->name('user.create')->middleware([Authorize::using(Permissions::CREATE_USER->value)]);
+    Route::post('/user-store', [UserController::class, 'store'])->name('user.store')->middleware([ClearUserCache::class, Authorize::using(Permissions::CREATE_USER->value)]);
 
     Route::get('/users-edit/{user}', [UserController::class, 'edit'])->name('user.edit');
     Route::patch('/users-update/{id}', [UserController::class, 'update'])->name('user.update')->middleware(ClearUserCache::class);

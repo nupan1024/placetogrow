@@ -4,7 +4,6 @@ namespace App\Domain\Roles\Actions;
 
 use App\Support\Actions\Action;
 use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Role;
 
 class UpdateRole implements Action
 {
