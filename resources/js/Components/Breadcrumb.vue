@@ -38,6 +38,10 @@ export default {
                 case 'Listado de usuarios':
                 case 'Users list':
                     return route('users');
+                case 'Roles list':
+                    return route('roles');
+                case 'Lista de roles':
+                    return route('roles');
             }
         }
     },

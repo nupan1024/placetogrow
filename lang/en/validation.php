@@ -1,4 +1,5 @@
 <?php
+
 $msj = 'The selected :attribute is invalid.';
 return [
 

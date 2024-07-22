@@ -39,6 +39,12 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::delete('/users-delete/{id}', [UserController::class, 'delete'])->name('user.delete')->middleware(ClearUserCache::class);
 
     Route::get('/roles', [RolesController::class, 'index'])->name('roles');
+    Route::get('/create-role', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('/store-role', [RolesController::class, 'store'])->name('roles.store');
+    Route::get('/edit-role/{role}', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::patch('/update-role/{role}', [RolesController::class, 'update'])->name('roles.update');
+    Route::delete('/delete-role/{role}', [RolesController::class, 'delete'])->name('roles.delete');
+
 });
 
 Route::middleware('auth')->group(function () {

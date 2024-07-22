@@ -2,20 +2,20 @@
 
 namespace App\Domain\Roles\ViewModels;
 
-use App\Domain\Users\Models\Role;
 use App\Support\ViewModels\ViewModel;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
-class ListViewModel extends ViewModel
+class CreateViewModel extends ViewModel
 {
     public function __construct()
     {
         parent::__construct(new Role());
     }
-
     public function toArray(): array
     {
         return [
-            'roles' => Role::select('id', 'name')->get(),
+            'permissions' => Permission::all(),
         ];
     }
 }
