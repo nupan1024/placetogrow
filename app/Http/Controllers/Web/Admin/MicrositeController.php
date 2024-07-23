@@ -42,9 +42,9 @@ class MicrositeController extends Controller
         return Inertia::render('Admin/Microsites/Edit', new EditViewModel($microsite));
     }
 
-    public function update(UpdateMicrositeRequest $request, int $id): RedirectResponse
+    public function update(UpdateMicrositeRequest $request, Microsite $microsite): RedirectResponse
     {
-        UpdateMicrosite::execute(['fields' => $request->validated(), 'id' => $id]);
+        UpdateMicrosite::execute(['fields' => $request->validated(), 'microsite' => $microsite]);
 
         return redirect()->route('microsites')->with([
             'message' => 'Se actualizó el micrositio con éxito.',
@@ -52,9 +52,9 @@ class MicrositeController extends Controller
         ]);
     }
 
-    public function delete(int $id): RedirectResponse
+    public function delete(Microsite $microsite): RedirectResponse
     {
-        DeleteMicrosite::execute(['id' => $id]);
+        DeleteMicrosite::execute(['microsite' => $microsite]);
 
         return redirect()->route('microsites');
     }

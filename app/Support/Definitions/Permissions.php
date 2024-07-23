@@ -24,7 +24,7 @@ enum Permissions: string
 
         foreach ($permissions as $permission) {
             $array[] = [
-                'name' => ucwords(strtolower(str_replace('.', ' ', $permission->value))),
+                'name' => $permission->value,
                 'guard_name' => 'web',
             ];
         }

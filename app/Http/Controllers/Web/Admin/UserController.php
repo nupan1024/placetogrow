@@ -44,9 +44,9 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/Edit', new EditViewModel($user));
     }
 
-    public function update(UpdateUserRequest $request, int $id): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        UpdateUser::execute(['fields' => $request->validated(), 'id' => $id]);
+        UpdateUser::execute(['fields' => $request->validated(), 'user' => $user]);
 
         return redirect()->route('users')->with([
             'message' => 'Se actualizó el usuario con éxito.',
@@ -54,9 +54,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function delete(int $id): RedirectResponse
+    public function delete(User $user): RedirectResponse
     {
-        DeleteUser::execute(['id' => $id]);
+        DeleteUser::execute(['user' => $user]);
 
         return redirect()->route('users');
     }
