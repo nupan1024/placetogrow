@@ -65,9 +65,21 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('users')">{{ $page.props.$t.users.title }}</DropdownLink>
-                                        <DropdownLink :href="route('roles')"> {{ $page.props.$t.roles.title }} </DropdownLink>
-                                        <DropdownLink :href="route('microsites')"> {{ $page.props.$t.microsites.title }} </DropdownLink>
+                                        <DropdownLink
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.USERS.name)"
+                                            :href="route('users')">
+                                            {{ $page.props.$t.users.title }}
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.ROLES.name)"
+                                            :href="route('roles')">
+                                            {{ $page.props.$t.roles.title }}
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES.name)"
+                                            :href="route('microsites')">
+                                            {{ $page.props.$t.microsites.title }}
+                                        </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             {{ $page.props.$t.auth.sign_off }}
                                         </DropdownLink>

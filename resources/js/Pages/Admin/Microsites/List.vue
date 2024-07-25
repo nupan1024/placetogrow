@@ -67,7 +67,11 @@ loadMicrosites();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a :href="route('microsite.create')" class="btn btn-link">{{ $page.props.$t.microsites.create }}</a>
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_MICROSITE.name)"
+                               :href="route('microsite.create')" class="btn btn-link">
+                                {{ $page.props.$t.microsites.create }}
+                            </a>
+
                         </div>
                         <SearchForm @search="searchMicrosites" :message="message"/>
                     </div>
@@ -90,9 +94,20 @@ loadMicrosites();
                                 <td>{{ microsite.type.name }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
-                                    <a :href="route('micrositio.form', microsite.id)" target="_blank" class="text-indigo-500 hover:underline">{{ $page.props.$t.labels.see }}</a>&nbsp
-                                    <a :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline">{{ $page.props.$t.labels.edit }}</a>&nbsp;
-                                    <button :data-id="microsite.id" :data-name="microsite.name" @click="openModal" class="text-indigo-500 hover:underline">{{ $page.props.$t.labels.delete }}</button>
+                                    <a :href="route('micrositio.form', microsite.id)"
+                                       target="_blank" class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.labels.see }}
+                                    </a>&nbsp
+                                    <a :href="route('microsite.edit', microsite.id)"
+                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_MICROSITE.name)"
+                                       class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.labels.edit }}
+                                    </a>&nbsp;
+                                    <button :data-id="microsite.id" :data-name="microsite.name"
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_MICROSITE.name)"
+                                            @click="openModal" class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.labels.delete }}
+                                    </button>
                                 </td>
                             </tr>
                             </tbody>
