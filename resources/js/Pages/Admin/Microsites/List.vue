@@ -67,7 +67,7 @@ loadMicrosites();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_MICROSITE.name)"
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_MICROSITE)"
                                :href="route('microsite.create')" class="btn btn-link">
                                 {{ $page.props.$t.microsites.create }}
                             </a>
@@ -99,12 +99,12 @@ loadMicrosites();
                                         {{ $page.props.$t.labels.see }}
                                     </a>&nbsp
                                     <a :href="route('microsite.edit', microsite.id)"
-                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_MICROSITE.name)"
+                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_MICROSITE)"
                                        class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.edit }}
                                     </a>&nbsp;
                                     <button :data-id="microsite.id" :data-name="microsite.name"
-                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_MICROSITE.name)"
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_MICROSITE)"
                                             @click="openModal" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.delete }}
                                     </button>

@@ -68,7 +68,7 @@ loadUsers();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER.name)"
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER)"
                                :href="route('user.create')" class="btn btn-link">{{ $page.props.$t.users.create }}</a>
                         </div>
                         <SearchForm @search="searchUsers" :message="message"/>
@@ -93,12 +93,12 @@ loadUsers();
                                 <td>{{ user.status }}</td>
                                 <td>
                                     <a :href="route('user.edit', user.id)"
-                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_USER.name)"
+                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_USER)"
                                        class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.edit }}
                                     </a>&nbsp;
                                     <button :data-id="user.id" :data-name="user.name" @click="openModal"
-                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_USER.name)"
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_USER)"
                                             class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.delete }}
                                     </button>

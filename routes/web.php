@@ -10,6 +10,7 @@ use App\Support\Definitions\Permissions;
 use App\Support\Http\Middleware\ClearMicrositeCache;
 use App\Support\Http\Middleware\ClearUserCache;
 use App\Support\Http\Middleware\IsAdmin;
+use App\Support\Http\Middleware\ProtectAdminRole;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
 
@@ -73,13 +74,14 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
         Route::post('/store-role', [RolesController::class, 'store'])->name('roles.store');
     });
 
-    Route::middleware([Authorize::using(Permissions::UPDATE_ROLE->value)])->group(function () {
+    Route::middleware([Authorize::using(Permissions::UPDATE_ROLE->value), ProtectAdminRole::class])->group(function () {
         Route::get('/edit-role/{role}', [RolesController::class, 'edit'])->name('roles.edit');
         Route::patch('/update-role/{role}', [RolesController::class, 'update'])->name('roles.update');
     });
 
     Route::delete('/delete-role/{role}', [RolesController::class, 'delete'])
-        ->name('roles.delete')->middleware(Authorize::using(Permissions::DELETE_ROLE->value));
+        ->name('roles.delete')
+        ->middleware([Authorize::using(Permissions::DELETE_ROLE->value),ProtectAdminRole::class]);
 
 });
 

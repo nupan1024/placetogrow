@@ -48,7 +48,7 @@ const deleteRole = () => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_ROLE.name)"
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_ROLE)"
                                :href="route('roles.create')"
                                class="btn btn-link">
                                 {{ $page.props.$t.roles.create }}
@@ -67,15 +67,17 @@ const deleteRole = () => {
                             <tr v-for="role in roles" :key="role.id" class="hover">
                                 <td>{{ role.name }}</td>
                                 <td>
-                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_ROLE.name)"
-                                        :href="route('roles.edit', role.id)" class="text-indigo-500 hover:underline">
-                                        {{ $page.props.$t.labels.edit }}
-                                    </a>&nbsp;
-                                    <button v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_ROLE.name)"
-                                        :data-id="role.id" :data-name="role.name" @click="openModal"
-                                            class="text-indigo-500 hover:underline">
-                                        {{ $page.props.$t.labels.delete }}
-                                    </button>
+                                    <div v-if="role.name !== $page.props.auth.roles.SUPER_ADMIN">
+                                        <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_ROLE)"
+                                           :href="route('roles.edit', role.id)" class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.labels.edit }}
+                                        </a>&nbsp;
+                                        <button v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_ROLE)"
+                                                :data-id="role.id" :data-name="role.name" @click="openModal"
+                                                class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.labels.delete }}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>

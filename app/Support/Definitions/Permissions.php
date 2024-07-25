@@ -9,7 +9,7 @@ enum Permissions: string
     case UPDATE_MICROSITE = 'Update microsites';
     case DELETE_MICROSITE = 'Delete microsites';
     case USERS = 'List users';
-    case CREATE_USER = 'Create Users';
+    case CREATE_USER = 'Create users';
     case UPDATE_USER = 'Update users';
     case DELETE_USER = 'Delete users';
     case ROLES = 'List roles';
@@ -32,15 +32,13 @@ enum Permissions: string
         return $array;
     }
 
-    public static function getNames(): array
+    public static function getPermissions(): array
     {
         $permissions = self::cases();
         $array = [];
 
         foreach ($permissions as $permission) {
-            $array[$permission->name] = [
-                'name' => $permission->value,
-            ];
+            $array[$permission->name] = $permission->value;
         }
 
         return $array;

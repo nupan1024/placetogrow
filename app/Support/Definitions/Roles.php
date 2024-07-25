@@ -22,4 +22,15 @@ enum Roles: int
 
         return $array;
     }
+    public static function getRoles(): array
+    {
+        $roles = self::cases();
+        $array = [];
+
+        foreach ($roles as $role) {
+            $array[$role->name] = ucwords(strtolower(str_replace('_', ' ', $role->name)));
+        }
+
+        return $array;
+    }
 }
