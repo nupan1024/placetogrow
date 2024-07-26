@@ -14,7 +14,7 @@ class UpdateRole implements Action
             $params['role']->syncPermissions($params['fields']['permissions']);
             return $params['role']->save();
         } catch (\Exception $e) {
-            Log::channel('Role')->error('Error updating role: '.$e->getMessage());
+            Log::channel('Roles')->error('Error updating role: '.$e->getMessage());
 
             return false;
         }

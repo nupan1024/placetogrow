@@ -3,13 +3,11 @@
 namespace App\Support\Http\Middleware;
 
 use App\Support\Definitions\Roles;
-use App\Support\Definitions\Status;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class ProtectRoles
 {
     /**
      * Handle an incoming request.
@@ -18,11 +16,8 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        /** @var \App\Domain\Users\Models\User $user */
-        $user = Auth::user();
-
-        if ($user->hasRole(ucwords(strtolower(Roles::GUEST->name))) ||
-            $user->getRawOriginal('status') === Status::INACTIVE->value) {
+        $roles = [Roles::SUPER_ADMIN->value, Roles::GUEST->value];
+        if (in_array($request->role->id, $roles)) {
             return redirect(route('home'));
         }
 

@@ -17,6 +17,6 @@ class RoleSeeder extends Seeder
     {
         DB::table('roles')->insert(Roles::toArray());
         Role::findByName(ucwords(strtolower(str_replace('_', ' ', Roles::SUPER_ADMIN->name))))
-            ->syncPermissions(Permissions::getNames());
+            ->syncPermissions(Permissions::getPermissions());
     }
 }

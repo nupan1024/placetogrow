@@ -16,7 +16,7 @@ class CreateRole implements Action
             $role->syncPermissions($params['permissions']);
             return $role->save();
         } catch (\Exception $e) {
-            Log::channel('Role')->error('Error creating role: '.$e->getMessage());
+            Log::channel('Roles')->error('Error creating role: '.$e->getMessage());
 
             return false;
         }

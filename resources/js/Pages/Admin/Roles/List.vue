@@ -13,6 +13,7 @@ const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.roles.li
 const roleId = ref('');
 const roleName = ref('');
 const isOpenModal = ref(false);
+const rolesProtect = [usePage().props.auth.roles.SUPER_ADMIN, usePage().props.auth.roles.GUEST]
 const closeModal = () => {
     isOpenModal.value = false;
 
@@ -29,7 +30,6 @@ const deleteRole = () => {
     form.delete(route('roles.delete', roleId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => router.visit('/roles'),
     });
 }
 </script>
@@ -67,7 +67,7 @@ const deleteRole = () => {
                             <tr v-for="role in roles" :key="role.id" class="hover">
                                 <td>{{ role.name }}</td>
                                 <td>
-                                    <div v-if="role.name !== $page.props.auth.roles.SUPER_ADMIN">
+                                    <div v-if="!rolesProtect.includes(role.name)">
                                         <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_ROLE)"
                                            :href="route('roles.edit', role.id)" class="text-indigo-500 hover:underline">
                                             {{ $page.props.$t.labels.edit }}

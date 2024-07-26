@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\CreateRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -44,19 +45,28 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        UpdateRole::execute(['fields' => $request->validated(), 'role' => $role]);
+        UpdateRole::execute([
+            'fields' => $request->validated(), 'role' => $role,
+        ]);
         return redirect()->route('roles')->with([
             'message' => __('roles.success_update'),
             'type' => 'success',
         ]);
     }
 
-    public function delete(Role $role): RedirectResponse
+    public function delete(Request $request, Role $role): RedirectResponse
     {
-        DeleteRole::execute(['role' => $role]);
+        if (!DeleteRole::execute(['role' => $role])) {
+            return redirect()->route('roles')->with([
+                'message' => trans('roles.error_delete'),
+                'type' => 'error',
+            ]);
+        }
+
         return redirect()->route('roles')->with([
-            'message' => __('roles.success_delete'),
+            'message' => trans('roles.success_delete'),
             'type' => 'success',
         ]);
     }
+
 }

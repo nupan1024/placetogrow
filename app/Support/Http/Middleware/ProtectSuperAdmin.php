@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProtectAdminRole
+class ProtectSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,11 @@ class ProtectAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->role->id === Roles::SUPER_ADMIN->value) {
+        if ($request->user->name === ucwords(strtolower(str_replace(
+            '_',
+            ' ',
+            Roles::SUPER_ADMIN->name
+        )))) {
             return redirect(route('home'));
         }
 

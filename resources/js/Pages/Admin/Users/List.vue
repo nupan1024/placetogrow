@@ -18,6 +18,8 @@ const message = usePage().props.$t.users.tooltip;
 const searchTerm = ref('');
 const users = ref([]);
 const isOpenModal = ref(false);
+const rolesProtect = [usePage().props.auth.roles.SUPER_ADMIN, usePage().props.auth.roles.GUEST]
+
 const closeModal = () => {
     isOpenModal.value = false;
 
@@ -92,16 +94,18 @@ loadUsers();
                                 <td>{{ user.role.name }}</td>
                                 <td>{{ user.status }}</td>
                                 <td>
-                                    <a :href="route('user.edit', user.id)"
-                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_USER)"
-                                       class="text-indigo-500 hover:underline">
-                                        {{ $page.props.$t.labels.edit }}
-                                    </a>&nbsp;
-                                    <button :data-id="user.id" :data-name="user.name" @click="openModal"
-                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_USER)"
-                                            class="text-indigo-500 hover:underline">
-                                        {{ $page.props.$t.labels.delete }}
-                                    </button>
+                                    <div v-if="!rolesProtect.includes(user.name)">
+                                        <a :href="route('user.edit', user.id)"
+                                           v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_USER)"
+                                           class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.labels.edit }}
+                                        </a>&nbsp;
+                                        <button :data-id="user.id" :data-name="user.name" @click="openModal"
+                                                v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_USER)"
+                                                class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.labels.delete }}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
