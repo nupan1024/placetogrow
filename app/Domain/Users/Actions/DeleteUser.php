@@ -21,4 +21,5 @@ class DeleteUser implements Action
             return false;
         }
     }
+
 }

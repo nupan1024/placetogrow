@@ -34,7 +34,7 @@ class UserController extends Controller
         Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
-            'message' => 'Se creó el usuario con éxito.',
+            'message' => __('users.success_create'),
             'type' => 'success',
         ]);
     }
@@ -50,7 +50,7 @@ class UserController extends Controller
         Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
-            'message' => 'Se actualizó el usuario con éxito.',
+            'message' => __('users.success_update'),
             'type' => 'success',
         ]);
     }

@@ -35,7 +35,7 @@ class MicrositeController extends Controller
         Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
-            'message' => 'Se ha creado el micrositio con éxito.',
+            'message' => __('microsites.success_create'),
             'type' => 'success',
         ]);
     }
@@ -52,7 +52,7 @@ class MicrositeController extends Controller
         Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
-            'message' => 'Se actualizó el micrositio con éxito.',
+            'message' => __('microsites.success_update'),
             'type' => 'success',
         ]);
     }
