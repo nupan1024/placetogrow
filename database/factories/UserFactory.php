@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Domain\Users\Models\Role;
 use App\Domain\Users\Models\User;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
 
 /**
  * @extends Factory<User>

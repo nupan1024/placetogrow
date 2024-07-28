@@ -11,7 +11,6 @@ class UpdateMicrosite implements Action
     public static function execute(array $params): bool
     {
         try {
-            $params['microsite']->microsites_type_id = $params['fields']['microsites_type_id'];
             $params['microsite']->category_id = $params['fields']['category_id'];
             $params['microsite']->name = $params['fields']['name'];
             $params['microsite']->description = $params['fields']['description'];
