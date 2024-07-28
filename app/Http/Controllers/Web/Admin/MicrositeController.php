@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Microsite\CreateMicrositeRequest;
 use App\Http\Requests\Admin\Microsite\UpdateMicrositeRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,6 +31,8 @@ class MicrositeController extends Controller
     public function store(CreateMicrositeRequest $request): RedirectResponse
     {
         CreateMicrosite::execute($request->validated());
+        Cache::forget(config('cache.stores.key.microsites_admin'));
+        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => 'Se ha creado el micrositio con éxito.',
@@ -45,6 +48,8 @@ class MicrositeController extends Controller
     public function update(UpdateMicrositeRequest $request, Microsite $microsite): RedirectResponse
     {
         UpdateMicrosite::execute(['fields' => $request->validated(), 'microsite' => $microsite]);
+        Cache::forget(config('cache.stores.key.microsites_admin'));
+        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => 'Se actualizó el micrositio con éxito.',
@@ -55,6 +60,8 @@ class MicrositeController extends Controller
     public function delete(Microsite $microsite): RedirectResponse
     {
         DeleteMicrosite::execute(['microsite' => $microsite]);
+        Cache::forget(config('cache.stores.key.microsites_admin'));
+        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites');
     }

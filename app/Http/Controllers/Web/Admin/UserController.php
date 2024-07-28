@@ -31,7 +31,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         CreateUser::execute($request->validated());
-        Cache::forget('users_page_1_filter_ ');
+        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => 'Se creó el usuario con éxito.',
@@ -47,6 +47,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         UpdateUser::execute(['fields' => $request->validated(), 'user' => $user]);
+        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => 'Se actualizó el usuario con éxito.',
@@ -57,6 +58,7 @@ class UserController extends Controller
     public function delete(User $user): RedirectResponse
     {
         DeleteUser::execute(['user' => $user]);
+        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users');
     }

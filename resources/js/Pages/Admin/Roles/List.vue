@@ -6,9 +6,13 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Modal from '@/Components/Modal.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import { ref } from 'vue';
+import Pagination from '@/Components/Pagination.vue';
+import SearchForm from '@/Components/SearchForm.vue';
 
+const message = usePage().props.$t.roles.tooltip;
+const searchTerm = ref('');
 const props = defineProps({ roles: Array });
-const roles = usePage().props.roles;
+const roles = ref([]);
 const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.roles.list];
 const roleId = ref('');
 const roleName = ref('');
@@ -24,14 +28,29 @@ const openModal = (e) => {
     roleName.value = e.target.dataset.name ?? "";
     isOpenModal.value = true;
 };
+const searchRoles = (text) => {
+    searchTerm.value = text;
 
+    loadRoles(`${route('api.roles.list')}/?filter=${text}`);
+}
+const loadRoles = (url = null) => {
+    axios.get(url || route('api.roles.list')).then((response) => {
+        roles.value = response.data.data
+
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 const form = useForm({});
 const deleteRole = () => {
     form.delete(route('roles.delete', roleId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
+        onFinish: () => loadRoles()
     });
 }
+loadRoles();
+
 </script>
 
 <template>
@@ -54,6 +73,7 @@ const deleteRole = () => {
                                 {{ $page.props.$t.roles.create }}
                             </a>
                         </div>
+                        <SearchForm @search="searchRoles" :message="message"/>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="table">
@@ -64,7 +84,7 @@ const deleteRole = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="role in roles" :key="role.id" class="hover">
+                            <tr v-for="role in roles.data" :key="role.id" class="hover">
                                 <td>{{ role.name }}</td>
                                 <td>
                                     <div v-if="!rolesProtect.includes(role.name)">
@@ -84,6 +104,9 @@ const deleteRole = () => {
                         </table>
                     </div>
                 </div>
+                <Pagination v-if="roles && roles.data?.length > 0" class="mt-6 mb-6" :links="roles.links"
+                            :filter="`&filter=${searchTerm}`" :click="loadRoles"/>
+
             </div>
         </div>
         <Modal :show="isOpenModal" @close="closeModal">

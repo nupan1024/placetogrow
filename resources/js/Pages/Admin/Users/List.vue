@@ -39,7 +39,7 @@ const deleteUser = () => {
     form.delete(route('user.delete', userId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => router.visit('/users'),
+        onFinish: () => loadUsers(),
     });
 }
 const searchUsers = (text) => {

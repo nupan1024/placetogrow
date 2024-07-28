@@ -6,13 +6,12 @@ use App\Domain\Roles\Actions\CreateRole;
 use App\Domain\Roles\Actions\DeleteRole;
 use App\Domain\Roles\Actions\UpdateRole;
 use App\Domain\Roles\ViewModels\CreateViewModel;
-use App\Domain\Roles\ViewModels\ListViewModel;
 use App\Domain\Roles\ViewModels\UpdateViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\CreateRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -21,7 +20,7 @@ class RolesController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('Admin/Roles/List', new ListViewModel());
+        return Inertia::render('Admin/Roles/List');
     }
 
     public function create(): Response
@@ -32,6 +31,7 @@ class RolesController extends Controller
     public function store(CreateRoleRequest $request): RedirectResponse
     {
         CreateRole::execute($request->validated());
+        Cache::forget(config('cache.stores.key.roles'));
         return redirect()->route('roles')->with([
             'message' => __('roles.success_create'),
             'type' => 'success',
@@ -48,13 +48,14 @@ class RolesController extends Controller
         UpdateRole::execute([
             'fields' => $request->validated(), 'role' => $role,
         ]);
+        Cache::forget(config('cache.stores.key.roles'));
         return redirect()->route('roles')->with([
             'message' => __('roles.success_update'),
             'type' => 'success',
         ]);
     }
 
-    public function delete(Request $request, Role $role): RedirectResponse
+    public function delete(Role $role): RedirectResponse
     {
         if (!DeleteRole::execute(['role' => $role])) {
             return redirect()->route('roles')->with([
@@ -62,7 +63,7 @@ class RolesController extends Controller
                 'type' => 'error',
             ]);
         }
-
+        Cache::forget(config('cache.stores.key.roles'));
         return redirect()->route('roles')->with([
             'message' => trans('roles.success_delete'),
             'type' => 'success',

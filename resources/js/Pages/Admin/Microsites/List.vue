@@ -36,7 +36,7 @@ const deleteMicrositio = () => {
     form.delete(route('microsite.delete', micrositeId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => router.visit('/microsites'),
+        onFinish: () => loadMicrosites(),
     });
 }
 const searchMicrosites = (text) => {

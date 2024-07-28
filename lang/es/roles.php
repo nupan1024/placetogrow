@@ -11,5 +11,6 @@ return [
     'msj_delete' => '¿Estás seguro de eliminar el rol',
     'success_delete' => '¡El rol ha sido eliminado exitosamente!',
     'error_delete' => 'Este rol no se puede eliminar porque hay usuarios con este rol.',
+    'tooltip' => 'Busca por nombre',
 
 ];

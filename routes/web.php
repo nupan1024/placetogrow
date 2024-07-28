@@ -7,8 +7,6 @@ use App\Http\Controllers\Web\Admin\RolesController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
 use App\Support\Definitions\Permissions;
-use App\Support\Http\Middleware\ClearMicrositeCache;
-use App\Support\Http\Middleware\ClearUserCache;
 use App\Support\Http\Middleware\IsAdmin;
 use App\Support\Http\Middleware\ProtectRoles;
 use App\Support\Http\Middleware\ProtectSuperAdmin;
@@ -32,22 +30,18 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
             Route::get('/create', [MicrositeController::class, 'create'])
                 ->name('microsite.create');
             Route::post('/store', [MicrositeController::class, 'store'])
-                ->name('microsite.store')
-                ->middleware([ClearMicrositeCache::class]);
+                ->name('microsite.store');
         });
 
     Route::middleware([Authorize::using(Permissions::UPDATE_MICROSITE->value)])->group(function () {
         Route::get('/edit/{microsite}', [MicrositeController::class, 'edit'])->name('microsite.edit');
         Route::patch('/update-microsite/{microsite}', [MicrositeController::class, 'update'])
-            ->name('microsite.update')->middleware([ClearMicrositeCache::class]);
+            ->name('microsite.update');
     });
 
     Route::delete('/delete-microsite/{microsite}', [MicrositeController::class, 'delete'])
         ->name('microsite.delete')
-        ->middleware([
-            ClearMicrositeCache::class,
-            Authorize::using(Permissions::DELETE_MICROSITE->value),
-        ]);
+        ->middleware(Authorize::using(Permissions::DELETE_MICROSITE->value));
 
     Route::get('/users', [UserController::class, 'index'])->name('users')
         ->middleware([Authorize::using(Permissions::USERS->value)]);
@@ -57,7 +51,7 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
             Route::get('/user-create', [UserController::class, 'create'])
                 ->name('user.create');
             Route::post('/user-store', [UserController::class, 'store'])
-                ->name('user.store')->middleware([ClearUserCache::class]);
+                ->name('user.store');
         });
 
     Route::middleware([
@@ -67,13 +61,12 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
         Route::get('/users-edit/{user}', [UserController::class, 'edit'])
             ->name('user.edit');
         Route::patch('/users-update/{user}', [UserController::class, 'update'])
-            ->name('user.update')->middleware(ClearUserCache::class);
+            ->name('user.update');
     });
 
     Route::delete('/users-delete/{user}', [UserController::class, 'delete'])
         ->name('user.delete')
         ->middleware([
-            ClearUserCache::class,
             Authorize::using(Permissions::DELETE_USER->value),
             ProtectSuperAdmin::class,
         ]);

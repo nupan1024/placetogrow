@@ -11,5 +11,6 @@ return [
     'msj_delete' => 'Are you sure to delete the role',
     'success_delete' => 'Role has been deleted successfully!',
     'error_delete' => 'This role cannot be deleted because there are users with this role.',
+    'tooltip' => 'Search by name',
 
 ];
