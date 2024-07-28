@@ -2,12 +2,12 @@
 
 namespace App\Support\Http\Middleware;
 
+use App\Support\Definitions\Roles;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClearMicrositeCache
+class ProtectRoles
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,12 @@ class ClearMicrositeCache
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Cache::forget('admin_microsites_page_1_filter_ ');
-        Cache::forget('microsites_page_1_filter_ ');
+        $roles = [Roles::SUPER_ADMIN->value, Roles::GUEST->value];
+        if (in_array($request->role->id, $roles)) {
+            return redirect(route('home'));
+        }
 
         return $next($request);
     }
+
 }

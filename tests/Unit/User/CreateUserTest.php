@@ -7,8 +7,8 @@ use App\Support\Definitions\Status;
 
 test('create user', function () {
     $role = Role::factory()->create([
-        'id' => Roles::ADMIN->value,
-        'name' => Roles::ADMIN->name,
+        'id' => Roles::SUPER_ADMIN->value,
+        'name' => Roles::SUPER_ADMIN->name,
         'guard_name' => 'web',
     ]);
 
@@ -27,7 +27,7 @@ test('generate expection', function () {
     $params = [
         'name' => 'User test',
         'email' => 'usertest@placetogrow.com',
-        'role_id' => Roles::ADMIN->value,
+        'role_id' => Roles::SUPER_ADMIN->value,
         'status' => Status::ACTIVE->value,
         'password' => '12345678',
     ];

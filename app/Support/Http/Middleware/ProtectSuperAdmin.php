@@ -2,12 +2,12 @@
 
 namespace App\Support\Http\Middleware;
 
+use App\Support\Definitions\Roles;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClearUserCache
+class ProtectSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,15 @@ class ClearUserCache
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Cache::forget('users_page_1_filter_ ');
+        if ($request->user->name === ucwords(strtolower(str_replace(
+            '_',
+            ' ',
+            Roles::SUPER_ADMIN->name
+        )))) {
+            return redirect(route('home'));
+        }
 
         return $next($request);
     }
+
 }

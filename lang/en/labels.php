@@ -28,5 +28,7 @@ return [
     'password' => 'Password',
     'password_confirmation' => 'Password confirmation',
     'dashboard' => 'Dashboard',
+    'edit_permissions_role' => 'Edit permissions',
+    'permissions' => 'Permissions',
 
 ];

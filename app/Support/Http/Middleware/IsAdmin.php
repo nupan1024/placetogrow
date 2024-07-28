@@ -21,10 +21,12 @@ class IsAdmin
         /** @var \App\Domain\Users\Models\User $user */
         $user = Auth::user();
 
-        if ($user->role->value() === Roles::GUEST || $user->getRawOriginal('status') === Status::INACTIVE->value) {
+        if ($user->hasRole(ucwords(strtolower(Roles::GUEST->name))) ||
+            $user->getRawOriginal('status') === Status::INACTIVE->value) {
             return redirect(route('home'));
         }
 
         return $next($request);
     }
+
 }

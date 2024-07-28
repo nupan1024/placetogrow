@@ -50,7 +50,11 @@ loadMicrosites();
             <div>
                 <div class="text-right pr-4">
                     <div v-if="$page.props.auth.user">
-                        <Link v-if="$page.props.auth.user.role_id !== 1" :href="route('logout')" method="post" as="button">Cerrar sesión</Link>
+                        <Link
+                            v-if="$page.props.auth.user_permissions.length === 0"
+                            :href="route('logout')" method="post" as="button">
+                            {{ $page.props.$t.auth.sign_off }}
+                        </Link>
                         <a v-else :href="route('dashboard')">Dashboard</a>
                     </div>
                     <div v-else>

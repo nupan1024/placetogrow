@@ -18,6 +18,8 @@ const message = usePage().props.$t.users.tooltip;
 const searchTerm = ref('');
 const users = ref([]);
 const isOpenModal = ref(false);
+const rolesProtect = [usePage().props.auth.roles.SUPER_ADMIN, usePage().props.auth.roles.GUEST]
+
 const closeModal = () => {
     isOpenModal.value = false;
 
@@ -37,7 +39,7 @@ const deleteUser = () => {
     form.delete(route('user.delete', userId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => router.visit('/users'),
+        onFinish: () => loadUsers(),
     });
 }
 const searchUsers = (text) => {
@@ -68,7 +70,8 @@ loadUsers();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a :href="route('user.create')" class="btn btn-link">{{ $page.props.$t.users.create }}</a>
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER)"
+                               :href="route('user.create')" class="btn btn-link">{{ $page.props.$t.users.create }}</a>
                         </div>
                         <SearchForm @search="searchUsers" :message="message"/>
                     </div>
@@ -91,8 +94,18 @@ loadUsers();
                                 <td>{{ user.role.name }}</td>
                                 <td>{{ user.status }}</td>
                                 <td>
-                                    <a :href="route('user.edit', user.id)" class="text-indigo-500 hover:underline"> {{ $page.props.$t.labels.edit }}</a>&nbsp;
-                                    <button :data-id="user.id" :data-name="user.name" @click="openModal" class="text-indigo-500 hover:underline"> {{ $page.props.$t.labels.delete }}</button>
+                                    <div v-if="!rolesProtect.includes(user.name)">
+                                        <a :href="route('user.edit', user.id)"
+                                           v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_USER)"
+                                           class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.labels.edit }}
+                                        </a>&nbsp;
+                                        <button :data-id="user.id" :data-name="user.name" @click="openModal"
+                                                v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_USER)"
+                                                class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.labels.delete }}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>

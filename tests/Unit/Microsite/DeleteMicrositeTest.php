@@ -38,10 +38,5 @@ test('delete microsite', function () {
         'status' => Status::ACTIVE->value,
     ]);
 
-    $this->assertTrue(DeleteMicrosite::execute(['id' => $microsite->id]));
-});
-
-
-test('it not found microsite', function () {
-    $this->assertFalse(DeleteMicrosite::execute(['id' => ""]));
+    $this->assertTrue(DeleteMicrosite::execute(['microsite' => $microsite]));
 });

@@ -37,7 +37,7 @@ class CreateUser extends Command
             'email' => $email,
             'password' => $password,
             'status' => Status::ACTIVE->value,
-            'role_id' => Roles::ADMIN->value,
+            'role_id' => Roles::SUPER_ADMIN->value,
         ];
 
         $result = ActionCreateUser::execute($params);

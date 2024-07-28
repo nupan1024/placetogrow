@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Microsite\CreateMicrositeRequest;
 use App\Http\Requests\Admin\Microsite\UpdateMicrositeRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,6 +31,8 @@ class MicrositeController extends Controller
     public function store(CreateMicrositeRequest $request): RedirectResponse
     {
         CreateMicrosite::execute($request->validated());
+        Cache::forget(config('cache.stores.key.microsites_admin'));
+        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => __('microsites.success_create'),
@@ -42,9 +45,11 @@ class MicrositeController extends Controller
         return Inertia::render('Admin/Microsites/Edit', new EditViewModel($microsite));
     }
 
-    public function update(UpdateMicrositeRequest $request, int $id): RedirectResponse
+    public function update(UpdateMicrositeRequest $request, Microsite $microsite): RedirectResponse
     {
-        UpdateMicrosite::execute(['fields' => $request->validated(), 'id' => $id]);
+        UpdateMicrosite::execute(['fields' => $request->validated(), 'microsite' => $microsite]);
+        Cache::forget(config('cache.stores.key.microsites_admin'));
+        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => __('microsites.success_update'),
@@ -52,9 +57,11 @@ class MicrositeController extends Controller
         ]);
     }
 
-    public function delete(int $id): RedirectResponse
+    public function delete(Microsite $microsite): RedirectResponse
     {
-        DeleteMicrosite::execute(['id' => $id]);
+        DeleteMicrosite::execute(['microsite' => $microsite]);
+        Cache::forget(config('cache.stores.key.microsites_admin'));
+        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites');
     }

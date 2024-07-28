@@ -2,22 +2,24 @@
 
 namespace App\Domain\Users\Actions;
 
-use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DeleteUser implements Action
 {
     public static function execute(array $params): bool
     {
-        $user = User::find($params['id']);
+        try {
+            DB::table('model_has_roles')
+                ->where('model_id', $params['user']->id)
+                ->delete();
+            return $params['user']->delete();
+        } catch (\Exception $e) {
+            Log::channel('Users')->error('Error deleting microsite: '.$e->getMessage());
 
-        if (!$user) {
-            Log::channel('Users')->error('Error deleting microsite: Not found the user');
             return false;
         }
-
-        return $user->delete();
     }
 
 }

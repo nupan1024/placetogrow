@@ -10,11 +10,10 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
-    Role::factory()
-        ->create([
-            'id' => Roles::GUEST->value,
-            'name' => Roles::GUEST->name,
-        ]);
+    Role::factory()->create([
+        'id' => Roles::GUEST->value,
+        'name' => Roles::GUEST->name,
+    ]);
 
     $response = $this->post('/register', [
         'name' => 'Test User',

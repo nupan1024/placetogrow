@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 test('delete user', function () {
     $role = Role::factory()->create([
-        'id' => Roles::ADMIN->value,
-        'name' => Roles::ADMIN->name,
+        'id' => Roles::SUPER_ADMIN->value,
+        'name' => Roles::SUPER_ADMIN->name,
         'guard_name' => 'web',
     ]);
 
@@ -22,10 +22,5 @@ test('delete user', function () {
         'password' => Hash::make('password'),
     ]);
 
-    expect(DeleteUser::execute(['id' => $user->id]))->toBeTrue();
-});
-
-test('not found id user', function () {
-
-    expect(DeleteUser::execute(['id' => '5']))->toBeFalse();
+    expect(DeleteUser::execute(['user' => $user]))->toBeTrue();
 });

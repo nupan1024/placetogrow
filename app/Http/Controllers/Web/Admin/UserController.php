@@ -31,7 +31,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         CreateUser::execute($request->validated());
-        Cache::forget('users_page_1_filter_ ');
+        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => __('users.success_create'),
@@ -44,9 +44,10 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/Edit', new EditViewModel($user));
     }
 
-    public function update(UpdateUserRequest $request, int $id): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        UpdateUser::execute(['fields' => $request->validated(), 'id' => $id]);
+        UpdateUser::execute(['fields' => $request->validated(), 'user' => $user]);
+        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => __('users.success_update'),
@@ -54,9 +55,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function delete(int $id): RedirectResponse
+    public function delete(User $user): RedirectResponse
     {
-        DeleteUser::execute(['id' => $id]);
+        DeleteUser::execute(['user' => $user]);
+        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users');
     }

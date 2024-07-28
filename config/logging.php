@@ -140,6 +140,12 @@ return [
             'path' => storage_path('logs/Users.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+
+        'Roles' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Roles.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
     ],
 
 ];

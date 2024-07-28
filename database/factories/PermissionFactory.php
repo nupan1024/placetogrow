@@ -3,14 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 /**
- * @extends Factory<Role>
+ * @extends Factory<Permission>
  */
-class RoleFactory extends Factory
+class PermissionFactory extends Factory
 {
-    protected $model = Role::class;
+    protected $model = Permission::class;
 
     /**
      * Define the model's default state.
