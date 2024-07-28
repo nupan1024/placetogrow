@@ -34,7 +34,7 @@ class UserController extends Controller
         Cache::forget('users_page_1_filter_ ');
 
         return redirect()->route('users')->with([
-            'message' => 'Se creó el usuario con éxito.',
+            'message' => __('users.success_create'),
             'type' => 'success',
         ]);
     }
@@ -49,7 +49,7 @@ class UserController extends Controller
         UpdateUser::execute(['fields' => $request->validated(), 'id' => $id]);
 
         return redirect()->route('users')->with([
-            'message' => 'Se actualizó el usuario con éxito.',
+            'message' => __('users.success_update'),
             'type' => 'success',
         ]);
     }
