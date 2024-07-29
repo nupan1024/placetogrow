@@ -13,13 +13,17 @@ import LogoMicrositio from '@/Components/LogoMicrositio.vue';
 
 defineProps({
     microsite: Object,
+    documents: Array,
 })
 
 const microsite = usePage().props.microsite;
+const documents = usePage().props.documents;
 const form = useForm({
     name: '',
     email: '',
     description: '',
+    type_document: '',
+    num_document: '',
     value: '',
 });
 </script>
@@ -90,6 +94,30 @@ const form = useForm({
                     />
 
                     <InputError class="mt-2" :message="form.errors.email" />
+                </div>
+
+                <div class="mt-4">
+                    <InputLabel for="type_document" :value="$page.props.$t.labels.document" />
+                    <div class="flex">
+                        <Select
+                            id="category_id"
+                            class="input mt-1 select"
+                            v-model="form.type_document"
+                            :options="documents"
+                            required
+                            autofocus
+                        />
+                        <TextInput
+                            id="num_document"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.num_document"
+                            required
+                            autofocus
+                            autocomplete="on"
+                        />
+                        <InputError class="mt-2" :message="form.errors.num_document" />
+                    </div>
                 </div>
 
                 <div class="mt-3">

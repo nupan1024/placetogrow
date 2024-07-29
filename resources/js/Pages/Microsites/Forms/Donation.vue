@@ -10,18 +10,31 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import LogoMicrositio from '@/Components/LogoMicrositio.vue';
+import Select from '@/Components/Select.vue';
 
 defineProps({
     microsite: Object,
+    documents: Array,
 })
 
 const microsite = usePage().props.microsite;
+const documents = usePage().props.documents;
 const form = useForm({
     name: '',
     email: '',
     description: '',
+    type_document: '',
+    num_document: '',
     value: '',
+    microsite_id: microsite.id,
+    currency: microsite.currency.name,
 });
+
+const submit = () => {
+    form.post(route('payment'), {
+        forceFormData: true,
+    });
+};
 </script>
 <template>
     <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
@@ -60,7 +73,7 @@ const form = useForm({
                 <h2>{{ $page.props.$t.labels.type }}: {{ microsite.type.name }}</h2>
                 <h2>{{ $page.props.$t.labels.currency }}: {{ microsite.currency.name }}</h2>
             </div>
-            <form>
+            <form @submit.prevent="submit">
                 <div>
                     <InputLabel for="name" :value="$page.props.$t.labels.name" />
 
@@ -92,6 +105,30 @@ const form = useForm({
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
 
+                <div class="mt-4">
+                    <InputLabel for="type_document" :value="$page.props.$t.labels.document" />
+                    <div class="flex">
+                        <Select
+                            id="category_id"
+                            class="input mt-1 select"
+                            v-model="form.type_document"
+                            :options="documents"
+                            required
+                            autofocus
+                        />
+                        <TextInput
+                            id="num_document"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.num_document"
+                            required
+                            autofocus
+                            autocomplete="on"
+                        />
+                        <InputError class="mt-2" :message="form.errors.num_document" />
+                    </div>
+                </div>
+
                 <div class="mt-3">
                     <InputLabel for="description" :value="$page.props.$t.labels.description" />
                     <TextArea
@@ -108,7 +145,7 @@ const form = useForm({
                     <InputLabel for="value" :value="$page.props.$t.labels.value" />
                     <TextInput
                     id="value"
-                    type="number"
+                    type="text"
                     class="mt-1 block w-full"
                     v-model="form.value"
                     required

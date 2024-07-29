@@ -2,27 +2,47 @@
 
 namespace App\Support\Services;
 
-use Illuminate\Support\Carbon;
+use App\Contracts\PaymentInterface;
+use Dnetix\Redirection\Message\RedirectResponse;
+use Dnetix\Redirection\PlacetoPay;
 
-class PlaceToPayService
+class PlaceToPayService extends PaymentInterface
 {
-    private function auth(): array
+    private static PlacetoPay $placetopay;
+
+    public function __construct()
     {
-        $seed = Carbon::now()->toIso8601String();
-        $nonce = (string) time();
+        self::$placetopay = $this->setUpPayment();
+    }
 
-        $tranKey = base64_encode(hash(
-            'sha256',
-            $nonce.$seed.config('placetoplay.secret_key'),
-            true
-        ));
-
-        return [
-          'login' => config('placetoplay.login'),
-          'tranKey' => $tranKey,
-          'seed' => $seed,
-          'nonce' => $nonce,
+    public function pay(array $payment): RedirectResponse|bool
+    {
+        $reference = 'microsite_placetopay' . $payment['data']['microsite_id'];
+        $request = [
+            'payment' => [
+                'reference' => $reference,
+                'description' => 'Testing payment',
+                'amount' => [
+                    'currency' => $payment['data']['currency'],
+                    'total' => $payment['data']['value'],
+                ],
+            ],
+            'expiration' => date('c', strtotime(' + 2 days')),
+            'returnUrl' => route('payment.detail', $payment['transaction']->id),
+            'ipAddress' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
+            'userAgent' => "PlacetoPay Sandbox"
         ];
+        $response = self::$placetopay->request($request);
+        if ($response->status()->status() !== 'OK') {
+            return false;
+        }
+
+        return $response;
+    }
+
+    public function getPaymentStatus(string $invoice_id): string
+    {
+        return false;
     }
 
 }

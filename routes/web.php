@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form-microsite/{microsite}', [HomeController::class, 'formMicrosite'])
     ->name('micrositio.form');
+Route::post('/payment', [PaymentController::class, 'create'])->name('payment');
+Route::get('/payment-detail/{transaction}', [PaymentController::class, 'detail'])->name('payment.detail');
+
 
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])

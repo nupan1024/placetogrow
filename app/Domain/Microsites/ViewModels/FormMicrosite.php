@@ -2,6 +2,7 @@
 
 namespace App\Domain\Microsites\ViewModels;
 
+use App\Support\Definitions\DocumentsTypes;
 use App\Support\ViewModels\ViewModel;
 
 class FormMicrosite extends ViewModel
@@ -10,6 +11,7 @@ class FormMicrosite extends ViewModel
     {
         return [
             'microsite' => $this->model()->with(['category', 'type', 'currency'])->find($this->model()->id),
+            'documents' => DocumentsTypes::toArray()
         ];
     }
 }
