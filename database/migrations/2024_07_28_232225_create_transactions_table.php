@@ -19,7 +19,7 @@ return new class () extends Migration {
             $table->integer('num_document');
             $table->string('type_document', length: 3);
             $table->foreignId('microsite_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->string('code');
             $table->timestamps();
         });

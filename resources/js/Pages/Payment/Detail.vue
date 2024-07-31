@@ -5,11 +5,11 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 defineProps({
     transaction: Object,
-    payment: Object,
+    status: Object,
 });
 
 const transaction = usePage().props.transaction;
-const payment = usePage().props.payment;
+const status = usePage().props.status;
 </script>
 
 <template>
@@ -61,7 +61,7 @@ const payment = usePage().props.payment;
                 {{ $page.props.$t.payments.value }}: ${{ transaction.value }}
             </div>
             <div class="flex gap-4">
-                {{ $page.props.$t.payments.status }}: {{ payment.status }}
+                {{ $page.props.$t.payments.status }}: {{status.status }}
             </div>
         </div>
     </GuestLayout>

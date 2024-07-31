@@ -14,10 +14,12 @@ use Inertia\Response;
 
 class PaymentController extends Controller
 {
-    public function create(
-        CreatePaymentRequest $request,
-        PaymentFactory $paymentFactory
-    ) {
+    public function index(): Response
+    {
+        return Inertia::render('Admin/Payments/List');
+    }
+    public function create(CreatePaymentRequest $request, PaymentFactory $paymentFactory)
+    {
         $process = $paymentFactory->initializePayment('place_to_pay');
         $transaction = CreateTransaction::execute($request->validated());
         $placetopay = $process->pay([
@@ -28,8 +30,8 @@ class PaymentController extends Controller
         if (!$placetopay) {
             return redirect()->route('micrositio.form', $request['microsite_id'])
                 ->with([
-                'message' => __('roles.success_create'),
-                'type' => 'success',
+                'message' => __('payments.error'),
+                'type' => 'error',
             ]);
         }
         $payment = $placetopay->toArray();

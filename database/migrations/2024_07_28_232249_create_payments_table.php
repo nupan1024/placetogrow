@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->string('process_url', 255);
             $table->string('payment_type', 255);
             $table->foreignId('transaction_id')->constrained();
-            $table->string('status', 45);
+            $table->string('status', 45)->nullable();
             $table->timestamps();
         });
     }

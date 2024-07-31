@@ -31,7 +31,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('payment'), {
+    form.post(route('payment.create'), {
         forceFormData: true,
     });
 };

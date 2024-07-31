@@ -33,6 +33,22 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.USERS)"
+                                         :href="route('users')" :active="route().current('users')">
+                                    {{ $page.props.$t.users.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.ROLES)"
+                                         :href="route('roles')" :active="route().current('roles')">
+                                    {{ $page.props.$t.roles.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                         :href="route('microsites')" :active="route().current('microsites')">
+                                    {{ $page.props.$t.microsites.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                         :href="route('payments')" :active="route().current('payments')">
+                                    {{ $page.props.$t.payments.title }}
+                                </NavLink>
                             </div>
                         </div>
 
@@ -65,21 +81,6 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink
-                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.USERS)"
-                                            :href="route('users')">
-                                            {{ $page.props.$t.users.title }}
-                                        </DropdownLink>
-                                        <DropdownLink
-                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.ROLES)"
-                                            :href="route('roles')">
-                                            {{ $page.props.$t.roles.title }}
-                                        </DropdownLink>
-                                        <DropdownLink
-                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
-                                            :href="route('microsites')">
-                                            {{ $page.props.$t.microsites.title }}
-                                        </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             {{ $page.props.$t.auth.sign_off }}
                                         </DropdownLink>

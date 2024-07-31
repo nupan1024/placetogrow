@@ -17,13 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form-microsite/{microsite}', [HomeController::class, 'formMicrosite'])
     ->name('micrositio.form');
-Route::post('/payment', [PaymentController::class, 'create'])->name('payment');
+Route::post('/payment-create', [PaymentController::class, 'create'])->name('payment.create');
 Route::get('/payment-detail/{transaction}', [PaymentController::class, 'detail'])->name('payment.detail');
 
 
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+
+    Route::get('/payments', [PaymentController::class, 'index'])
+        ->name('payments');
 
     Route::get('/microsites', [MicrositeController::class, 'index'])
         ->name('microsites')

@@ -15,7 +15,7 @@ class CreatePayment implements Action
             $payment->request_id = $params['payment']['requestId'];
             $payment->process_url = $params['payment']['processUrl'];
             $payment->payment_type = 'place_to_pay';
-            $payment->status = $params['payment']['status']['status'];
+            $payment->status = null;
             $payment->transaction_id = $params['transaction_id'];
             $payment->save();
             return $payment;

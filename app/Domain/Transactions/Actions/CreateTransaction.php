@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class CreateTransaction implements Action
 {
-    public static function execute(array $params): Transaction
+    public static function execute(array $params): Transaction|bool
     {
         try {
             $transaction = new Transaction();
@@ -19,7 +19,7 @@ class CreateTransaction implements Action
             $transaction->data = $params['data'] ?? "";
             $transaction->type_document = $params['type_document'];
             $transaction->num_document = $params['num_document'];
-            $transaction->user_id = Auth::user()->id;
+            $transaction->user_id = (!is_null(Auth::user())) ? Auth::user()->id : null;
             $transaction->microsite_id = $params['microsite_id'];
             $transaction->code = 'TRANSACTION_'. $params['microsite_id'] . '_' . now()->format('YmdHis');
             $transaction->save();
