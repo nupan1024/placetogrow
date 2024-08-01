@@ -15,7 +15,7 @@ class PaymentFactory
     public function initializePayment(string $type): PaymentInterface
     {
         return match ($type) {
-            PaymentMethods::PLACE_TO_PAY->value => new PlaceToPayService(),
+            PaymentMethods::PLACE_TO_PAY->value => app(PlaceToPayService::class),
             default => throw new UnsupportedPaymentMethod("The $type payment method is not supported")
         };
     }

@@ -13,11 +13,29 @@ use Illuminate\Support\Facades\Log;
 
 class PlaceToPayService extends PaymentInterface
 {
-    private static PlacetoPay $placetopay;
+    private PlacetoPay $placetopay;
 
     public function __construct()
     {
-        self::$placetopay = $this->setUpPayment();
+        $this->placetopay = $this->init();
+    }
+
+    public function init(): PlacetoPay
+    {
+        $login = config('placetoplay.login');
+        $tranKey = config('placetoplay.secret_key');
+        $baseUrl = config('placetoplay.base_url');
+
+        if (!$login || !$tranKey || !$baseUrl) {
+            Log::channel('Payment')
+                ->error('Error getting payment: PlaceToPay configuration is incomplete.');
+        }
+
+        return new PlacetoPay([
+            'login' => $login,
+            'tranKey' => $tranKey,
+            'baseUrl' => $baseUrl,
+        ]);
     }
 
     public function pay(array $payment): RedirectResponse|bool
@@ -37,7 +55,7 @@ class PlaceToPayService extends PaymentInterface
             'ipAddress' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
             'userAgent' => "PlacetoPay Sandbox",
         ];
-        $response = self::$placetopay->request($request);
+        $response = $this->placetopay->request($request);
         if ($response->status()->status() !== 'OK') {
             return false;
         }
@@ -50,12 +68,12 @@ class PlaceToPayService extends PaymentInterface
         $payment = GetPayment::execute(['transaction_id' => $transaction->id]);
 
         try {
-            $statusPayment = self::$placetopay->query($payment->request_id);
+            $statusPayment = $this->placetopay->query($payment->request_id);
 
             if (is_null($payment->status)) {
                 UpdateStatePayment::execute([
                     'payment' => $payment,
-                    'status' => $statusPayment->status()->status()
+                    'status' => $statusPayment->status()->status(),
                 ]);
             }
 

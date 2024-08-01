@@ -9,10 +9,13 @@ class DetailTransactionViewModel extends ViewModel
 {
     public function toArray(): array
     {
-        $payment = new PlaceToPayService();
+        /**
+         * @var PlaceToPayService $placetopay
+         */
+        $placetopay = app(PlaceToPayService::class);
         return [
             'transaction' => $this->model()->with(['microsite'])->find($this->model()->id),
-            'status' => $payment->getPaymentStatus($this->model())
+            'status' => $placetopay->getPaymentStatus($this->model())
         ];
     }
 }
