@@ -57,10 +57,10 @@ loadPayments();
                             <tbody>
                             <tr v-for="payment in payments.data" :key="payment.id" class="hover">
                                 <td>{{ payment.request_id }}</td>
-                                <td>{{ payment.payment_type }}</td>
+                                <td>{{ payment.transaction.microsite.type.name }}</td>
                                 <td>{{ payment.status }}</td>
                                 <td>
-                                    <a href="#"
+                                    <a :href="route('payment.detail', payment.transaction_id)"
                                        target="_blank" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.see }}
                                     </a>&nbsp
