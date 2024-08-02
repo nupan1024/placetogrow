@@ -11,6 +11,7 @@ import FormLayout from '@/Layouts/FormLayout.vue';
 import TextArea from '@/Components/TextArea.vue';
 import { ref } from 'vue';
 import LogoMicrositio from '@/Components/LogoMicrositio.vue';
+import Checkbox from '@/Components/Checkbox.vue';
 
 defineProps({
     categories: Array,
@@ -18,7 +19,8 @@ defineProps({
     currencies: Array,
     microsite: Object,
     states: Array,
-    is_invoice: Boolean
+    is_invoice: Boolean,
+    fields: Array
 })
 
 const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list, usePage().props.$t.microsites.edit];
@@ -26,8 +28,10 @@ const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const microsite = usePage().props.microsite;
+const fields = usePage().props.fields;
 const states = usePage().props.states;
 const is_invoice = usePage().props.is_invoice;
+const field_microsite = JSON.parse(microsite.fields)
 const formatter = ref({
     date: 'YYYY-MM-DD',
     month:'MMM',
@@ -36,6 +40,12 @@ const formatter = ref({
 function disableData(date) {
     return date < new Date();
 }
+const isFieldChecked = (fieldName) => {
+    if (field_microsite !== null) {
+        return field_microsite.some(field => field.name === fieldName);
+    }
+    return false;
+};
 
 const form = useForm({
     name: microsite.name,
@@ -46,6 +56,7 @@ const form = useForm({
     logo_path: '',
     status: microsite.status,
     description: microsite.description,
+    fields: ref([]),
     _method: 'patch'
 });
 const submit = () => {
@@ -164,6 +175,12 @@ const submit = () => {
                         autocomplete="on"
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
+                </div>
+                <div class="mt-3" v-for="field in fields" :key="field.name">
+                    <div class="flex items-center">
+                    <Checkbox :checked="isFieldChecked(field.name)" :value="field.name" />
+                        <span class="ml-2 text-sm text-gray-600">{{ field.label }}</span>
+                    </div>
                 </div>
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">

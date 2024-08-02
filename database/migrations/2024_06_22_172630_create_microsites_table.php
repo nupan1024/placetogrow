@@ -21,6 +21,7 @@ return new class () extends Migration {
             $table->date('date_expire_pay')->nullable()->default(null);
             $table->text('description');
             $table->boolean('status');
+            $table->json('fields')->nullable();
             $table->timestamps();
         });
     }

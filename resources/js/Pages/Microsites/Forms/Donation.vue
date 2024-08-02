@@ -15,10 +15,18 @@ import Select from '@/Components/Select.vue';
 defineProps({
     microsite: Object,
     documents: Array,
+    fields: Array,
 })
 
 const microsite = usePage().props.microsite;
 const documents = usePage().props.documents;
+const fields = JSON.parse(microsite.fields);
+const campos = (fields) => {
+    return fields.reduce((data, field) => {
+        data[field.name] = '';
+        return data;
+    }, {});
+};
 const form = useForm({
     name: '',
     email: '',
@@ -28,6 +36,7 @@ const form = useForm({
     value: '',
     microsite_id: microsite.id,
     currency: microsite.currency.name,
+    fields: campos(fields),
 });
 
 const submit = () => {
@@ -139,6 +148,19 @@ const submit = () => {
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.description"/>
+                </div>
+
+                <div v-for="field in fields" :key="field" class="mt-3">
+                    <InputLabel for="value" :value="field.label" />
+                    <TextInput
+                        id="value"
+                        :type="field.text"
+                        class="mt-1 block w-full"
+                        v-model="form.fields[field.name]"
+                        required
+                        autofocus
+                        autocomplete="on"
+                    />
                 </div>
 
                 <div class="mt-3">

@@ -4,6 +4,7 @@ namespace App\Domain\Microsites\ViewModels;
 
 use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
+use App\Domain\Fields\Models\Field;
 use App\Domain\Microsites\Models\MicrositeType;
 use App\Support\Definitions\MicrositesTypes;
 use App\Support\Definitions\Status;
@@ -20,6 +21,7 @@ class EditViewModel extends ViewModel
             'microsite' => $this->model()->getRawOriginal(),
             'states' => Status::asOptions(),
             'is_invoice' => $this->model()->getRawOriginal('microsites_type_id') === MicrositesTypes::INVOICE->value,
+            'fields' => Field::select('name', 'label')->get(),
         ];
     }
 }

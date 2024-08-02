@@ -2,6 +2,7 @@
 
 namespace App\Domain\Microsites\Actions;
 
+use App\Domain\Fields\Actions\GetJsonFields;
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,7 @@ class CreateMicrosite implements Action
             $microsite->currency_id = $params['currency_id'];
             $microsite->date_expire_pay = $params['date_expire_pay'] ?? null;
             $microsite->status = $params['status'];
+            $microsite->fields = GetJsonFields::execute($params['fields']);
 
             return $microsite->save();
         } catch (\Exception $e) {

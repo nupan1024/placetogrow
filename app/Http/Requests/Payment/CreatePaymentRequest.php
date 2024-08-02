@@ -26,6 +26,7 @@ class CreatePaymentRequest extends FormRequest
             'type_document' => ['required'],
             'num_document' => ['required'],
             'value' => ['required'],
+            'fields' => ['array'],
         ];
     }
 }

@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->string('name', length: 50);
             $table->string('email');
             $table->integer('value');
-            $table->string('data')->nullable()->default('');
+            $table->json('fields')->nullable();
             $table->integer('num_document');
             $table->string('type_document', length: 3);
             $table->foreignId('microsite_id')->constrained();
