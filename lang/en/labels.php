@@ -30,5 +30,9 @@ return [
     'dashboard' => 'Dashboard',
     'edit_permissions_role' => 'Edit permissions',
     'permissions' => 'Permissions',
+    'document' => 'Identification document',
+    'attributes' => 'Attributes',
+    'label' => 'Label',
+
 
 ];

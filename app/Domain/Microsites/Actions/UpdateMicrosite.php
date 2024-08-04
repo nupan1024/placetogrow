@@ -17,7 +17,7 @@ class UpdateMicrosite implements Action
             $params['microsite']->currency_id = $params['fields']['currency_id'];
             $params['microsite']->date_expire_pay = $params['fields']['date_expire_pay'] ?? null;
             $params['microsite']->status = $params['fields']['status'];
-
+            $params['microsite']->fields = $params['fields']['fields'] ?? [];
             if ($params['fields']['logo_path']) {
                 if ($params['microsite']->logo_path) {
                     Storage::disk('public')->delete($params['microsite']->logo_path);

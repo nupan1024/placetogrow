@@ -24,6 +24,7 @@ class UpdateMicrositeRequest extends FormRequest
                 'date', 'required', 'after:'.date('Y-m-d'),
             ],
             'status' => ['required', 'boolean'],
+            'fields' => ['array'],
         ];
     }
 }

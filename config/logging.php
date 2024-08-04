@@ -146,6 +146,24 @@ return [
             'path' => storage_path('logs/Roles.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+
+        'Payment' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Payment.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Transaction' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Transaction.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Fields' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Fields.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
     ],
 
 ];

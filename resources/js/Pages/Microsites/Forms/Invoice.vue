@@ -10,18 +10,39 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Select from '@/Components/Select.vue';
 import TextInput from '@/Components/TextInput.vue';
 import LogoMicrositio from '@/Components/LogoMicrositio.vue';
+import GenerateFields from '@/Components/GenerateFields.vue';
 
 defineProps({
     microsite: Object,
+    documents: Array,
+    fields: Array,
 })
 
 const microsite = usePage().props.microsite;
+const documents = usePage().props.documents;
+const fields = usePage().props.fields;
+let set_fields = microsite.fields.reduce((fields, field) => {
+    fields[field] = '';
+    return fields;
+}, {});
+
 const form = useForm({
     name: '',
     email: '',
     description: '',
+    type_document: '',
+    num_document: '',
     value: '',
+    microsite_id: microsite.id,
+    currency: microsite.currency.name,
+    fields: set_fields,
 });
+
+const submit = () => {
+    form.post(route('payment.create'), {
+        forceFormData: true,
+    });
+};
 </script>
 <template>
     <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
@@ -40,7 +61,7 @@ const form = useForm({
                 <div class="text-right pr-4">
                     <div v-if="$page.props.auth.user">
                         <Link v-if="$page.props.auth.user.role_id !== 1" :href="route('logout')" method="post" as="button">{{ $page.props.$t.auth.sign_off }}</Link>
-                        <a v-else :href="route('dashboard')">Dashboard</a>
+                        <a v-else :href="route('dashboard')">{{ $page.props.$t.labels.dashboard }}</a>
                     </div>
                     <div v-else>
                         <a :href="route('login')">{{ $page.props.$t.auth.login }}</a>
@@ -60,7 +81,7 @@ const form = useForm({
                 <h2>{{ $page.props.$t.labels.type }}: {{ microsite.type.name }}</h2>
                 <h2>{{ $page.props.$t.labels.currency }}: {{ microsite.currency.name }}</h2>
             </div>
-            <form>
+            <form @submit.prevent="submit">
                 <div>
                     <InputLabel for="name" :value="$page.props.$t.labels.name" />
 
@@ -90,6 +111,40 @@ const form = useForm({
                     />
 
                     <InputError class="mt-2" :message="form.errors.email" />
+                </div>
+
+                <div class="mt-4">
+                    <InputLabel for="type_document" :value="$page.props.$t.labels.document" />
+                    <div class="flex">
+                        <Select
+                            id="category_id"
+                            class="input mt-1 select"
+                            v-model="form.type_document"
+                            :options="documents"
+                            required
+                            autofocus
+                        />
+                        <TextInput
+                            id="num_document"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.num_document"
+                            required
+                            autofocus
+                            autocomplete="on"
+                        />
+                        <InputError class="mt-2" :message="form.errors.num_document" />
+                    </div>
+                </div>
+
+                <div v-for="field in fields" :key="field" class="mt-3">
+                    <GenerateFields
+                        :label="field.label"
+                        :type="field.type"
+                        :fieldName="field.label"
+                        :attributes="field.attributes"
+                        v-model="form.fields[field.name]"
+                    />
                 </div>
 
                 <div class="mt-3">

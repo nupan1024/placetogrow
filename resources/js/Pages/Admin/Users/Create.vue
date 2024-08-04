@@ -33,7 +33,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head><title>Usuarios</title></Head>
+    <Head><title>{{ $page.props.$t.users.create }}</title></Head>
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.users.create }}</h2>

@@ -29,6 +29,10 @@ class Microsite extends Model
         'description',
     ];
 
+    protected $casts = [
+        'fields' => 'array',
+    ];
+
     protected static function newFactory(): Factory
     {
         return MicrositeFactory::new();

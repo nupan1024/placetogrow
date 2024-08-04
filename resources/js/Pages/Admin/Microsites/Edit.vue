@@ -11,6 +11,7 @@ import FormLayout from '@/Layouts/FormLayout.vue';
 import TextArea from '@/Components/TextArea.vue';
 import { ref } from 'vue';
 import LogoMicrositio from '@/Components/LogoMicrositio.vue';
+import Checkbox from '@/Components/Checkbox.vue';
 
 defineProps({
     categories: Array,
@@ -18,16 +19,19 @@ defineProps({
     currencies: Array,
     microsite: Object,
     states: Array,
-    is_invoice: Boolean
+    is_invoice: Boolean,
+    fields: Array
 })
 
-const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list, usePage().props.$t.microsites.edit];
+const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list, usePage().props.$t.microsites.edit];
 const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const microsite = usePage().props.microsite;
+const fields = usePage().props.fields;
 const states = usePage().props.states;
 const is_invoice = usePage().props.is_invoice;
+const field_microsite = JSON.parse(microsite.fields)
 const formatter = ref({
     date: 'YYYY-MM-DD',
     month:'MMM',
@@ -46,6 +50,7 @@ const form = useForm({
     logo_path: '',
     status: microsite.status,
     description: microsite.description,
+    fields: field_microsite.map(field => field),
     _method: 'patch'
 });
 const submit = () => {
@@ -164,6 +169,18 @@ const submit = () => {
                         autocomplete="on"
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
+                </div>
+                <div class="mt-3 border border-gray-300 max-w-md mx-auto space-y-4 bg-black/5 p-4 rounded-lg shadow">
+                    <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.fields.long_title }}</span>
+                    <div class="mt-3" v-for="field in fields" :key="field.name">
+                        <div class="flex items-center">
+                            <input type="checkbox"
+                                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                   v-model="form.fields" :checked="form.fields.includes(field.name)"
+                                   :value="field.name">
+                            <span class="ml-2 text-sm text-gray-600">{{ field.label }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">

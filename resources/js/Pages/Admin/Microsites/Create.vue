@@ -15,7 +15,8 @@ defineProps({
     categories: Array,
     types: Array,
     currencies: Array,
-    states: Array
+    states: Array,
+    fields: Array
 })
 
 const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list, usePage().props.$t.microsites.create];
@@ -23,6 +24,7 @@ const categories = usePage().props.categories;
 const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const states = usePage().props.states;
+const fields = usePage().props.fields;
 const hiddenField = ref(true);
 const formatter = ref({
     date: 'YYYY-MM-DD',
@@ -43,7 +45,8 @@ const form = useForm({
     date_expire_pay: ref(''),
     logo_path: '',
     status: '',
-    description: ''
+    description: '',
+    fields: ref([]),
 });
 const submit = () => {
     form.post(route('microsite.store'), {
@@ -159,6 +162,18 @@ const submit = () => {
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
                 </div>
+                <div class="mt-3 border border-gray-300 max-w-md mx-auto space-y-4 bg-black/5 p-4 rounded-lg shadow">
+                    <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.fields.long_title }}</span>
+                    <div class="mt-3" v-for="field in fields" :key="field.name">
+                        <div class="flex items-center">
+                            <input type="checkbox" :value="field.name" v-model="form.fields" class="checkbox mr-2" />
+                            <span class="label-text">
+                                {{ field.label }} ({{ field.name }})
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">
                         Crear

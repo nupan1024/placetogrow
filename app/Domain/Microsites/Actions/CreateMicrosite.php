@@ -21,6 +21,7 @@ class CreateMicrosite implements Action
             $microsite->currency_id = $params['currency_id'];
             $microsite->date_expire_pay = $params['date_expire_pay'] ?? null;
             $microsite->status = $params['status'];
+            $microsite->fields = $params['fields'] ?? [];
 
             return $microsite->save();
         } catch (\Exception $e) {

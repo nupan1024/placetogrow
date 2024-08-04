@@ -14,6 +14,8 @@
 
 
 <script>
+import { usePage } from '@inertiajs/vue3';
+
 export default {
     props: {
         crumbs: {
@@ -30,18 +32,16 @@ export default {
         },
         getUrl(crumb) {
             switch (crumb) {
-                case 'Dashboard':
+                case usePage().props.$t.labels.dashboard:
                     return route('dashboard');
-                case 'Listado de micrositios':
-                case 'Microsites list':
+                case usePage().props.$t.microsites.list:
                     return route('microsites');
-                case 'Listado de usuarios':
-                case 'Users list':
+                case usePage().props.$t.users.list:
                     return route('users');
-                case 'Roles list':
+                case usePage().props.$t.roles.list:
                     return route('roles');
-                case 'Lista de roles':
-                    return route('roles');
+                case usePage().props.$t.fields.list:
+                    return route('fields');
             }
         }
     },
