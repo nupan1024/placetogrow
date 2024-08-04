@@ -9,45 +9,22 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
 
-const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.invoices.list];
-
-const props = defineProps({ users: Object });
+const props = defineProps({ user: Object });
 
 const message = usePage().props.$t.invoices.tooltip;
 const searchTerm = ref('');
+const user = usePage().props.auth.user ?? '';
 const invoices = ref([]);
-const isOpenModal = ref(false);
 
-const closeModal = () => {
-    isOpenModal.value = false;
-
-    form.reset();
-};
-
-const invoiceId = ref('');
-const invoiceCode = ref('');
-const openModal = (e) => {
-    invoiceId.value = e.target.dataset.id ?? "";
-    invoiceCode.value = e.target.dataset.code ?? "";
-    isOpenModal.value = true;
-};
-
-const form = useForm({});
-const deleteInvoice = () => {
-    form.delete(route('invoice.delete', invoiceId.value), {
-        forceFormData: true,
-        onSuccess: () => closeModal(),
-        onFinish: () => loadInvoices(),
-    });
-}
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.invoices.list')}/?filter=${text}`);
+    loadInvoices(`${route('api.invoices.listUser', user.id)}/?filter=${text}`);
 }
 const loadInvoices = (url = null) => {
-    axios.get(url || route('api.invoices.list')).then((response) => {
+    axios.get(url || route('api.invoices.listUser', user.id)).then((response) => {
         invoices.value = response.data.data
 
     }).catch((error) => {
@@ -59,19 +36,15 @@ loadInvoices();
 
 <template>
     <Head><title>{{ $page.props.$t.invoices.title }}</title></Head>
-    <AuthenticatedLayout>
+    <GuestLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.invoices.list }}</h2>
-            <Breadcrumb :crumbs="crumbs"/>
         </template>
         <div class="py-12">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">{{ $page.props.$t.invoices.list }}</h2>
             <div class="p-8 bg-gray-100 min-h-screen">
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
-                        <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER)"
-                               :href="route('invoice.create')" class="btn btn-link">{{ $page.props.$t.invoices.create }}</a>
-                        </div>
                         <SearchForm @search="searchFields" :message="message"/>
                     </div>
 
@@ -97,10 +70,8 @@ loadInvoices();
                                 <td>{{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>
                                 <td>
-                                    <a :href="route('invoice.edit', invoice.id)"
-                                       class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
-                                    <a :data-id="invoice.id" :data-code="invoice.code" @click="openModal"
-                                       class="btn btn-link">{{ $page.props.$t.labels.delete }}</a>
+                                    <a v-if="invoice.status === $page.props.$t.invoices.pending" :href="route('micrositio.form', invoice.microsite.id)"
+                                       class="btn btn-link">{{ $page.props.$t.invoices.pay }}</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -111,26 +82,7 @@ loadInvoices();
                             :filter="`&filter=${searchTerm}`" :click="loadInvoices"/>
             </div>
         </div>
-        <Modal :show="isOpenModal" @close="closeModal">
-            <template v-slot>
-                <div class="p-6">
-                    <h2 class="text-lg font-semibold">{{ $page.props.$t.invoices.delete }}</h2>
-                    <p class="mt-4">{{ $page.props.$t.invoices.msj_delete }} {{ invoiceCode }}?</p>
-                    <div class="mt-6 flex justify-end">
-                        <SecondaryButton @click="closeModal"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
-                        <DangerButton
-                            class="ml-3"
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                            @click="deleteInvoice"
-                        >
-                            {{ $page.props.$t.labels.delete }}
-                        </DangerButton>
-                    </div>
-                </div>
-            </template>
-        </Modal>
-    </AuthenticatedLayout>
+    </GuestLayout>
 </template>
 
 

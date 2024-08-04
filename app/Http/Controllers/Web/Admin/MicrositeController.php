@@ -59,7 +59,13 @@ class MicrositeController extends Controller
 
     public function delete(Microsite $microsite): RedirectResponse
     {
-        DeleteMicrosite::execute(['microsite' => $microsite]);
+        $response = DeleteMicrosite::execute(['microsite' => $microsite]);
+        if($response['status'] === false) {
+            return redirect()->route('microsites')->with([
+                'message' => $response['message'],
+                'type' => 'error',
+            ]);
+        }
         Cache::forget(config('cache.stores.key.microsites_admin'));
         Cache::forget(config('cache.stores.key.microsites'));
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Definitions\Roles;
+
 return [
     'list' => 'Lista de roles',
     'title' => 'Roles',
@@ -12,5 +14,6 @@ return [
     'success_delete' => '¡El rol ha sido eliminado exitosamente!',
     'error_delete' => 'Este rol no se puede eliminar porque hay usuarios con este rol.',
     'tooltip' => 'Busca por nombre',
+    'role_guest' => Roles::GUEST->value,
 
 ];

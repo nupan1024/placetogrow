@@ -6,7 +6,7 @@ use App\Domain\Invoices\Models\Invoice;
 use App\Support\Actions\Action;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ListInvoices implements Action
+class ListInvoicesByUser implements Action
 {
     public static function execute(array $params): LengthAwarePaginator
     {
@@ -19,6 +19,7 @@ class ListInvoices implements Action
             'description',
             'status',
         )->with(['user:id,name','microsite:id,name'])
+            ->where('user_id', $params['user_id'])
             ->when($params['filter'], function ($query, $filter) {
                 return $query->where(function ($query) use ($filter) {
                     $query->where('value', 'like', '%'.$filter.'%')

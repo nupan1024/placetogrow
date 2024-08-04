@@ -15,6 +15,7 @@ use App\Support\Http\Middleware\ProtectRoles;
 use App\Support\Http\Middleware\ProtectSuperAdmin;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\InvoicesController as UserInvoiceController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form-microsite/{microsite}', [HomeController::class, 'formMicrosite'])
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
     Route::get('/invoice-create', [InvoiceController::class, 'create'])->name('invoice.create');
     Route::post('/invoice-store', [InvoiceController::class, 'store'])->name('invoice.store');
+    Route::get('/invoice-edit/{invoice}', [InvoiceController::class, 'edit'])->name('invoice.edit');
+    Route::post('/invoice-update/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
+    Route::delete('/invoice-delete/{invoice}', [InvoiceController::class, 'delete'])->name('invoice.delete');
+
 
     Route::get('/payments', [PaymentController::class, 'index'])
         ->name('payments');
@@ -126,6 +131,9 @@ Route::middleware('auth')->group(function () {
         ->name('profile.update');
     Route::delete($url, [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+    Route::get('/invoices-user', [UserInvoiceController::class, 'index'])
+        ->name('invoice.listUser');
+
 });
 
 require __DIR__.'/auth.php';

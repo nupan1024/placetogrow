@@ -1,16 +1,15 @@
 <script setup>
 
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import LogoMicrositio from '@/Components/LogoMicrositio.vue';
 import Select from '@/Components/Select.vue';
 import GenerateFields from '@/Components/GenerateFields.vue';
+import HeadMicrosites from '@/Components/HeadMicrosites.vue';
 
 defineProps({
     microsite: Object,
@@ -27,8 +26,8 @@ let set_fields = microsite.fields.reduce((fields, field) => {
 }, {});
 
 const form = useForm({
-    name: '',
-    email: '',
+    name: usePage().props.auth.user ? usePage().props.auth.user.name : '',
+    email: usePage().props.auth.user ? usePage().props.auth.user.email : '',
     type_document: '',
     num_document: '',
     value: '',
@@ -45,34 +44,8 @@ const submit = () => {
 <template>
     <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <GuestLayout>
-        <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
-            <div class="shrink-0 flex items-center">
-                <Link :href="route('home')">
-                    <ApplicationLogo
-                        class="block h-9 w-auto fill-current text-gray-800"
-                    />
-                </Link>
-
-            </div>
-            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">{{ microsite.name }}</h2>
-            <div>
-                <div class="text-right pr-4">
-                    <div v-if="$page.props.auth.user">
-                        <Link v-if="$page.props.auth.user.role_id !== 1" :href="route('logout')" method="post" as="button">{{ $page.props.$t.auth.sign_off }}</Link>
-                        <a v-else :href="route('dashboard')">{{ $page.props.$t.labels.dashboard }}</a>
-                    </div>
-                    <div v-else>
-                        <a :href="route('login')">{{ $page.props.$t.auth.login }}</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
         <FormLayout>
-            <div class="text-center" v-if="microsite.logo_path">
-                <LogoMicrositio :url="`/storage/${microsite.logo_path}`" class="w-20 h-20 fill-current text-gray-500" />
-            </div>
+           <HeadMicrosites :title="microsite.name" :logo="microsite.logo_path"></HeadMicrosites>
             <div class="text-align mb-6">
                 <p>{{ microsite.description }}</p>
                 <h2>{{ $page.props.$t.categories.title }}: {{ microsite.category.name }}</h2>
@@ -105,7 +78,7 @@ const submit = () => {
                         class="mt-1 block w-full"
                         v-model="form.email"
                         required
-                        autocomplete="username"
+                        autocomplete="off"
                     />
 
                     <InputError class="mt-2" :message="form.errors.email" />

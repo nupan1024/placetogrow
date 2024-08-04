@@ -18,31 +18,60 @@ defineProps({
 const roles = usePage().props.roles;
 const microsites = usePage().props.microsites;
 const users = usePage().props.users;
-const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.invoices.list, usePage().props.$t.invoices.create];
+const invoice = usePage().props.invoice;
+const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.invoices.list, usePage().props.$t.invoices.edit];
 const form = useForm({
-    microsite_id: '',
-    user_id: '',
-    value: '',
-    description: '',
+    microsite_id: invoice.microsite_id,
+    user_id: invoice.user_id,
+    value: invoice.value.toString(),
+    description: invoice.description,
+    status: invoice.status,
+    code: invoice.code,
 });
 
 
 const submit = () => {
-    form.post(route('invoice.store'), {
+    form.post(route('invoice.update', invoice.id), {
         forceFormData: true,
     });
 };
 </script>
 
 <template>
-    <Head><title>{{ $page.props.$t.invoices.create }}</title></Head>
+    <Head><title>{{ $page.props.$t.invoices.edit }}</title></Head>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.invoices.create }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.invoices.edit }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
         <FormLayout>
             <form @submit.prevent="submit">
+                <div class="mt-4">
+                    <InputLabel for="code" :value="$page.props.$t.invoices.code" />
+                    <TextInput
+                        id="code"
+                        type="text"
+                        class="mt-1 block w-full bg-gray-100"
+                        v-model="form.code"
+                        required
+                        readonly
+                    />
+                    <InputError class="mt-2" :message="form.errors.code" />
+                </div>
+
+                <div class="mt-4">
+                    <InputLabel for="status" :value="$page.props.$t.labels.status" />
+                    <TextInput
+                        id="status"
+                        type="text"
+                        class="mt-1 block w-full bg-gray-100"
+                        v-model="form.status"
+                        required
+                        readonly
+                    />
+                    <InputError class="mt-2" :message="form.errors.status" />
+                </div>
+
                 <div class="mt-4">
                     <InputLabel for="user_id" :value="$page.props.$t.invoices.name_client" />
                     <Select id="user_id"
@@ -89,9 +118,9 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.value" />
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="flex items-center justify-end mt-4" v-if="invoice.status === 'PENDING'">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        {{ $page.props.$t.labels.create }}
+                        {{ $page.props.$t.labels.edit }}
                     </PrimaryButton>
                 </div>
             </form>

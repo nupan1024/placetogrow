@@ -13,8 +13,8 @@ return [
     'error_status_update' => 'No se pudo actualizar el factura.',
     'error_status_create' => 'No se pudo crear el factura.',
     'error_status_delete' => 'No se pudo eliminar el factura.',
-    'error_delete' => 'Este campo no se puede eliminar porque hay micrositios con este campo.',
-    'tooltip' => 'Buscar por nombre, tipo o categoría',
+    'error_delete' => 'No se pueden eliminar facturas que no tengan el estado pendiente.',
+    'tooltip' => 'Buscar por nombre, código, estado o micrositio',
     'label' => 'Etiqueta',
     'attributes' => 'Atributos',
     'long_title' => 'Agregar o eliminar campos adicionales',
@@ -22,4 +22,7 @@ return [
     'microsites' => 'Micrositio',
     'value' => 'Valor a pagar',
     'code' => 'Código',
+    'pay' => 'Ir a pagar',
+    'pending' => 'PENDING',
+
 ];
