@@ -4,6 +4,7 @@ use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\FieldsController;
+use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
 use App\Http\Controllers\Web\Admin\UserController;
@@ -30,7 +31,11 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::post('/field-store', [FieldsController::class, 'store'])->name('fields.store');
     Route::get('/field-edit/{field}', [FieldsController::class, 'edit'])->name('fields.edit');
     Route::post('/field-update/{field}', [FieldsController::class, 'update'])->name('fields.update');
-    Route::delete('/field-delete/{field}', [FieldsController::class, 'delete'])->name('fields.delete');
+    Route::delete('/field-delete/{field}', [InvoiceController::class, 'delete'])->name('fields.delete');
+
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
+    Route::get('/invoice-create', [InvoiceController::class, 'create'])->name('invoice.create');
+    Route::post('/invoice-store', [InvoiceController::class, 'store'])->name('invoice.store');
 
     Route::get('/payments', [PaymentController::class, 'index'])
         ->name('payments');

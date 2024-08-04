@@ -21,8 +21,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (env('APP_ENV') !== 'production') {
-            $this->call(MicrositeSeeder::class);
-            $this->call(FieldSeeder::class);
+            $this->call([
+                MicrositeSeeder::class,
+                InvoiceSeeder::class,
+                FieldSeeder::class
+            ]);
         }
 
     }

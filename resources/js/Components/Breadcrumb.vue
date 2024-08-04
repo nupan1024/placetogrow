@@ -42,6 +42,8 @@ export default {
                     return route('roles');
                 case usePage().props.$t.fields.list:
                     return route('fields');
+                case usePage().props.$t.invoices.list:
+                    return route('invoices');
             }
         }
     },

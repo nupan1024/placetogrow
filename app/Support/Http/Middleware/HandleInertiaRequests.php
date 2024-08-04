@@ -41,6 +41,7 @@ class HandleInertiaRequests extends Middleware
                 'users' => __('users'),
                 'payments' => __('payments'),
                 'fields' => __('fields'),
+                'invoices' => __('invoices'),
             ],
         ]);
     }

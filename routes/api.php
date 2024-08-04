@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\FieldsController;
+use App\Http\Controllers\Api\Admin\InvoicesController;
 use App\Http\Controllers\Api\Admin\MicrositeController;
 use App\Http\Controllers\Api\Admin\PaymentController;
 use App\Http\Controllers\Api\Admin\RoleController;
@@ -22,4 +23,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/list-roles', [RoleController::class, 'list'])->name('.roles.list');
     Route::get('/list-payments', [PaymentController::class, 'list'])->name('.payments.list');
     Route::get('/list-fields', [FieldsController::class, 'list'])->name('.fields.list');
+    Route::get('/list-invoices', [InvoicesController::class, 'list'])->name('.invoices.list');
 });
