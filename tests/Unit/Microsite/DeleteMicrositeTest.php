@@ -37,6 +37,6 @@ test('delete microsite', function () {
         'currency_id' => $currency->id,
         'status' => Status::ACTIVE->value,
     ]);
-
-    $this->assertTrue(DeleteMicrosite::execute(['microsite' => $microsite]));
+    $response = DeleteMicrosite::execute(['microsite' => $microsite]);
+    $this->assertTrue($response['status']);
 });
