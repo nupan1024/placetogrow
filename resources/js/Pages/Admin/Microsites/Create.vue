@@ -162,13 +162,15 @@ const submit = () => {
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
                 </div>
-
-                <div class="mt-3" v-for="field in fields" :key="field.name">
-                    <div class="flex items-center">
-                        <input type="checkbox" :value="field.name" v-model="form.fields" class="checkbox mr-2" />
-                        <span class="label-text">
-                            {{ field.label }}
-                        </span>
+                <div class="mt-3 border border-gray-300 max-w-md mx-auto space-y-4 bg-black/5 p-4 rounded-lg shadow">
+                    <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.fields.long_title }}</span>
+                    <div class="mt-3" v-for="field in fields" :key="field.name">
+                        <div class="flex items-center">
+                            <input type="checkbox" :value="field.name" v-model="form.fields" class="checkbox mr-2" />
+                            <span class="label-text">
+                                {{ field.label }} ({{ field.name }})
+                            </span>
+                        </div>
                     </div>
                 </div>
 

@@ -40,12 +40,6 @@ const formatter = ref({
 function disableData(date) {
     return date < new Date();
 }
-const isFieldChecked = (fieldName) => {
-    if (field_microsite !== null) {
-        return field_microsite.some(field => field.name === fieldName);
-    }
-    return false;
-};
 
 const form = useForm({
     name: microsite.name,
@@ -56,7 +50,7 @@ const form = useForm({
     logo_path: '',
     status: microsite.status,
     description: microsite.description,
-    fields: ref([]),
+    fields: field_microsite.map(field => field),
     _method: 'patch'
 });
 const submit = () => {
@@ -176,10 +170,16 @@ const submit = () => {
                     />
                     <InputError class="mt-2" :message="form.errors.logo_path"/>
                 </div>
-                <div class="mt-3" v-for="field in fields" :key="field.name">
-                    <div class="flex items-center">
-                    <Checkbox :checked="isFieldChecked(field.name)" :value="field.name" />
-                        <span class="ml-2 text-sm text-gray-600">{{ field.label }}</span>
+                <div class="mt-3 border border-gray-300 max-w-md mx-auto space-y-4 bg-black/5 p-4 rounded-lg shadow">
+                    <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.fields.long_title }}</span>
+                    <div class="mt-3" v-for="field in fields" :key="field.name">
+                        <div class="flex items-center">
+                            <input type="checkbox"
+                                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                   v-model="form.fields" :checked="form.fields.includes(field.name)"
+                                   :value="field.name">
+                            <span class="ml-2 text-sm text-gray-600">{{ field.label }}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="flex items-center justify-end mt-4">

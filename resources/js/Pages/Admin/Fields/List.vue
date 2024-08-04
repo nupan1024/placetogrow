@@ -14,11 +14,10 @@ const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.fields.
 
 const props = defineProps({ users: Object });
 
-const message = usePage().props.$t.users.tooltip;
+const message = usePage().props.$t.fields.tooltip;
 const searchTerm = ref('');
 const fields = ref([]);
 const isOpenModal = ref(false);
-const rolesProtect = [usePage().props.auth.roles.SUPER_ADMIN, usePage().props.auth.roles.GUEST]
 
 const closeModal = () => {
     isOpenModal.value = false;
@@ -26,23 +25,23 @@ const closeModal = () => {
     form.reset();
 };
 
-const userId = ref('');
-const userName = ref('');
+const fieldId = ref('');
+const fieldName = ref('');
 const openModal = (e) => {
-    userId.value = e.target.dataset.id ?? "";
-    userName.value = e.target.dataset.name ?? "";
+    fieldId.value = e.target.dataset.id ?? "";
+    fieldName.value = e.target.dataset.name ?? "";
     isOpenModal.value = true;
 };
 
 const form = useForm({});
-const deleteUser = () => {
-    form.delete(route('user.delete', userId.value), {
+const deleteField = () => {
+    form.delete(route('fields.delete', fieldId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
         onFinish: () => loadFields(),
     });
 }
-const searchUsers = (text) => {
+const searchFields = (text) => {
     searchTerm.value = text;
 
     loadFields(`${route('api.fields.list')}/?filter=${text}`);
@@ -73,7 +72,7 @@ loadFields();
                             <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER)"
                                :href="route('fields.create')" class="btn btn-link">{{ $page.props.$t.fields.create }}</a>
                         </div>
-                        <SearchForm @search="searchUsers" :message="message"/>
+                        <SearchForm @search="searchFields" :message="message"/>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -94,28 +93,32 @@ loadFields();
                                 <td>{{ field.type }}</td>
                                 <td>{{ field.attributes }}</td>
                                 <td>
+                                    <a :href="route('fields.edit', field.id)"
+                                       class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
+                                    <a :data-id="field.id" :data-name="field.name" @click="openModal"
+                                       class="btn btn-link">{{ $page.props.$t.labels.delete }}</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <Pagination v-if="users && users.data?.length > 0" class="mt-6 mb-6" :links="users.links"
+                <Pagination v-if="fields && fields.data?.length > 0" class="mt-6 mb-6" :links="fields.links"
                             :filter="`&filter=${searchTerm}`" :click="loadFields"/>
             </div>
         </div>
         <Modal :show="isOpenModal" @close="closeModal">
             <template v-slot>
                 <div class="p-6">
-                    <h2 class="text-lg font-semibold">{{ $page.props.$t.users.delete }}</h2>
-                    <p class="mt-4">{{ $page.props.$t.users.msj_delete }} {{ userName }}?</p>
+                    <h2 class="text-lg font-semibold">{{ $page.props.$t.fields.delete }}</h2>
+                    <p class="mt-4">{{ $page.props.$t.fields.msj_delete }} {{ fieldName }}?</p>
                     <div class="mt-6 flex justify-end">
                         <SecondaryButton @click="closeModal"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
                         <DangerButton
                             class="ml-3"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
-                            @click="deleteUser"
+                            @click="deleteField"
                         >
                             {{ $page.props.$t.labels.delete }}
                         </DangerButton>

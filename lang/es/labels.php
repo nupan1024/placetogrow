@@ -31,5 +31,6 @@ return [
     'edit_permissions_role' => 'Editar permisos',
     'permissions' => 'Permisos',
     'document' => 'Documento de identidad',
-
+    'attributes' => 'Atributos',
+    'label' => 'Label',
 ];

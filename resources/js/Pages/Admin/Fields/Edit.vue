@@ -8,32 +8,26 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
 import Select from '@/Components/Select.vue';
-import { ref } from 'vue';
 
 defineProps({
     roles: Array,
     types: Array,
-    attributes: Array
+    attributes: Array,
+    field: Object,
 })
 const roles = usePage().props.roles;
 const types = usePage().props.types;
 const attributes = usePage().props.attributes;
-const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.fields.list, usePage().props.$t.fields.create];
+const field = usePage().props.field;
+const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.fields.list, usePage().props.$t.fields.edit];
 const form = useForm({
-    name: '',
-    type: '',
-    label: '',
-    attributes: ref([]),
+    name: field.name,
+    type: field.type,
+    label: field.label,
+    attributes: field.attributes,
 });
-
-const getName = () => {
-    form.name = form.label
-        .replace(/[^a-zA-Z\s]/g, '')
-        .replace(/\s+/g, '_')
-        .toLowerCase();
-}
 const submit = () => {
-    form.post(route('fields.store'), {
+    form.post(route('fields.update', field.id), {
         forceFormData: true,
     });
 };
@@ -43,7 +37,7 @@ const submit = () => {
     <Head><title>{{ $page.props.$t.fields.create }}</title></Head>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.fields.create }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.fields.edit }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
         <FormLayout>
@@ -56,7 +50,6 @@ const submit = () => {
                         class="mt-1 block w-full"
                         v-model="form.label"
                         required
-                        v-on:focusout="getName"
                     />
                     <InputError class="mt-2" :message="form.errors.label" />
                 </div>
@@ -66,9 +59,10 @@ const submit = () => {
                     <TextInput
                         id="name"
                         type="text"
-                        class="mt-1 block w-full text-gray-800"
+                        class="mt-1 block w-full bg-gray-100"
                         v-model="form.name"
                         required
+                        readonly
                     />
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
@@ -94,7 +88,7 @@ const submit = () => {
 
                 <div class="flex items-center justify-end mt-4">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        {{ $page.props.$t.labels.create }}
+                        {{ $page.props.$t.labels.edit }}
                     </PrimaryButton>
                 </div>
             </form>

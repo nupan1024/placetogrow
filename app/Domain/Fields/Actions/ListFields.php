@@ -11,6 +11,7 @@ class ListFields implements Action
     public static function execute(array $params): LengthAwarePaginator
     {
         return Field::select(
+            'id',
             'name',
             'label',
             'type',

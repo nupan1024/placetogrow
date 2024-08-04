@@ -13,9 +13,9 @@ return new class () extends Migration {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->string('name', length: 50)->unique();
-            $table->string('label', length: 100)->unique();
+            $table->string('label', length: 100);
             $table->string('type', length: 50);
-            $table->string('attributes', length: 50);
+            $table->json('attributes')->nullable();
             $table->timestamps();
         });
     }

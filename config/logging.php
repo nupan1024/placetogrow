@@ -158,6 +158,12 @@ return [
             'path' => storage_path('logs/Transaction.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+
+        'Fields' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Fields.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
     ],
 
 ];

@@ -15,11 +15,11 @@ class CreateField implements Action
             $field->name = $params['name'];
             $field->type = $params['type'];
             $field->label = $params['label'];
-            $field->attributes = 'required';
+            $field->attributes = $params['attributes'] ?? [];
 
             return $field->save();
         } catch (\Exception $e) {
-            Log::channel('MicrositesAdmin')->error('Error creating microsite: '.$e->getMessage());
+            Log::channel('Fields')->error('Error creating field: '.$e->getMessage());
 
             return false;
         }

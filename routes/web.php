@@ -28,6 +28,10 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/fields', [FieldsController::class, 'index'])->name('fields');
     Route::get('/field-create', [FieldsController::class, 'create'])->name('fields.create');
     Route::post('/field-store', [FieldsController::class, 'store'])->name('fields.store');
+    Route::get('/field-edit/{field}', [FieldsController::class, 'edit'])->name('fields.edit');
+    Route::post('/field-update/{field}', [FieldsController::class, 'update'])->name('fields.update');
+    Route::delete('/field-delete/{field}', [FieldsController::class, 'delete'])->name('fields.delete');
+
     Route::get('/payments', [PaymentController::class, 'index'])
         ->name('payments');
 

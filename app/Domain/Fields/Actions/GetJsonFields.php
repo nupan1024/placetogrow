@@ -8,23 +8,16 @@ use Illuminate\Support\Facades\Log;
 
 class GetJsonFields implements Action
 {
-    public static function execute(array $params): false|string
+    public static function execute(array $params): array|bool
     {
         try {
             $json = [];
-
             foreach ($params as $field) {
-                $fieldData = Field::where('name', $field)->first();
-                $json[] = [
-                    'name' => $field,
-                    'label' => $fieldData->label,
-                    'type' => $fieldData->type,
-                    'attributes' => $fieldData->attributes,
-                ];
+                $json[] = Field::where('name', $field)->first()?->toArray();
             }
-            return json_encode($json);
+            return $json;
         } catch (\Exception $e) {
-            Log::channel('MicrositesAdmin')->error('Error creating the json: '.$e->getMessage());
+            Log::channel('Fields')->error('Error creating the json: '.$e->getMessage());
 
             return false;
         }

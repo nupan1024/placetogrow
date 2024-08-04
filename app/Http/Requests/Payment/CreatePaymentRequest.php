@@ -21,7 +21,6 @@ class CreatePaymentRequest extends FormRequest
             'microsite_id' => ['required', 'numeric', 'exists:microsites,id'],
             'name' => ['required', 'string'],
             'currency' => ['required', 'string'],
-            'description' => ['required', 'string'],
             'email' => ['required', 'email'],
             'type_document' => ['required'],
             'num_document' => ['required'],
