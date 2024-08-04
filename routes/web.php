@@ -4,6 +4,7 @@ use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\FieldsController;
+use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
 use App\Http\Controllers\Web\Admin\UserController;
@@ -14,6 +15,7 @@ use App\Support\Http\Middleware\ProtectRoles;
 use App\Support\Http\Middleware\ProtectSuperAdmin;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\InvoicesController as UserInvoiceController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/form-microsite/{microsite}', [HomeController::class, 'formMicrosite'])
@@ -30,7 +32,15 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::post('/field-store', [FieldsController::class, 'store'])->name('fields.store');
     Route::get('/field-edit/{field}', [FieldsController::class, 'edit'])->name('fields.edit');
     Route::post('/field-update/{field}', [FieldsController::class, 'update'])->name('fields.update');
-    Route::delete('/field-delete/{field}', [FieldsController::class, 'delete'])->name('fields.delete');
+    Route::delete('/field-delete/{field}', [InvoiceController::class, 'delete'])->name('fields.delete');
+
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
+    Route::get('/invoice-create', [InvoiceController::class, 'create'])->name('invoice.create');
+    Route::post('/invoice-store', [InvoiceController::class, 'store'])->name('invoice.store');
+    Route::get('/invoice-edit/{invoice}', [InvoiceController::class, 'edit'])->name('invoice.edit');
+    Route::post('/invoice-update/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
+    Route::delete('/invoice-delete/{invoice}', [InvoiceController::class, 'delete'])->name('invoice.delete');
+
 
     Route::get('/payments', [PaymentController::class, 'index'])
         ->name('payments');
@@ -121,6 +131,9 @@ Route::middleware('auth')->group(function () {
         ->name('profile.update');
     Route::delete($url, [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+    Route::get('/invoices-user', [UserInvoiceController::class, 'index'])
+        ->name('invoice.listUser');
+
 });
 
 require __DIR__.'/auth.php';

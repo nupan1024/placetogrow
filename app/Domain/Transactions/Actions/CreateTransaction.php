@@ -16,7 +16,7 @@ class CreateTransaction implements Action
             $transaction->name = $params['name'];
             $transaction->email = $params['email'];
             $transaction->value = $params['value'];
-            $transaction->fields = json_encode($params['fields']);
+            $transaction->fields = $params['fields'] ?? [];
             $transaction->type_document = $params['type_document'];
             $transaction->num_document = $params['num_document'];
             $transaction->user_id = (!is_null(Auth::user())) ? Auth::user()->id : null;

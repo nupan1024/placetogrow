@@ -6,7 +6,7 @@ return [
     'create' => 'Crear campo',
     'edit' => 'Editar campo',
     'delete' => 'Eliminar campo',
-    'msj_delete' => '¿Estás seguro de eliminar el campo?',
+    'msj_delete' => '¿Estás seguro de eliminar el campo',
     'success_create' => '¡El campo ha sido creado exitosamente!',
     'success_update' => '¡El campo ha sido actualizado exitosamente!',
     'success_delete' => '¡El campo ha sido eliminado exitosamente!',

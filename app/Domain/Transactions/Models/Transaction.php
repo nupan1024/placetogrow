@@ -17,13 +17,16 @@ class Transaction extends Model
         'name',
         'email',
         'value',
-        'data',
+        'fields',
         'type_document',
         'num_document',
         'microsite_id',
         'user_id',
         'code',
 
+    ];
+    protected $casts = [
+        'fields' => 'array',
     ];
     public function microsite(): BelongsTo
     {

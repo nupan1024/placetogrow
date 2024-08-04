@@ -53,6 +53,10 @@ const showingNavigationDropdown = ref(false);
                                          :href="route('fields')" :active="route().current('fields')">
                                     {{ $page.props.$t.fields.title }}
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                         :href="route('invoices')" :active="route().current('invoices')">
+                                    {{ $page.props.$t.invoices.title }}
+                                </NavLink>
                             </div>
                         </div>
 

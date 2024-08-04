@@ -22,7 +22,7 @@ class MicrositeTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::limit(fake()->unique()->name(), 20),
+            'name' => Str::limit(fake()->unique()->name(), 10),
             'status' => Status::ACTIVE->value,
         ];
     }
