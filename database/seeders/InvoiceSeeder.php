@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domain\Invoices\Models\Invoice;
+use App\Domain\Microsites\Models\Microsite;
 use Illuminate\Database\Seeder;
 
 class InvoiceSeeder extends Seeder
@@ -12,6 +13,10 @@ class InvoiceSeeder extends Seeder
      */
     public function run(): void
     {
-        Invoice::factory()->count(3)->create();
+        /**
+         * @var \Database\Factories\MicrositeFactory $micrositeFactory
+         */
+        $micrositeFactory = Microsite::factory();
+        Invoice::factory()->count(3)->create(['microsite_id' => $micrositeFactory->invoiceType()->create()]);
     }
 }

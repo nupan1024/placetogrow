@@ -23,6 +23,6 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),
             'remember_token' => Str::random(10),
-        ])->assignRole('Super Admin');
+        ])->assignRole(Roles::getRoles()[Roles::SUPER_ADMIN->name]);
     }
 }

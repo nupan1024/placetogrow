@@ -2,7 +2,7 @@
 
 namespace App\Domain\Payments\Models;
 
-use App\Domain\Transactions\Models\Transaction;
+use App\Domain\Microsites\Models\Microsite;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,9 +21,12 @@ class Payment extends Model
         'transaction_id',
 
     ];
+    protected $casts = [
+        'fields' => 'array',
+    ];
 
-    public function transaction(): BelongsTo
+    public function microsite(): BelongsTo
     {
-        return $this->belongsTo(Transaction::class, 'transaction_id', 'id');
+        return $this->belongsTo(Microsite::class, 'microsite_id', 'id');
     }
 }

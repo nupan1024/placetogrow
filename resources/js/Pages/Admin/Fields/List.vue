@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Modal from '@/Components/Modal.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
@@ -69,7 +69,7 @@ loadFields();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER)"
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_FIELD)"
                                :href="route('fields.create')" class="btn btn-link">{{ $page.props.$t.fields.create }}</a>
                         </div>
                         <SearchForm @search="searchFields" :message="message"/>
@@ -93,9 +93,11 @@ loadFields();
                                 <td>{{ field.type }}</td>
                                 <td>{{ field.attributes }}</td>
                                 <td>
-                                    <a :href="route('fields.edit', field.id)"
+                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_FIELD)"
+                                        :href="route('fields.edit', field.id)"
                                        class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
-                                    <a :data-id="field.id" :data-name="field.name" @click="openModal"
+                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_FIELD)"
+                                        :data-id="field.id" :data-name="field.name" @click="openModal"
                                        class="btn btn-link">{{ $page.props.$t.labels.delete }}</a>
                                 </td>
                             </tr>

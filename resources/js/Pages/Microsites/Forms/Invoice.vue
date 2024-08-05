@@ -37,6 +37,8 @@ const form = useForm({
     currency: microsite.currency.name,
     fields: set_fields,
     invoice_id: '',
+    gateway: 'placetopay',
+
 });
 let descriptionInvoice;
 let valueInvoice;
@@ -54,6 +56,7 @@ const selectInvoice = (e) => {
     descriptionInvoice = usePage().props.$t.labels.description +': ' + description;
     valueInvoice = usePage().props.$t.labels.value + ': ' + value;
     form.invoice_id = e.target.value;
+    form.value = value;
 };
 
 const submit = () => {
@@ -72,6 +75,7 @@ const submit = () => {
                 <h2>{{ $page.props.$t.categories.title }}: {{ microsite.category.name }}</h2>
                 <h2>{{ $page.props.$t.labels.type }}: {{ microsite.type.name }}</h2>
                 <h2>{{ $page.props.$t.labels.currency }}: {{ microsite.currency.name }}</h2>
+                <h2>{{ $page.props.$t.labels.date_pay }}: {{ microsite.date_expire_pay }}</h2>
             </div>
             <form @submit.prevent="submit">
                 <div>

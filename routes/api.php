@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Admin\FieldsController;
 use App\Http\Controllers\Api\Admin\InvoicesController;
 use App\Http\Controllers\Api\Admin\MicrositeController;
 use App\Http\Controllers\Api\Admin\PaymentController;
+use App\Http\Controllers\Api\PaymentController as UserPaymentController;
 use App\Http\Controllers\Api\Admin\RoleController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\InvoicesController as UserInvoicesController;
@@ -26,4 +27,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/list-fields', [FieldsController::class, 'list'])->name('.fields.list');
     Route::get('/list-invoices', [InvoicesController::class, 'list'])->name('.invoices.list');
     Route::get('/list-invoices-user/{user}', [UserInvoicesController::class, 'list'])->name('.invoices.listUser');
+    Route::get('/list-payments-user/{user}', [UserPaymentController::class, 'list'])->name('.payments.listUser');
 });

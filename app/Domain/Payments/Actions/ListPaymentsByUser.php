@@ -6,7 +6,7 @@ use App\Domain\Payments\Models\Payment;
 use App\Support\Actions\Action;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ListPayments implements Action
+class ListPaymentsByUser implements Action
 {
     public static function execute(array $params): LengthAwarePaginator
     {
@@ -18,6 +18,7 @@ class ListPayments implements Action
             'payment_type',
             'microsite_id',
         )->with('microsite.type')
+            ->where('user_id', $params['user_id'])
             ->when($params['filter'], function ($query, $filter) {
                 return $query->where(function ($query) use ($filter) {
                     $query->where('request_id', 'like', '%'.$filter.'%')

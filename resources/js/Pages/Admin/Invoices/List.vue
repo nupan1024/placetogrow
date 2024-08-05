@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Modal from '@/Components/Modal.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
@@ -69,7 +69,7 @@ loadInvoices();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_USER)"
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_INVOICE)"
                                :href="route('invoice.create')" class="btn btn-link">{{ $page.props.$t.invoices.create }}</a>
                         </div>
                         <SearchForm @search="searchFields" :message="message"/>
@@ -97,9 +97,11 @@ loadInvoices();
                                 <td>{{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>
                                 <td>
-                                    <a :href="route('invoice.edit', invoice.id)"
+                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_INVOICE)"
+                                        :href="route('invoice.edit', invoice.id)"
                                        class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
-                                    <a :data-id="invoice.id" :data-code="invoice.code" @click="openModal"
+                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_INVOICE)"
+                                        :data-id="invoice.id" :data-code="invoice.code" @click="openModal"
                                        class="btn btn-link">{{ $page.props.$t.labels.delete }}</a>
                                 </td>
                             </tr>

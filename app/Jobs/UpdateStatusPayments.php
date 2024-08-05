@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Domain\Payments\Actions\UpdateStatePayment;
+use App\Domain\Payments\Actions\UpdatePayment;
 use App\Domain\Payments\Models\Payment;
-use App\Support\Services\PlaceToPayService;
+use App\Support\Services\Payments\Gateways\PlaceToPayService;
 use Dnetix\Redirection\Entities\Status;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,7 +30,7 @@ class UpdateStatusPayments implements ShouldQueue
         ->chunk(100, function (Collection $payments) use ($placetopay) {
             foreach ($payments as $payment) {
                 $status = $placetopay->getPaymentStatus($payment);
-                UpdateStatePayment::execute([
+                UpdatePayment::execute([
                     'payment' => $payment,
                     'status' => $status,
                 ]);

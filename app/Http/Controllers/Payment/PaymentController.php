@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Domain\Payments\Actions\CreatePayment;
+use App\Domain\Payments\Actions\UpdatePayment;
+use App\Domain\Payments\Models\Payment;
 use App\Domain\Payments\ViewModels\DetailTransactionViewModel;
-use App\Domain\Transactions\Actions\CreateTransaction;
-use App\Domain\Transactions\Models\Transaction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\CreatePaymentRequest;
-use App\Support\Services\PaymentFactory;
+use App\Contracts\PaymentService;
+use App\Support\Definitions\StatusInvoices;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -18,33 +19,32 @@ class PaymentController extends Controller
     {
         return Inertia::render('Admin/Payments/List');
     }
-    public function create(CreatePaymentRequest $request, PaymentFactory $paymentFactory)
+    public function create(CreatePaymentRequest $request)
     {
-        $process = $paymentFactory->initializePayment('place_to_pay');
-        $transaction = CreateTransaction::execute($request->validated());
-        $placetopay = $process->pay([
-            'data' => $request->validated(),
-            'transaction' => $transaction
-        ]);
-
-        if (!$placetopay) {
-            return redirect()->route('micrositio.form', $request['microsite_id'])
-                ->with([
-                'message' => __('payments.error'),
-                'type' => 'error',
-            ]);
-        }
-        $payment = $placetopay->toArray();
-        CreatePayment::execute([
+        $payment = CreatePayment::execute($request->validated());
+        /** @var PaymentService $paymentService */
+        $paymentService = app(PaymentService::class, [
             'payment' => $payment,
-            'transaction_id' => $transaction->id
+            'gateway' => $request->gateway,
         ]);
-        return Inertia::location($placetopay->processUrl());
+        $placetopay = $paymentService->create($request->validated());
+
+        UpdatePayment::execute([
+            'payment' => $payment,
+            'url' => $placetopay->url,
+            'request_id' => $placetopay->processIdentifier,
+            'status' => StatusInvoices::PENDING,
+        ]);
+
+        return Inertia::location($placetopay->url);
     }
 
-    public function detail(Transaction $transaction): Response
+    public function detail(Payment $payment): Response
     {
-        return Inertia::render('Payment/Detail', new DetailTransactionViewModel($transaction));
+        return Inertia::render('Payment/Detail', new DetailTransactionViewModel($payment));
     }
-
+    public function list(): Response
+    {
+        return Inertia::render('Payment/List');
+    }
 }
