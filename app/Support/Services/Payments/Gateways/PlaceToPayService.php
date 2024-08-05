@@ -79,6 +79,14 @@ class PlaceToPayService implements PaymentGateway
         $placetopay = $this->init();
         $response = $placetopay->request($this->data);
 
+        if (!$response->isSuccessful()) {
+            Log::channel('Payment')->error($response->status()->message());
+            return new PaymentResponse(
+                0,
+                route('home')
+            );
+        }
+
         return new PaymentResponse(
             $response->requestId(),
             $response->processUrl()
@@ -91,14 +99,17 @@ class PlaceToPayService implements PaymentGateway
             return new QueryPaymentResponse('Payment not found', 'error');
         }
 
-        return Cache::remember('payment_status', now()->addMinutes(5), function () use ($payment) {
-            $statusPayment = $this->init()->query($payment->request_id);
-            return new QueryPaymentResponse(
-                $statusPayment->status()->message(),
-                $statusPayment->status()->status()
-            );
-        });
-
+        return Cache::remember(
+            'payment_status',
+            now()->addMinutes(5),
+            function () use ($payment) {
+                $statusPayment = $this->init()->query($payment->request_id);
+                return new QueryPaymentResponse(
+                    $statusPayment->status()->message(),
+                    $statusPayment->status()->status()
+                );
+            }
+        );
     }
 
 }

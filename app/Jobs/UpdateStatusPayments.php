@@ -4,8 +4,8 @@ namespace App\Jobs;
 
 use App\Domain\Payments\Actions\UpdatePayment;
 use App\Domain\Payments\Models\Payment;
+use App\Support\Definitions\PaymentStatus;
 use App\Support\Services\Payments\Gateways\PlaceToPayService;
-use Dnetix\Redirection\Entities\Status;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,14 +26,18 @@ class UpdateStatusPayments implements ShouldQueue
          * @var PlaceToPayService $placetopay
          */
         $placetopay = app(PlaceToPayService::class);
-        Payment::where('status', '!=', Status::ST_APPROVED)
+        Payment::where('status', PaymentStatus::PENDING)
         ->chunk(100, function (Collection $payments) use ($placetopay) {
             foreach ($payments as $payment) {
-                $status = $placetopay->getPaymentStatus($payment);
-                UpdatePayment::execute([
-                    'payment' => $payment,
-                    'status' => $status,
-                ]);
+                if($payment->request_id) {
+                    $statusPayment = $placetopay->init()->query($payment->request_id);
+
+                    UpdatePayment::execute([
+                        'payment' => $payment,
+                        'status' =>  $statusPayment->status()->status(),
+                    ]);
+                }
+
             }
         });
     }

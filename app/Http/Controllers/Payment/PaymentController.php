@@ -33,7 +33,7 @@ class PaymentController extends Controller
             'payment' => $payment,
             'url' => $placetopay->url,
             'request_id' => $placetopay->processIdentifier,
-            'status' => StatusInvoices::PENDING,
+            'status' => StatusInvoices::PENDING->name,
         ]);
 
         return Inertia::location($placetopay->url);
