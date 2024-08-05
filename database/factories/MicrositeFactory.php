@@ -6,6 +6,7 @@ use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
+use App\Support\Definitions\MicrositesTypes;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\UploadedFile;
@@ -36,5 +37,14 @@ class MicrositeFactory extends Factory
             'status' => Status::ACTIVE->value,
             'fields' => [],
         ];
+    }
+
+    public function invoiceType(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'microsites_type_id' => MicrositesTypes::INVOICE->value,
+            ];
+        });
     }
 }

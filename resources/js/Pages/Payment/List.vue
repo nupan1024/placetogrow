@@ -6,6 +6,7 @@ import { Head, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
 
 const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.payments.list];
 
@@ -13,14 +14,15 @@ const props = defineProps({ payments: Object });
 const message = usePage().props.$t.payments.tooltip;
 const searchTerm = ref('');
 const payments = ref([]);
+const user = usePage().props.auth.user ?? '';
 
 const searchPayments = (text) => {
     searchTerm.value = text;
 
-    loadPayments(`${route('api.payments.list')}/?filter=${text}`);
+    loadPayments(`${route('api.payments.listUser', user.id)}/?filter=${text}`);
 }
 const loadPayments = (url = null) => {
-    axios.get(url || route('api.payments.list')).then((response) => {
+    axios.get(url || route('api.payments.listUser', user.id)).then((response) => {
         payments.value = response.data.data
 
     }).catch((error) => {
@@ -32,7 +34,7 @@ loadPayments();
 
 <template>
     <Head><title>{{ $page.props.$t.payments.title }}</title></Head>
-    <AuthenticatedLayout>
+    <GuestLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.payments.list }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
@@ -40,9 +42,9 @@ loadPayments();
         <div class="py-12">
             <div class="p-8 bg-gray-100 min-h-screen">
                 <div class="bg-white relative border rounded-lg">
-                        <div class="flex items-center justify-end text-sm font-semibold">
-                            <SearchForm @search="searchPayments" :message="message"/>
-                        </div>
+                    <div class="flex items-center justify-end text-sm font-semibold">
+                        <SearchForm @search="searchPayments" :message="message"/>
+                    </div>
 
                     <div class="overflow-x-auto">
                         <table class="table">
@@ -76,7 +78,7 @@ loadPayments();
                             :filter="`&filter=${searchTerm}`" :click="loadPayments"/>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </GuestLayout>
 </template>
 
 

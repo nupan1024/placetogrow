@@ -12,10 +12,19 @@ return new class () extends Migration {
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('request_id');
-            $table->string('process_url', 255);
+            $table->string('name', length: 50);
+            $table->string('email');
+            $table->integer('value');
+            $table->json('fields')->nullable();
+            $table->integer('num_document');
+            $table->string('type_document', length: 3);
+            $table->foreignId('microsite_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->foreignId('invoice_id')->nullable()->constrained();
+            $table->string('reference');
+            $table->integer('request_id')->nullable();
+            $table->string('process_url', 255)->nullable();
             $table->string('payment_type', 255);
-            $table->foreignId('transaction_id')->constrained();
             $table->string('status', 45)->nullable();
             $table->timestamps();
         });

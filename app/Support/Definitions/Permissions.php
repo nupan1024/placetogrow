@@ -16,6 +16,15 @@ enum Permissions: string
     case CREATE_ROLE = 'Create roles';
     case UPDATE_ROLE = 'Update roles';
     case DELETE_ROLE = 'Delete roles';
+    case PAYMENTS = 'List payments';
+    case FIELDS = 'List fields';
+    case CREATE_FIELD = 'Create field';
+    case UPDATE_FIELD = 'Update field';
+    case DELETE_FIELD = 'Delete field';
+    case INVOICES = 'List invoices';
+    case CREATE_INVOICE = 'Create invoices';
+    case UPDATE_INVOICE = 'Update invoices';
+    case DELETE_INVOICE = 'Delete invoices';
 
     public static function toArray(): array
     {

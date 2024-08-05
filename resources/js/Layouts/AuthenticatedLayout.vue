@@ -45,15 +45,15 @@ const showingNavigationDropdown = ref(false);
                                          :href="route('microsites')" :active="route().current('microsites')">
                                     {{ $page.props.$t.microsites.title }}
                                 </NavLink>
-                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.PAYMENTS)"
                                          :href="route('payments')" :active="route().current('payments')">
                                     {{ $page.props.$t.payments.title }}
                                 </NavLink>
-                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.FIELDS)"
                                          :href="route('fields')" :active="route().current('fields')">
                                     {{ $page.props.$t.fields.title }}
                                 </NavLink>
-                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.INVOICES)"
                                          :href="route('invoices')" :active="route().current('invoices')">
                                     {{ $page.props.$t.invoices.title }}
                                 </NavLink>

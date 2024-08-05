@@ -14,7 +14,9 @@ class FormMicrosite extends ViewModel
     {
         $microsite = $this->model()->with(['category', 'type', 'currency'])->find($this->model()->id);
         $invoices = [];
-        if ($microsite->microsites_type_id === MicrositesTypes::INVOICE->value) {
+        if ($microsite->date_expire_pay &&
+            $microsite->date_expire_pay >= now() &&
+            $microsite->microsites_type_id === MicrositesTypes::INVOICE->value) {
             $invoices = GetInvoicesByMicrositeAndUser::execute([
                 'microsite_id' => $microsite->id,
                 'user_id' => auth()->user()->id ?? ""

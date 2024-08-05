@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Payment;
 
+use App\Support\Definitions\PaymentGateway;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 
 class CreatePaymentRequest extends FormRequest
@@ -23,9 +25,11 @@ class CreatePaymentRequest extends FormRequest
             'currency' => ['required', 'string'],
             'email' => ['required', 'email'],
             'type_document' => ['required'],
-            'num_document' => ['required'],
+            'num_document' => ['required', 'numeric'],
             'value' => ['required'],
             'fields' => ['array'],
+            'invoice_id' => ['numeric'],
+            'gateway' => ['required', Rule::in(PaymentGateway::toArray())],
         ];
     }
 }

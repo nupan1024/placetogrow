@@ -28,13 +28,12 @@ const user = usePage().props.auth.user ?? '';
                                         </a>
                                     </li>
                                     <li v-if="user.role_id === $page.props.$t.roles.role_guest">
-                                        <a>
+                                        <a :href="route('payments.listUser')">
                                             {{ $page.props.$t.payments.title }}
                                         </a>
                                     </li>
-                                    <li v-if="$page.props.auth.user">
+                                    <li v-if="$page.props.auth.user_permissions.length === 0">
                                         <Link
-                                            v-if="$page.props.auth.user_permissions.length === 0"
                                             :href="route('logout')" method="post" as="button">
                                             {{ $page.props.$t.auth.sign_off }}
                                         </Link>

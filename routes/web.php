@@ -18,32 +18,82 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\InvoicesController as UserInvoiceController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/form-microsite/{microsite}', [HomeController::class, 'formMicrosite'])
-    ->name('micrositio.form');
-Route::post('/payment-create', [PaymentController::class, 'create'])->name('payment.create');
-Route::get('/payment-detail/{transaction}', [PaymentController::class, 'detail'])->name('payment.detail');
+Route::get(
+    '/form-microsite/{microsite}',
+    [HomeController::class, 'formMicrosite']
+)->name('micrositio.form');
+Route::post('/payment-create', [PaymentController::class, 'create'])
+    ->name('payment.create');
+Route::get('/payment-detail/{payment}', [PaymentController::class, 'detail'])
+    ->name('payment.detail');
 
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('/fields', [FieldsController::class, 'index'])->name('fields');
-    Route::get('/field-create', [FieldsController::class, 'create'])->name('fields.create');
-    Route::post('/field-store', [FieldsController::class, 'store'])->name('fields.store');
-    Route::get('/field-edit/{field}', [FieldsController::class, 'edit'])->name('fields.edit');
-    Route::post('/field-update/{field}', [FieldsController::class, 'update'])->name('fields.update');
-    Route::delete('/field-delete/{field}', [InvoiceController::class, 'delete'])->name('fields.delete');
+    Route::get('/fields', [FieldsController::class, 'index'])
+        ->name('fields')
+        ->middleware([Authorize::using(Permissions::FIELDS->value)]);
 
-    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
-    Route::get('/invoice-create', [InvoiceController::class, 'create'])->name('invoice.create');
-    Route::post('/invoice-store', [InvoiceController::class, 'store'])->name('invoice.store');
-    Route::get('/invoice-edit/{invoice}', [InvoiceController::class, 'edit'])->name('invoice.edit');
-    Route::post('/invoice-update/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
-    Route::delete('/invoice-delete/{invoice}', [InvoiceController::class, 'delete'])->name('invoice.delete');
+    Route::middleware([Authorize::using(Permissions::CREATE_FIELD->value)])
+        ->group(function () {
+            Route::get('/field-create', [FieldsController::class, 'create'])
+                ->name('fields.create');
+            Route::post('/field-store', [FieldsController::class, 'store'])
+                ->name('fields.store');
+        });
 
+    Route::middleware([Authorize::using(Permissions::UPDATE_FIELD->value)])
+        ->group(function () {
+            Route::get('/field-edit/{field}', [FieldsController::class, 'edit'])
+                ->name('fields.edit');
+            Route::post(
+                '/field-update/{field}',
+                [FieldsController::class, 'update']
+            )
+                ->name('fields.update');
+        });
+
+    Route::delete('/field-delete/{field}', [InvoiceController::class, 'delete'])
+        ->name('fields.delete')
+        ->middleware([Authorize::using(Permissions::DELETE_FIELD->value)]);
+
+    Route::get('/invoices', [InvoiceController::class, 'index'])
+        ->name('invoices')
+        ->middleware([Authorize::using(Permissions::INVOICES->value)]);
+
+    Route::middleware([Authorize::using(Permissions::CREATE_INVOICE->value)])
+        ->group(function () {
+            Route::get('/invoice-create', [InvoiceController::class, 'create'])
+                ->name('invoice.create');
+            Route::post('/invoice-store', [InvoiceController::class, 'store'])
+                ->name('invoice.store');
+        });
+
+    Route::middleware([Authorize::using(Permissions::UPDATE_INVOICE->value)])
+        ->group(function () {
+            Route::get(
+                '/invoice-edit/{invoice}',
+                [InvoiceController::class, 'edit']
+            )
+                ->name('invoice.edit');
+            Route::post(
+                '/invoice-update/{invoice}',
+                [InvoiceController::class, 'update']
+            )
+                ->name('invoice.update');
+        });
+
+    Route::delete(
+        '/invoice-delete/{invoice}',
+        [InvoiceController::class, 'delete']
+    )
+        ->name('invoice.delete')
+        ->middleware([Authorize::using(Permissions::DELETE_INVOICE->value)]);
 
     Route::get('/payments', [PaymentController::class, 'index'])
-        ->name('payments');
+        ->name('payments')
+        ->middleware([Authorize::using(Permissions::PAYMENTS->value)]);
 
     Route::get('/microsites', [MicrositeController::class, 'index'])
         ->name('microsites')
@@ -57,13 +107,23 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
                 ->name('microsite.store');
         });
 
-    Route::middleware([Authorize::using(Permissions::UPDATE_MICROSITE->value)])->group(function () {
-        Route::get('/edit/{microsite}', [MicrositeController::class, 'edit'])->name('microsite.edit');
-        Route::patch('/update-microsite/{microsite}', [MicrositeController::class, 'update'])
-            ->name('microsite.update');
-    });
+    Route::middleware([Authorize::using(Permissions::UPDATE_MICROSITE->value)])
+        ->group(function () {
+            Route::get(
+                '/edit/{microsite}',
+                [MicrositeController::class, 'edit']
+            )->name('microsite.edit');
+            Route::patch(
+                '/update-microsite/{microsite}',
+                [MicrositeController::class, 'update']
+            )
+                ->name('microsite.update');
+        });
 
-    Route::delete('/delete-microsite/{microsite}', [MicrositeController::class, 'delete'])
+    Route::delete(
+        '/delete-microsite/{microsite}',
+        [MicrositeController::class, 'delete']
+    )
         ->name('microsite.delete')
         ->middleware(Authorize::using(Permissions::DELETE_MICROSITE->value));
 
@@ -133,7 +193,8 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
     Route::get('/invoices-user', [UserInvoiceController::class, 'index'])
         ->name('invoice.listUser');
-
+    Route::get('/payments-user', [PaymentController::class, 'list'])
+        ->name('payments.listUser');
 });
 
 require __DIR__.'/auth.php';
