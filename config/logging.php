@@ -129,6 +129,47 @@ return [
             'path' => storage_path($defaultLogs),
         ],
 
+        'MicrositesAdmin' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/MicrositesAdmin.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Users' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Users.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Roles' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Roles.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Payment' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Payment.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Transaction' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Transaction.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Fields' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Fields.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'Invoices' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Invoices.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
     ],
 
 ];

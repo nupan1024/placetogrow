@@ -4,6 +4,7 @@ namespace App\Domain\Microsites\ViewModels;
 
 use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
+use App\Domain\Fields\Models\Field;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
 use App\Support\Definitions\Status;
@@ -23,6 +24,7 @@ class CreateViewModel extends ViewModel
             'microsites_types' => MicrositeType::where('status', Status::ACTIVE->value)->get(),
             'currencies' => Currency::where('status', Status::ACTIVE->value)->get(),
             'states' => Status::asOptions(),
+            'fields' => Field::select('name', 'label')->get(),
         ];
     }
 }

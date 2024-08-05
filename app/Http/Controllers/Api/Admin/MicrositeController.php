@@ -43,7 +43,10 @@ class MicrositeController extends Controller
         $filter = $request->get('filter');
 
         return response()->json(
-            new StandardResource(ListMicrositesForAdmin::execute(['filter' => $filter]))
+            new StandardResource(ListMicrositesForAdmin::execute([
+                'filter' => $filter,
+                'page' => $request->get('page', 1),
+            ]))
         );
     }
 }

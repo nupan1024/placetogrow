@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,12 +14,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('microsites_type_id')->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->string('name');
+            $table->string('name', length: 50);
+            $table->index('name');
             $table->string('logo_path')->nullable()->default(null);
             $table->foreignId('currency_id')->constrained();
             $table->date('date_expire_pay')->nullable()->default(null);
             $table->text('description');
             $table->boolean('status');
+            $table->json('fields')->nullable();
             $table->timestamps();
         });
     }

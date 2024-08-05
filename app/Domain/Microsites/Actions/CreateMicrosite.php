@@ -4,6 +4,7 @@ namespace App\Domain\Microsites\Actions;
 
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CreateMicrosite implements Action
@@ -20,10 +21,11 @@ class CreateMicrosite implements Action
             $microsite->currency_id = $params['currency_id'];
             $microsite->date_expire_pay = $params['date_expire_pay'] ?? null;
             $microsite->status = $params['status'];
+            $microsite->fields = $params['fields'] ?? [];
 
             return $microsite->save();
         } catch (\Exception $e) {
-            logger()->error($e->getMessage());
+            Log::channel('MicrositesAdmin')->error('Error creating microsite: '.$e->getMessage());
 
             return false;
         }

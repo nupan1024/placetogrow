@@ -15,7 +15,10 @@ class UserController extends Controller
         $filter = $request->get('filter');
 
         return response()->json(
-            new StandardResource(ListUsers::execute(['filter' => $filter]))
+            new StandardResource(ListUsers::execute([
+                'filter' => $filter,
+                'page' => $request->get('page', 1),
+            ]))
         );
     }
 }

@@ -32,18 +32,18 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head><title>Log in</title></Head>
+        <Head><title>{{ $page.props.$t.auth.login }}</title></Head>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
-            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Iniciar sesión</h2>
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">{{ $page.props.$t.auth.login }}</h2>
         </div>
         <FormLayout>
             <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="email" value="Email" />
+                    <InputLabel for="email" :value="$page.props.$t.labels.email" />
 
                     <TextInput
                         id="email"
@@ -59,7 +59,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" :value="$page.props.$t.labels.password" />
 
                     <TextInput
                         id="password"
@@ -76,7 +76,7 @@ const submit = () => {
                 <div class="block mt-4">
                     <label class="flex items-center">
                         <Checkbox name="remember" v-model:checked="form.remember" />
-                        <span class="ms-2 text-sm text-gray-600">Recuerdame</span>
+                        <span class="ms-2 text-sm text-gray-600">{{ $page.props.$t.auth.remember }}</span>
                     </label>
                 </div>
 
@@ -86,11 +86,11 @@ const submit = () => {
                         :href="route('password.request')"
                         class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        ¿Olvide mi contraseña?
+                        {{ $page.props.$t.auth.forget }}
                     </Link>
 
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Ingresar
+                        {{ $page.props.$t.auth.login }}
                     </PrimaryButton>
                 </div>
             </form>

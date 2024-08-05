@@ -15,7 +15,7 @@ defineProps({
 })
 const roles = usePage().props.roles;
 const status = usePage().props.status;
-const crumbs = ["Dashboard", "Listado de usuarios", "Crear usuario"];
+const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.users.list, usePage().props.$t.users.create];
 const form = useForm({
     name: '',
     email: '',
@@ -33,16 +33,16 @@ const submit = () => {
 </script>
 
 <template>
-    <Head><title>Usuarios</title></Head>
+    <Head><title>{{ $page.props.$t.users.create }}</title></Head>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear usuario</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.users.create }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
         <FormLayout>
             <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="name" value="Nombre" />
+                    <InputLabel for="name" :value="$page.props.$t.labels.name" />
 
                     <TextInput
                         id="name"
@@ -58,7 +58,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="email" value="Correo electrónico" />
+                    <InputLabel for="email" :value="$page.props.$t.labels.email" />
 
                     <TextInput
                         id="email"
@@ -73,7 +73,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="role_id" value="Rol"/>
+                    <InputLabel for="role_id" :value="$page.props.$t.labels.role"/>
                     <Select
                         id="role_id"
                         class="input mt-1 block w-full select"
@@ -87,7 +87,7 @@ const submit = () => {
 
 
                 <div class="mt-3">
-                    <InputLabel for="status" value="Estado"/>
+                    <InputLabel for="status" :value="$page.props.$t.labels.status"/>
                     <Select
                         id="status"
                         class="input mt-1 block w-full select"
@@ -99,7 +99,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password" value="Contraseña" />
+                    <InputLabel for="password" :value="$page.props.$t.labels.password" />
 
                     <TextInput
                         id="password"
@@ -114,7 +114,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password_confirmation" value="Confirmar contraseña" />
+                    <InputLabel for="password_confirmation" :value="$page.props.$t.labels.password_confirmation" />
 
                     <TextInput
                         id="password_confirmation"
@@ -130,7 +130,7 @@ const submit = () => {
 
                 <div class="flex items-center justify-end mt-4">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Crear
+                        {{ $page.props.$t.labels.create }}
                     </PrimaryButton>
                 </div>
             </form>
