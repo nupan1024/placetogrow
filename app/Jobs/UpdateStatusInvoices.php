@@ -23,9 +23,6 @@ class UpdateStatusInvoices implements ShouldQueue
 
     public function handle(): void
     {
-        /**
-         * @var PlaceToPayService $placetopay
-         */
         Microsite::where('date_expire_pay', '<', now())
             ->chunk(100, function (Collection $microsites) {
                 foreach ($microsites as $microsite) {

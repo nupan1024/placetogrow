@@ -22,7 +22,7 @@ class DeleteRole implements Action
         $deletePermissions = DB::table('role_has_permissions')
             ->whereIn('permission_id', $permissions)
             ->where('role_id', $params['role']->id);
-        if (!$deletePermissions) {
+        if (!$deletePermissions->exists()) {
             Log::channel('Roles')
                 ->error('Error deleting role: Error removing permissions');
             return false;
