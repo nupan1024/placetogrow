@@ -54,7 +54,8 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "pint" : "vendor/bin/pint"
+        "pint" : "vendor/bin/pint",
+        "phpstan": "vendor/bin/phpstan analyse"
     },
     "extra": {
         "laravel": {

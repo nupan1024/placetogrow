@@ -6,7 +6,6 @@ use App\Domain\Invoices\Actions\UpdateStatusInvoice;
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Definitions\StatusInvoices;
-use App\Support\Services\Payments\Gateways\PlaceToPayService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
