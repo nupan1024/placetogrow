@@ -1,6 +1,7 @@
 <?php
 
 use App\Support\Http\Middleware\HandleInertiaRequests;
+use App\Support\Http\Middleware\SwitchLanguage;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
@@ -22,12 +23,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->statefulApi();
         $middleware->web(append: [
+            SwitchLanguage::class,
             HandleInertiaRequests::class,
-            AddLinkHeadersForPreloadedAssets::class,
-        ]);
-
-        $middleware->web(append: [
-            HandleInertiaRequests::class,
+            AddLinkHeadersForPreloadedAssets::class
         ]);
     })
     ->withExceptions(function () {

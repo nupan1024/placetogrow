@@ -16,8 +16,18 @@ use App\Support\Http\Middleware\ProtectSuperAdmin;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\InvoicesController as UserInvoiceController;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/greeting/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'es'])) {
+        abort(400);
+    }
+
+    Session::put('locale', $locale);
+    return redirect()->back();
+})->name('locale');
+
 Route::get(
     '/form-microsite/{microsite}',
     [HomeController::class, 'formMicrosite']
