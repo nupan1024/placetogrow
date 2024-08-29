@@ -23,7 +23,7 @@ test('create user', function () {
     expect(CreateUser::execute($params))->toBeTrue();
 });
 
-test('generate expection', function () {
+test('generate exception user creation', function () {
     $params = [
         'name' => 'User test',
         'email' => 'usertest@placetogrow.com',

@@ -27,7 +27,7 @@ class DeleteField implements Action
             return $params['field']->delete();
         } catch (\Exception $e) {
             Log::channel('Fields')
-                ->error('Error updating field: '.$e->getMessage());
+                ->error('Error deleting field: '.$e->getMessage());
 
             return false;
         }

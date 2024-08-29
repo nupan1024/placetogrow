@@ -3,6 +3,8 @@
 namespace App\Domain\Payments\Models;
 
 use App\Domain\Microsites\Models\Microsite;
+use Database\Factories\PaymentFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +26,11 @@ class Payment extends Model
     protected $casts = [
         'fields' => 'array',
     ];
+
+    protected static function newFactory(): Factory
+    {
+        return PaymentFactory::new();
+    }
 
     public function microsite(): BelongsTo
     {

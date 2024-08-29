@@ -2,16 +2,24 @@
 
 use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
-use App\Domain\Invoices\Models\Invoice;
-use App\Domain\Microsites\Actions\DeleteMicrosite;
+use App\Domain\Fields\Actions\DeleteField;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
 use App\Support\Definitions\MicrositesTypes;
 use App\Support\Definitions\Status;
-use Illuminate\Http\UploadedFile;
+use Database\Factories\FieldFactory;
 use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 
-test('delete microsite', function () {
+test('delete field', function () {
+    $field = FieldFactory::new()->create();
+
+    expect(DeleteField::execute(['field' => $field]))->toBeTrue();
+});
+
+test('microsite with this field', function () {
+    $field = FieldFactory::new()->create();
+
     MicrositeType::factory()->create([
         'id' => MicrositesTypes::SUBSCRIPTIONS->value,
         'name' => MicrositesTypes::SUBSCRIPTIONS->name,
@@ -27,8 +35,7 @@ test('delete microsite', function () {
         'name' => 'USD',
         'status' => Status::ACTIVE->value,
     ]);
-
-    $microsite = Microsite::factory()->create([
+    Microsite::factory()->create([
         'microsites_type_id' => MicrositesTypes::SUBSCRIPTIONS->value,
         'category_id' => $category->id,
         'name' => 'Test microsite',
@@ -37,23 +44,13 @@ test('delete microsite', function () {
         'description' => 'Test description',
         'currency_id' => $currency->id,
         'status' => Status::ACTIVE->value,
-    ]);
-    $response = DeleteMicrosite::execute(['microsite' => $microsite]);
-    $this->assertTrue($response['status']);
-});
-
-test('Does not delete microsite', function () {
-    $response = DeleteMicrosite::execute([]);
-    $this->assertFalse($response['status']);
-});
-
-test('Could not delete microsite because it has invoices', function () {
-    $microsite = Microsite::factory()->create();
-
-    Invoice::factory()->create([
-        'microsite_id' => $microsite->id,
+        'fields' => [$field->name]
     ]);
 
-    $response = DeleteMicrosite::execute(['microsite' => $microsite]);
-    $this->assertFalse($response['status']);
+
+    expect(DeleteField::execute(['field' => $field]))->toBeFalse();
+});
+
+test('generate exception delete field', function () {
+    expect(DeleteField::execute(['field' => ""]))->toBeFalse();
 });
