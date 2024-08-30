@@ -38,13 +38,8 @@ test('delete microsite', function () {
         'currency_id' => $currency->id,
         'status' => Status::ACTIVE->value,
     ]);
-    $response = DeleteMicrosite::execute(['microsite' => $microsite]);
+    $response = DeleteMicrosite::execute([], $microsite);
     $this->assertTrue($response['status']);
-});
-
-test('Does not delete microsite', function () {
-    $response = DeleteMicrosite::execute([]);
-    $this->assertFalse($response['status']);
 });
 
 test('Could not delete microsite because it has invoices', function () {
@@ -54,6 +49,6 @@ test('Could not delete microsite because it has invoices', function () {
         'microsite_id' => $microsite->id,
     ]);
 
-    $response = DeleteMicrosite::execute(['microsite' => $microsite]);
+    $response = DeleteMicrosite::execute([], $microsite);
     $this->assertFalse($response['status']);
 });

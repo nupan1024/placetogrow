@@ -17,9 +17,6 @@ test('update role', function () {
     $role->syncPermissions([Permissions::DELETE_INVOICE->value]);
     $role->save();
 
-    expect(UpdateRole::execute([
-        'fields' => $params,
-        'role' => $role
-    ]))->toBeTrue();
+    expect(UpdateRole::execute($params, $role))->toBeTrue();
 });
 

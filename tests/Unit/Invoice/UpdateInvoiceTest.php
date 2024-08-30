@@ -12,21 +12,15 @@ test('update invoice', function () {
         'description' => fake()->paragraph(),
     ];
 
-    expect(UpdateInvoice::execute([
-        'model' => $invoice,
-        'data' => $params
-    ]))->toBeTrue();
+    expect(UpdateInvoice::execute($params, $invoice))->toBeTrue();
 });
 
-test('Does not receive invoice model', function () {
+test('Does not receive parameters required', function () {
     $invoice = Invoice::factory()->create();
     $params = [
         'value' => '6000',
         'description' => fake()->paragraph(),
     ];
 
-    expect(UpdateInvoice::execute([
-        'model' => $invoice,
-        'data' => $params
-    ]))->toBeFalse();
+    expect(UpdateInvoice::execute($params, $invoice))->toBeFalse();
 });

@@ -13,7 +13,7 @@ test('delete role', function () {
     $role->syncPermissions([Permissions::DELETE_INVOICE->value]);
     $role->save();
 
-    expect(DeleteRole::execute(['role' => $role]))->toBeTrue();
+    expect(DeleteRole::execute([], $role))->toBeTrue();
 });
 
 test('Could not delete role because users has this role', function () {
@@ -27,5 +27,5 @@ test('Could not delete role because users has this role', function () {
         'role_id' => $role->id
     ]);
 
-    expect(DeleteRole::execute(['role' => $role]))->toBeFalse();
+    expect(DeleteRole::execute([], $role))->toBeFalse();
 });

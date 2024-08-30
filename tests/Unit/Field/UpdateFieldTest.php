@@ -12,16 +12,11 @@ test('update field', function () {
         'attributes' => [],
     ];
 
-    expect(UpdateField::execute([
-        'data' => $params,
-        'field' => $field,
-    ]))->toBeTrue();
+    expect(UpdateField::execute($params, $field))->toBeTrue();
 });
 
 test('generate exception field update', function () {
     $field = FieldFactory::new()->create();
 
-    expect(UpdateField::execute([
-        'field' => $field,
-    ]))->toBeFalse();
+    expect(UpdateField::execute([], $field))->toBeFalse();
 });

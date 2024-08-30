@@ -14,7 +14,7 @@ use Illuminate\Http\UploadedFile;
 test('delete field', function () {
     $field = FieldFactory::new()->create();
 
-    expect(DeleteField::execute(['field' => $field]))->toBeTrue();
+    expect(DeleteField::execute([], $field))->toBeTrue();
 });
 
 test('microsite with this field', function () {
@@ -48,9 +48,9 @@ test('microsite with this field', function () {
     ]);
 
 
-    expect(DeleteField::execute(['field' => $field]))->toBeFalse();
+    expect(DeleteField::execute([], $field))->toBeFalse();
 });
 
 test('generate exception delete field', function () {
-    expect(DeleteField::execute(['field' => ""]))->toBeFalse();
+    expect(DeleteField::execute([]))->toBeFalse();
 });

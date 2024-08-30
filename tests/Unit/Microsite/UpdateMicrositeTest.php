@@ -18,10 +18,7 @@ test('update microsite', function () {
         'status' => Status::ACTIVE->value,
     ];
 
-    $this->assertTrue(UpdateMicrosite::execute([
-        'fields' => $params,
-        'microsite' => $microsite
-    ]));
+    $this->assertTrue(UpdateMicrosite::execute($params, $microsite));
 });
 
 test('generate exception', function () {
@@ -40,8 +37,5 @@ test('generate exception', function () {
         'status' => Status::ACTIVE->value,
     ];
 
-    $this->assertFalse(UpdateMicrosite::execute([
-        'fields' => $params,
-        'microsite' => $microsite
-    ]));
+    $this->assertFalse(UpdateMicrosite::execute($params, $microsite));
 });

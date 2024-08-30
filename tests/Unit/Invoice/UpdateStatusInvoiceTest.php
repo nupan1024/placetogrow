@@ -7,16 +7,16 @@ use App\Support\Definitions\StatusInvoices;
 test('Update status invoice', function () {
     $invoice = Invoice::factory()->create();
 
-    expect(UpdateStatusInvoice::execute([
-        'model' => $invoice,
-        'status' => StatusInvoices::PAID->name
-    ]))->toBeTrue();
+    expect(
+        UpdateStatusInvoice::execute(
+            ['status' => StatusInvoices::PAID->name],
+            $invoice
+        )
+    )->toBeTrue();
 });
 
 test('Does not receive status', function () {
     $invoice = Invoice::factory()->create();
 
-    expect(UpdateStatusInvoice::execute([
-        'model' => $invoice,
-    ]))->toBeFalse();
+    expect(UpdateStatusInvoice::execute([], $invoice))->toBeFalse();
 });

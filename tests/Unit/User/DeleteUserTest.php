@@ -22,5 +22,5 @@ test('delete user', function () {
         'password' => Hash::make('password'),
     ]);
 
-    expect(DeleteUser::execute(['user' => $user]))->toBeTrue();
+    expect(DeleteUser::execute([], $user))->toBeTrue();
 });

@@ -7,10 +7,8 @@ use App\Support\Definitions\StatusInvoices;
 test('Delete invoice', function () {
     $invoice = Invoice::factory()->create();
 
-    expect(DeleteInvoice::execute([
-        'model' => $invoice,
-        'status' => StatusInvoices::PAID->name
-    ]))->toBeTrue();
+    expect(DeleteInvoice::execute((array) StatusInvoices::PAID->name, $invoice))
+        ->toBeTrue();
 });
 
 test('Delete invoice with status different than pending', function () {
@@ -18,7 +16,7 @@ test('Delete invoice with status different than pending', function () {
         'status' => StatusInvoices::PAID->name
     ]);
 
-    expect(DeleteInvoice::execute(['model' => $invoice]))->toBeFalse();
+    expect(DeleteInvoice::execute([], $invoice))->toBeFalse();
 });
 
 test('Does not receive invoice model', function () {
