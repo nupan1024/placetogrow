@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateRole implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $params['role']->name = $params['fields']['name'];
-            $params['role']->syncPermissions($params['fields']['permissions']);
-            return $params['role']->save();
+            $model->name = $params['name'];
+            $model->syncPermissions($params['permissions']);
+            return $model->save();
         } catch (\Exception $e) {
             Log::channel('Roles')->error('Error updating role: '.$e->getMessage());
 

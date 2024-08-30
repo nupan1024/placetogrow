@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 
 class ListMicrositesForGuest implements Action
 {
-    public static function execute(array $params): LengthAwarePaginator
+    public static function execute(array $params = [], $model = null): LengthAwarePaginator
     {
         $cacheKey = 'microsites_page_'.$params['page'].'_filter_'.$params['filter'];
 
@@ -18,18 +18,16 @@ class ListMicrositesForGuest implements Action
             return Microsite::select(
                 'microsites.id',
                 'microsites.name',
-                'category_id',
+                'categories.name as category',
                 'microsites.logo_path',
                 'microsites.description',
             )
                 ->where('microsites.status', Status::ACTIVE->value)
-                ->with(['category:id,name'])
+                ->join('categories', 'microsites.category_id', '=', 'categories.id')
                 ->when($params['filter'], function ($query, $filter) {
                     return $query->where(function ($query) use ($filter) {
                         $query->where('microsites.name', 'like', '%'.$filter.'%')
-                            ->orWhereHas('category', function ($query) use ($filter) {
-                                $query->where('name', 'like', '%'.$filter.'%');
-                            })
+                            ->orWhere('categories.name', 'like', '%'.$filter.'%')
                             ->orWhere('microsites.description', 'like', '%'.$filter.'%');
                     });
                 })->latest('microsites.id')->paginate(4);

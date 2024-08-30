@@ -58,7 +58,7 @@ loadPayments();
                             <tbody>
                             <tr v-for="payment in payments.data" :key="payment.id" class="hover">
                                 <td>{{ payment.request_id }}</td>
-                                <td>{{ payment.microsite.type.name }}</td>
+                                <td>{{ payment.microsite_type_name }}</td>
                                 <td>{{ payment.status }}</td>
                                 <td>$ {{ payment.value }}</td>
                                 <td>

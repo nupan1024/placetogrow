@@ -91,8 +91,8 @@ loadInvoices();
                             <tbody>
                             <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover">
                                 <td>{{ invoice.code }}</td>
-                                <td>{{ invoice.user.name }}</td>
-                                <td>{{ invoice.microsite.name }}</td>
+                                <td>{{ invoice.user }}</td>
+                                <td>{{ invoice.microsite }}</td>
                                 <td>{{ invoice.description.slice(0,100) }}</td>
                                 <td>{{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>

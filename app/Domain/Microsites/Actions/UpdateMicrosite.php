@@ -8,25 +8,25 @@ use Illuminate\Support\Facades\Storage;
 
 class UpdateMicrosite implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $params['microsite']->category_id = $params['fields']['category_id'];
-            $params['microsite']->name = $params['fields']['name'];
-            $params['microsite']->description = $params['fields']['description'];
-            $params['microsite']->currency_id = $params['fields']['currency_id'];
-            $params['microsite']->date_expire_pay = $params['fields']['date_expire_pay'] ?? null;
-            $params['microsite']->status = $params['fields']['status'];
-            $params['microsite']->fields = $params['fields']['fields'] ?? [];
-            if ($params['fields']['logo_path']) {
-                if ($params['microsite']->logo_path) {
-                    Storage::disk('public')->delete($params['microsite']->logo_path);
+            $model->category_id = $params['category_id'];
+            $model->name = $params['name'];
+            $model->description = $params['description'];
+            $model->currency_id = $params['currency_id'];
+            $model->date_expire_pay = $params['date_expire_pay'] ?? null;
+            $model->status = $params['status'];
+            $model->fields = $params['fields'] ?? [];
+            if ($params['logo_path']) {
+                if ($model->logo_path) {
+                    Storage::disk('public')->delete($model->logo_path);
                 }
 
-                $params['microsite']->logo_path = Storage::disk('public')->putFile('microsites_logo', $params['fields']['logo_path']);
+                $model->logo_path = Storage::disk('public')->putFile('microsites_logo', $params['logo_path']);
             }
 
-            return $params['microsite']->save();
+            return $model->save();
         } catch (\Exception $e) {
             Log::channel('MicrositesAdmin')->error('Error updating microsite: '.$e->getMessage());
 

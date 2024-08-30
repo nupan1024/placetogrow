@@ -7,7 +7,7 @@ use App\Support\Actions\Action;
 
 class GetJsonFields implements Action
 {
-    public static function execute(array $params): array|bool
+    public static function execute(array $params = [], $model = null): array|bool
     {
         $json = [];
         foreach ($params as $field) {

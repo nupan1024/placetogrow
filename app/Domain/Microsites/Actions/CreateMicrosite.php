@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CreateMicrosite implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             $microsite = new Microsite();

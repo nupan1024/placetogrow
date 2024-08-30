@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Log;
 
 class DeleteUser implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             DB::table('model_has_roles')
-                ->where('model_id', $params['user']->id)
+                ->where('model_id', $model->id)
                 ->delete();
-            return $params['user']->delete();
+            return $model->delete();
         } catch (\Exception $e) {
             Log::channel('Users')->error('Error deleting microsite: '.$e->getMessage());
 

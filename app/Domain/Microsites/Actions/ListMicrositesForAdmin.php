@@ -4,35 +4,33 @@ namespace App\Domain\Microsites\Actions;
 
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
+use App\Support\Definitions\Status;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 class ListMicrositesForAdmin implements Action
 {
-    public static function execute(array $params): LengthAwarePaginator
+    public static function execute(array $params = [], $model = null): LengthAwarePaginator
     {
         $cacheKey = 'admin_microsites_page_'.$params['page'].'_filter_'.$params['filter'];
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($params) {
             return Microsite::select(
-                'id',
-                'name',
-                'category_id',
-                'microsites_type_id',
-                'status'
+                'microsites.id',
+                'microsites.name',
+                'categories.name as category',
+                'microsites_types.name as type',
+                'microsites.status',
             )
-                ->with(['category:id,name', 'type:id,name'])
+                ->join('categories', 'microsites.category_id', '=', 'categories.id')
+                ->join('microsites_types', 'microsites.microsites_type_id', '=', 'microsites_types.id')
                 ->when($params['filter'], function ($query, $filter) {
                     return $query->where(function ($query) use ($filter) {
-                        $query->where('name', 'like', '%'.$filter.'%')
-                            ->orWhereHas('category', function ($query) use ($filter) {
-                                $query->where('name', 'like', '%'.$filter.'%');
-                            })
-                            ->orWhereHas('type', function ($query) use ($filter) {
-                                $query->where('name', 'like', '%'.$filter.'%');
-                            });
+                        $query->where('microsites.name', 'like', '%'.$filter.'%')
+                            ->orWhere('categories.name', 'like', '%'.$filter.'%')
+                            ->orWhere('microsites_types.name', 'like', '%'.$filter.'%');
                     });
-                })->latest('id')->paginate(10);
+                })->latest('microsites.id')->paginate(10);
         });
 
     }

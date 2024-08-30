@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GetMicrositesByStatusAndType implements Action
 {
-    public static function execute(array $params): Collection
+    public static function execute(array $params = [], $model = null): Collection
     {
         return Microsite::select('id', 'name')
             ->where('status', $params['status'])

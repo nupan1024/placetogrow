@@ -4,5 +4,5 @@ namespace App\Support\Actions;
 
 interface Action
 {
-    public static function execute(array $params);
+    public static function execute(array $params = [], $model = null);
 }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class ListUsers implements Action
 {
-    public static function execute(array $params): LengthAwarePaginator
+    public static function execute(array $params = [], $model = null): LengthAwarePaginator
     {
         $cacheKey = 'users_page_'.$params['page'].'_filter_'.$params['filter'];
 
@@ -19,14 +19,12 @@ class ListUsers implements Action
                 'users.name',
                 'users.email',
                 'users.status',
-                'role_id',
-            )->with(['role:id,name'])
+                'roles.name as role',
+            )->join('roles', 'users.role_id', '=', 'roles.id')
                 ->when($params['filter'], function ($query, $filter) {
                     return $query->where(function ($query) use ($filter) {
                         $query->where('users.name', 'like', '%'.$filter.'%')
-                            ->orWhereHas('role', function ($query) use ($filter) {
-                                $query->where('name', 'like', '%'.$filter.'%');
-                            })
+                            ->orWhere('roles.name', 'like', '%'.$filter.'%')
                             ->orWhere('users.email', 'like', '%'.$filter.'%');
                     });
                 })->latest('users.id')->paginate(10);

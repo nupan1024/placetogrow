@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class CreatePayment implements Action
 {
-    public static function execute(array $params): Payment|bool
+    public static function execute(array $params = [], $model = null): Payment|bool
     {
         try {
             $payment = new Payment();

@@ -64,7 +64,7 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
                 ->name('fields.update');
         });
 
-    Route::delete('/field-delete/{field}', [InvoiceController::class, 'delete'])
+    Route::delete('/field-delete/{field}', [FieldsController::class, 'delete'])
         ->name('fields.delete')
         ->middleware([Authorize::using(Permissions::DELETE_FIELD->value)]);
 

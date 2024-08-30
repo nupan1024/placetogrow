@@ -30,9 +30,8 @@ class UpdateStatusInvoices implements ShouldQueue
                         ->get()
                         ->each(function (Invoice $invoice) {
                             UpdateStatusInvoice::execute([
-                                'model' => $invoice,
                                 'status' => StatusInvoices::EXPIRED->name,
-                            ]);
+                            ], $invoice);
                         });
                 }
             });

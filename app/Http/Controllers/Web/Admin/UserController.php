@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        UpdateUser::execute(['fields' => $request->validated(), 'user' => $user]);
+        UpdateUser::execute($request->validated(), $user);
         Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
@@ -57,7 +57,7 @@ class UserController extends Controller
 
     public function delete(User $user): RedirectResponse
     {
-        DeleteUser::execute(['user' => $user]);
+        DeleteUser::execute([], $user);
         Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users');

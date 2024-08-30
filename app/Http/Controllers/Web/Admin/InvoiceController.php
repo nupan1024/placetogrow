@@ -50,10 +50,7 @@ class InvoiceController extends Controller
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice): RedirectResponse
     {
-        UpdateInvoice::execute([
-            'model' => $invoice,
-            'data' => $request->validated()
-        ]);
+        UpdateInvoice::execute($request->validated(), $invoice);
 
         return redirect()->route('invoices')->with([
             'message' => __('invoices.success_update'),
@@ -63,7 +60,7 @@ class InvoiceController extends Controller
 
     public function delete(Invoice $invoice): RedirectResponse
     {
-        if(!DeleteInvoice::execute(['model' => $invoice])) {
+        if(!DeleteInvoice::execute([], $invoice)) {
             return redirect()->route('invoices')->with([
                 'message' => __('invoices.error_delete'),
                 'type' => 'error',

@@ -53,7 +53,6 @@ loadInvoices();
                             <thead>
                             <tr>
                                 <th scope="col">{{ $page.props.$t.invoices.code }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.name_client }}</th>
                                 <th scope="col">{{ $page.props.$t.invoices.microsites }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.description }}</th>
                                 <th scope="col">{{ $page.props.$t.invoices.value }}</th>
@@ -64,13 +63,12 @@ loadInvoices();
                             <tbody>
                             <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover">
                                 <td>{{ invoice.code }}</td>
-                                <td>{{ invoice.user.name }}</td>
-                                <td>{{ invoice.microsite.name }}</td>
+                                <td>{{ invoice.microsite }}</td>
                                 <td>{{ invoice.description.slice(0,100) }}</td>
                                 <td>{{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>
                                 <td>
-                                    <a v-if="invoice.status === $page.props.$t.invoices.pending" :href="route('micrositio.form', invoice.microsite.id)"
+                                    <a v-if="invoice.status === $page.props.$t.invoices.pending" :href="route('micrositio.form', invoice.microsite_id)"
                                        class="btn btn-link">{{ $page.props.$t.invoices.pay }}</a>
                                 </td>
                             </tr>

@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Log;
 
 class DeleteMicrosite implements Action
 {
-    public static function execute(array $params): array
+    public static function execute(array $params = [], $model = null): array
     {
         try {
-            return ['status' => $params['microsite']->delete()];
+            return ['status' => $model->delete()];
         } catch (\Exception $e) {
             Log::channel('MicrositesAdmin')
                 ->error('Error deleting microsite: ' . $e->getMessage());

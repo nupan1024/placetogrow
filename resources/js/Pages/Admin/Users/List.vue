@@ -91,7 +91,7 @@ loadUsers();
                             <tr v-for="user in users.data" :key="user.id" class="hover">
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
-                                <td>{{ user.role.name }}</td>
+                                <td>{{ user.role }}</td>
                                 <td>{{ user.status }}</td>
                                 <td>
                                     <div v-if="!rolesProtect.includes(user.name)">
