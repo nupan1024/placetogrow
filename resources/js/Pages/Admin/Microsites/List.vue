@@ -42,10 +42,10 @@ const deleteMicrositio = () => {
 const searchMicrosites = (text) => {
     searchTerm.value = text;
 
-    loadMicrosites(`${route('api.admin.microsites.list')}/?filter=${text}`);
+    loadMicrosites(`${route('api.admin.microsites')}/?filter=${text}`);
 }
 const loadMicrosites = (url = null) => {
-    axios.get(url || route('api.admin.microsites.list')).then((response) => {
+    axios.get(url || route('api.admin.microsites')).then((response) => {
         microsites.value = response.data.data
 
     }).catch((error) => {

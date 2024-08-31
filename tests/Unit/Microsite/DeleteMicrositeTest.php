@@ -52,3 +52,10 @@ test('Could not delete microsite because it has invoices', function () {
     $response = DeleteMicrosite::execute([], $microsite);
     $this->assertFalse($response['status']);
 });
+
+
+test('Could not delete microsite because not found model', function () {
+    $model = Microsite::factory()->make();
+    $response = DeleteMicrosite::execute([], $model);
+    $this->assertNull($response['status']);
+});

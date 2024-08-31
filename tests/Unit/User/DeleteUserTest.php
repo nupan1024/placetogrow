@@ -24,3 +24,12 @@ test('delete user', function () {
 
     expect(DeleteUser::execute([], $user))->toBeTrue();
 });
+
+test('Delete user catches exception', function () {
+    $model = \Mockery::mock(User::class);
+
+    $model->shouldReceive('delete')->andThrow(new \Exception('Error deleting user'));
+    $response = DeleteUser::execute([], $model);
+
+    expect($response)->toBeFalse();
+});

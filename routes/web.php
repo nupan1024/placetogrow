@@ -28,18 +28,13 @@ Route::get('/greeting/{locale}', function ($locale) {
     return redirect()->back();
 })->name('locale');
 
-Route::get(
-    '/form-microsite/{microsite}',
-    [HomeController::class, 'formMicrosite']
-)->name('micrositio.form');
-Route::post('/payment-create', [PaymentController::class, 'create'])
-    ->name('payment.create');
-Route::get('/payment-detail/{payment}', [PaymentController::class, 'detail'])
-    ->name('payment.detail');
+Route::get('/form/microsite/{microsite}', [HomeController::class, 'formMicrosite'])->name('form.micrositio');
+
+Route::post('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
+Route::get('/payment/{payment}/detail', [PaymentController::class, 'detail'])->name('payment.detail');
 
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/fields', [FieldsController::class, 'index'])
         ->name('fields')
@@ -47,25 +42,22 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
 
     Route::middleware([Authorize::using(Permissions::CREATE_FIELD->value)])
         ->group(function () {
-            Route::get('/field-create', [FieldsController::class, 'create'])
-                ->name('fields.create');
-            Route::post('/field-store', [FieldsController::class, 'store'])
-                ->name('fields.store');
+            Route::get('/field/create', [FieldsController::class, 'create'])
+                ->name('field.create');
+            Route::post('/field/store', [FieldsController::class, 'store'])
+                ->name('field.store');
         });
 
     Route::middleware([Authorize::using(Permissions::UPDATE_FIELD->value)])
         ->group(function () {
-            Route::get('/field-edit/{field}', [FieldsController::class, 'edit'])
-                ->name('fields.edit');
-            Route::post(
-                '/field-update/{field}',
-                [FieldsController::class, 'update']
-            )
-                ->name('fields.update');
+            Route::get('/field/{field}/edit', [FieldsController::class, 'edit'])
+                ->name('field.edit');
+            Route::post('/field/{field}/update', [FieldsController::class, 'update'])
+                ->name('field.update');
         });
 
-    Route::delete('/field-delete/{field}', [FieldsController::class, 'delete'])
-        ->name('fields.delete')
+    Route::delete('/field/{field}/delete', [FieldsController::class, 'delete'])
+        ->name('field.delete')
         ->middleware([Authorize::using(Permissions::DELETE_FIELD->value)]);
 
     Route::get('/invoices', [InvoiceController::class, 'index'])

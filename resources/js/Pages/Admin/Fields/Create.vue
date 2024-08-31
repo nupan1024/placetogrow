@@ -33,7 +33,7 @@ const getName = () => {
         .toLowerCase();
 }
 const submit = () => {
-    form.post(route('fields.store'), {
+    form.post(route('field.store'), {
         forceFormData: true,
     });
 };

@@ -22,7 +22,8 @@ class IsAdmin
         $user = Auth::user();
 
         if ($user->hasRole(ucwords(strtolower(Roles::GUEST->name))) ||
-            $user->getRawOriginal('status') === Status::INACTIVE->value) {
+            $user->getRawOriginal('status') === Status::INACTIVE->value ||
+            $user->getRawOriginal('role_id') === Roles::GUEST->value) {
             return redirect(route('home'));
         }
 

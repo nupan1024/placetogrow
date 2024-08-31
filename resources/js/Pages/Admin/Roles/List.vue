@@ -31,10 +31,10 @@ const openModal = (e) => {
 const searchRoles = (text) => {
     searchTerm.value = text;
 
-    loadRoles(`${route('api.roles.list')}/?filter=${text}`);
+    loadRoles(`${route('api.admin.roles')}/?filter=${text}`);
 }
 const loadRoles = (url = null) => {
-    axios.get(url || route('api.roles.list')).then((response) => {
+    axios.get(url || route('api.admin.roles')).then((response) => {
         roles.value = response.data.data
 
     }).catch((error) => {

@@ -45,10 +45,10 @@ const deleteUser = () => {
 const searchUsers = (text) => {
     searchTerm.value = text;
 
-    loadUsers(`${route('api.users.list')}/?filter=${text}`);
+    loadUsers(`${route('api.admin.users')}/?filter=${text}`);
 }
 const loadUsers = (url = null) => {
-    axios.get(url || route('api.users.list')).then((response) => {
+    axios.get(url || route('api.admin.users')).then((response) => {
         users.value = response.data.data
 
     }).catch((error) => {

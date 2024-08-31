@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function list(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $filter = $request->get('filter');
 

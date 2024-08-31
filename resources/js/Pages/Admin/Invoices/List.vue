@@ -44,10 +44,10 @@ const deleteInvoice = () => {
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.invoices.list')}/?filter=${text}`);
+    loadInvoices(`${route('api.admin.invoices')}/?filter=${text}`);
 }
 const loadInvoices = (url = null) => {
-    axios.get(url || route('api.invoices.list')).then((response) => {
+    axios.get(url || route('api.admin.invoices')).then((response) => {
         invoices.value = response.data.data
 
     }).catch((error) => {

@@ -35,7 +35,7 @@ const openModal = (e) => {
 
 const form = useForm({});
 const deleteField = () => {
-    form.delete(route('fields.delete', fieldId.value), {
+    form.delete(route('field.delete', fieldId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
         onFinish: () => loadFields(),
@@ -44,10 +44,10 @@ const deleteField = () => {
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadFields(`${route('api.fields.list')}/?filter=${text}`);
+    loadFields(`${route('api.admin.fields')}/?filter=${text}`);
 }
 const loadFields = (url = null) => {
-    axios.get(url || route('api.fields.list')).then((response) => {
+    axios.get(url || route('api.admin.fields')).then((response) => {
         fields.value = response.data.data
 
     }).catch((error) => {
@@ -70,7 +70,7 @@ loadFields();
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
                             <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_FIELD)"
-                               :href="route('fields.create')" class="btn btn-link">{{ $page.props.$t.fields.create }}</a>
+                               :href="route('field.create')" class="btn btn-link">{{ $page.props.$t.fields.create }}</a>
                         </div>
                         <SearchForm @search="searchFields" :message="message"/>
                     </div>
@@ -94,7 +94,7 @@ loadFields();
                                 <td>{{ field.attributes }}</td>
                                 <td>
                                     <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_FIELD)"
-                                        :href="route('fields.edit', field.id)"
+                                        :href="route('field.edit', field.id)"
                                        class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
                                     <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_FIELD)"
                                         :data-id="field.id" :data-name="field.name" @click="openModal"

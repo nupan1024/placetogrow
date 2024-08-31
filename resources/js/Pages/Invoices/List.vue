@@ -21,10 +21,10 @@ const invoices = ref([]);
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.invoices.listUser', user.id)}/?filter=${text}`);
+    loadInvoices(`${route('api.user.invoices', user.id)}/?filter=${text}`);
 }
 const loadInvoices = (url = null) => {
-    axios.get(url || route('api.invoices.listUser', user.id)).then((response) => {
+    axios.get(url || route('api.user.invoices', user.id)).then((response) => {
         invoices.value = response.data.data
 
     }).catch((error) => {
