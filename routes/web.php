@@ -66,30 +66,20 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
 
     Route::middleware([Authorize::using(Permissions::CREATE_INVOICE->value)])
         ->group(function () {
-            Route::get('/invoice-create', [InvoiceController::class, 'create'])
+            Route::get('/invoice/create', [InvoiceController::class, 'create'])
                 ->name('invoice.create');
-            Route::post('/invoice-store', [InvoiceController::class, 'store'])
+            Route::post('/invoice/store', [InvoiceController::class, 'store'])
                 ->name('invoice.store');
         });
 
-    Route::middleware([Authorize::using(Permissions::UPDATE_INVOICE->value)])
-        ->group(function () {
-            Route::get(
-                '/invoice-edit/{invoice}',
-                [InvoiceController::class, 'edit']
-            )
-                ->name('invoice.edit');
-            Route::post(
-                '/invoice-update/{invoice}',
-                [InvoiceController::class, 'update']
-            )
-                ->name('invoice.update');
-        });
+    Route::middleware([Authorize::using(Permissions::UPDATE_INVOICE->value)])->group(function () {
+        Route::get('/invoice/{invoice}/edit', [InvoiceController::class, 'edit'])
+            ->name('invoice.edit');
+        Route::post('/invoice/{invoice}/update', [InvoiceController::class, 'update'])
+            ->name('invoice.update');
+    });
 
-    Route::delete(
-        '/invoice-delete/{invoice}',
-        [InvoiceController::class, 'delete']
-    )
+    Route::delete('/invoice/{invoice}/delete', [InvoiceController::class, 'delete'])
         ->name('invoice.delete')
         ->middleware([Authorize::using(Permissions::DELETE_INVOICE->value)]);
 

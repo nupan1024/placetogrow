@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 
-test('view index field when user is super admin', function () {
+test('view index invoices when user is super admin', function () {
     PermissionFactory::new()->createMany(Permissions::toArray());
 
     Artisan::call('db:seed', ['--class' => 'RoleSeeder']);
@@ -20,17 +20,17 @@ test('view index field when user is super admin', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route("fields"));
+    $response = $this->get(route("invoices"));
 
     $response->assertStatus(200);
 });
 
-test('view index field when user has permission', function () {
+test('view index invoices when user has permission', function () {
     PermissionFactory::new()->createMany(Permissions::toArray());
 
     $role = new Role();
     $role->name = 'Role test';
-    $role->syncPermissions([Permissions::FIELDS->value]);
+    $role->syncPermissions([Permissions::INVOICES->value]);
     $role->save();
 
     $user = User::factory()->create([
@@ -40,12 +40,12 @@ test('view index field when user has permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route("fields"));
+    $response = $this->get(route("invoices"));
 
     $response->assertStatus(200);
 });
 
-test('view index field when user does not have permission', function () {
+test('view index invoices when user does not have permission', function () {
     PermissionFactory::new()->createMany(Permissions::toArray());
 
     Artisan::call('db:seed', ['--class' => 'RoleSeeder']);
@@ -61,6 +61,6 @@ test('view index field when user does not have permission', function () {
     $user->assignRole($role->id);
     Sanctum::actingAs($user);
 
-    $response = $this->get(route("fields"));
+    $response = $this->get(route("invoices"));
     $response->assertStatus(403);
 });

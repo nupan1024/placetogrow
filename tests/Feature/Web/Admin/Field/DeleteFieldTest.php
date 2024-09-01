@@ -1,6 +1,5 @@
 <?php
 
-use App\Domain\Fields\Actions\DeleteField;
 use App\Domain\Fields\Models\Field;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Users\Models\User;
