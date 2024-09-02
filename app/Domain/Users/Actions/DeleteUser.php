@@ -16,7 +16,7 @@ class DeleteUser implements Action
                 ->delete();
             return $model->delete();
         } catch (\Exception $e) {
-            Log::channel('Users')->error('Error deleting microsite: '.$e->getMessage());
+            Log::channel('Users')->error('Error deleting user: '.$e->getMessage());
 
             return false;
         }

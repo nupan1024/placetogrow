@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class HasRole
 {
     /**
      * Handle an incoming request.
@@ -22,8 +22,7 @@ class IsAdmin
         $user = Auth::user();
 
         if ($user->hasRole(ucwords(strtolower(Roles::GUEST->name))) ||
-            $user->getRawOriginal('status') === Status::INACTIVE->value ||
-            $user->getRawOriginal('role_id') === Roles::GUEST->value) {
+            $user->getRawOriginal('status') === Status::INACTIVE->value) {
             return redirect(route('home'));
         }
 

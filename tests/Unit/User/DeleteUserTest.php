@@ -28,6 +28,7 @@ test('delete user', function () {
 test('Delete user catches exception', function () {
     $model = \Mockery::mock(User::class);
 
+    // @phpstan-ignore-next-line
     $model->shouldReceive('delete')->andThrow(new \Exception('Error deleting user'));
     $response = DeleteUser::execute([], $model);
 

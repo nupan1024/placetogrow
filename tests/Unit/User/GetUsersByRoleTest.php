@@ -10,4 +10,3 @@ test('get users by role', function () {
     ];
     expect(GetUsersByRole::execute($params))->toBeObject();
 });
-

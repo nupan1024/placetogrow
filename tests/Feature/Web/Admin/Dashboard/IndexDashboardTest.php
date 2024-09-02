@@ -1,20 +1,24 @@
 <?php
 
-use App\Domain\Users\Models\Role;
 use App\Domain\Users\Models\User;
+use App\Support\Definitions\Permissions;
 use App\Support\Definitions\Roles;
+use Database\Factories\PermissionFactory;
 use Laravel\Sanctum\Sanctum;
+use Spatie\Permission\Models\Role;
 
 test('validate dashboard route with any role', function () {
-    Role::factory()->create([
-        'id' => Roles::SUPER_ADMIN->value,
-        'name' => Roles::SUPER_ADMIN->name,
-        'guard_name' => 'web',
-    ]);
+    PermissionFactory::new()->createMany(Permissions::toArray());
+
+    $role = new Role();
+    $role->name = Roles::SUPER_ADMIN->name;
+    $role->syncPermissions([]);
+    $role->save();
 
     $user = User::factory()->create([
-        'role_id' => Roles::SUPER_ADMIN->value,
+        'role_id' => $role->id,
     ]);
+    $user->assignRole(Role::findById($role->id));
     Sanctum::actingAs($user);
 
     $response = $this->get('/dashboard');
@@ -24,15 +28,17 @@ test('validate dashboard route with any role', function () {
 
 
 test('validate dashboard route with guest role', function () {
-    Role::factory()->create([
-        'id' => Roles::GUEST->value,
-        'name' => Roles::GUEST->name,
-        'guard_name' => 'web',
-    ]);
+    PermissionFactory::new()->createMany(Permissions::toArray());
+
+    $role = new Role();
+    $role->name = ucwords(strtolower(Roles::GUEST->name));
+    $role->syncPermissions([]);
+    $role->save();
 
     $user = User::factory()->create([
-        'role_id' => Roles::GUEST->value,
+        'role_id' => $role->id,
     ]);
+    $user->assignRole(Role::findById($role->id));
     Sanctum::actingAs($user);
 
     $response = $this->get('/dashboard');

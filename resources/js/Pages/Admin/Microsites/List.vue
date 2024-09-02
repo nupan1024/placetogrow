@@ -94,7 +94,7 @@ loadMicrosites();
                                 <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
-                                    <a :href="route('micrositio.form', microsite.id)"
+                                    <a :href="route('form.microsite', microsite.id)"
                                        target="_blank" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.see }}
                                     </a>&nbsp

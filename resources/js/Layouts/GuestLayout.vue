@@ -31,12 +31,12 @@ const user = usePage().props.auth.user ?? '';
                                 <summary>{{ user.name }}</summary>
                                 <ul class="bg-base-100 rounded-t-none p-2 z-50">
                                     <li v-if="user.role_id === $page.props.$t.roles.role_guest">
-                                        <a :href="route('invoice.listUser')">
+                                        <a :href="route('user.invoices.list')">
                                             {{ $page.props.$t.invoices.title }}
                                         </a>
                                     </li>
                                     <li v-if="user.role_id === $page.props.$t.roles.role_guest">
-                                        <a :href="route('payments.listUser')">
+                                        <a :href="route('user.payments.list')">
                                             {{ $page.props.$t.payments.title }}
                                         </a>
                                     </li>

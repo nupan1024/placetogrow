@@ -4,7 +4,6 @@ namespace App\Domain\Microsites\Actions;
 
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
-use App\Support\Definitions\Status;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 

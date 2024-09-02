@@ -7,7 +7,7 @@ use App\Support\Definitions\Status;
 use Database\Factories\PermissionFactory;
 use Spatie\Permission\Models\Role;
 
-test('store update success', function () {
+test('store user success', function () {
     PermissionFactory::new()->createMany(Permissions::toArray());
 
     $role = new Role();
@@ -20,32 +20,35 @@ test('store update success', function () {
     ]);
     $user->assignRole(Role::findById($role->id));
 
-    $testUser = User::factory()->create();
+    $name = fake()->name;
     $email = fake()->email();
+    $password = fake()->password(8);
     $data = [
-        'name' => $testUser->name,
+        'name' => $name,
         'email' => $email,
+        'password' => $password,
+        'password_confirmation' => $password,
         'status' => Status::ACTIVE->value,
-        'role_id' => $testUser->role_id,
+        'role_id' => $role->id,
     ];
 
     $this->actingAs($user);
 
-    $response = $this->patch(route("user.update", $testUser->id), $data);
+    $response = $this->post(route("user.store"), $data);
     $response->assertStatus(302);
     $response->assertRedirect(route('users'));
-    $response->assertSessionHas('message', __('users.success_update'));
+    $response->assertSessionHas('message', __('users.success_create'));
     $response->assertSessionHas('type', 'success');
 
     $this->assertDatabaseHas('users', [
-        'name' => $testUser->name,
+        'name' => $name,
         'email' => $email,
         'status' => Status::ACTIVE->value,
-        'role_id' => $testUser->role_id,
+        'role_id' => $role->id,
     ]);
 });
 
-test('not update user because not receive every param', function () {
+test('not store user because not receive every param', function () {
     PermissionFactory::new()->createMany(Permissions::toArray());
 
     $role = new Role();
@@ -58,24 +61,26 @@ test('not update user because not receive every param', function () {
     ]);
     $user->assignRole(Role::findById($role->id));
 
-    $testUser = User::factory()->create();
-    $email = fake()->email();
+    $name = fake()->name;
+    $password = fake()->password();
     $data = [
-        'email' => $email,
+        'name' => $name,
+        'password' => $password,
+        'password_confirmation' => $password,
         'status' => Status::ACTIVE->value,
-        'role_id' => $testUser->role_id,
+        'role_id' => $role->id,
     ];
 
     $this->actingAs($user);
-    $response = $this->patch(route("user.update", $testUser->id), $data);
+    $response = $this->post(route("user.store"), $data);
 
     $response->assertStatus(302);
 
-    $response->assertSessionHasErrors(['name']);
+    $response->assertSessionHasErrors(['email']);
 
     $this->assertDatabaseMissing('users', [
-        'email' => $email,
+        'name' => $name,
         'status' => Status::ACTIVE->value,
-        'role_id' => $testUser->role_id,
+        'role_id' => $role->id,
     ]);
 });

@@ -25,7 +25,7 @@ const form = useForm({
     _method: 'patch'
 });
 const submit = () => {
-    form.post(route('roles.update', role.id), {
+    form.post(route('role.update', role.id), {
         forceFormData: true,
     });
 };

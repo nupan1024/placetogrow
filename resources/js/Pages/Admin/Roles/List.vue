@@ -43,7 +43,7 @@ const loadRoles = (url = null) => {
 }
 const form = useForm({});
 const deleteRole = () => {
-    form.delete(route('roles.delete', roleId.value), {
+    form.delete(route('role.delete', roleId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
         onFinish: () => loadRoles()
@@ -68,7 +68,7 @@ loadRoles();
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
                             <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_ROLE)"
-                               :href="route('roles.create')"
+                               :href="route('role.create')"
                                class="btn btn-link">
                                 {{ $page.props.$t.roles.create }}
                             </a>
@@ -89,7 +89,7 @@ loadRoles();
                                 <td>
                                     <div v-if="!rolesProtect.includes(role.name)">
                                         <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_ROLE)"
-                                           :href="route('roles.edit', role.id)" class="text-indigo-500 hover:underline">
+                                           :href="route('role.edit', role.id)" class="text-indigo-500 hover:underline">
                                             {{ $page.props.$t.labels.edit }}
                                         </a>&nbsp;
                                         <button v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_ROLE)"
