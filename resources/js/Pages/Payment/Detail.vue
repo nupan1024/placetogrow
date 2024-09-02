@@ -22,7 +22,7 @@ const status = usePage().props.status;
 
 
         <div class="border border-gray-300 max-w-md mx-auto space-y-4 bg-black/5 p-4 rounded-lg shadow">
-          <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow"> Tus datos personales</span>
+          <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.payments.data }}</span>
            <div class="flex gap-4">
                {{ $page.props.$t.labels.name }}: {{ payment.name }}
            </div>
@@ -32,7 +32,7 @@ const status = usePage().props.status;
             <div class="flex gap-4">
                 {{ $page.props.$t.labels.document }}: {{ payment.num_document }}
             </div>
-            <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow"> Datos de pago</span>
+            <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.payments.data_payment }}</span>
             <div class="flex gap-4">
                 {{ $page.props.$t.payments.code }}: {{ payment.reference }}
             </div>
@@ -42,6 +42,9 @@ const status = usePage().props.status;
             <div class="flex gap-4">
                 {{ $page.props.$t.payments.status }}: {{status.status }}
             </div>
+        </div>
+        <div class="flex justify-center">
+            <a :href="route('home')" class="btn btn-active mt-4">{{ $page.props.$t.payments.back }}</a>
         </div>
     </GuestLayout>
 </template>

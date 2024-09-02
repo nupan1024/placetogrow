@@ -45,7 +45,7 @@ loadMicrosites();
         <div class="container px-3 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
 
             <div v-for="microsite in microsites.data" :key="microsite.id" class="card card-compact bg-base-100 shadow-lg mt-6">
-                <a :href="route('form.micrositio', microsite.id)">
+                <a :href="route('form.microsite', microsite.id)">
                     <div class="text-center mt-4" v-if="microsite.logo_path">
                         <LogoMicrositio :url="`/storage/${microsite.logo_path}`" />
                     </div>
