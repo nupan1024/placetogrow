@@ -34,7 +34,6 @@ test('store invoice success', function () {
         'value' => $value,
         'description' => $description,
         'status' => StatusInvoices::PENDING->name,
-        'code' => $code,
     ];
 
     $response = $this->post(route("invoice.store"), $data);
@@ -52,7 +51,6 @@ test('store invoice success', function () {
         'value' => $value,
         'description' => $description,
         'status' => StatusInvoices::PENDING->name,
-        'code' => $code,
     ]);
 });
 

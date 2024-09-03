@@ -47,7 +47,7 @@ test('view edit microsite when user has permission', function () {
     $response->assertStatus(200);
 });
 
-test('view create microsite when user does not have permission', function () {
+test('view edit microsite when user does not have permission', function () {
     PermissionFactory::new()->createMany(Permissions::toArray());
 
     $role = new Role();
