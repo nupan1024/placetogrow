@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Admin\FieldsController;
 use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
+use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
 use App\Support\Definitions\Permissions;
@@ -164,6 +165,9 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
             Authorize::using(Permissions::DELETE_ROLE->value),
             ProtectRoles::class,
         ]);
+
+    Route::get('/microsites/{microsite}/subscriptions', [SubscriptionController::class, 'index'])
+        ->name('subscriptions');
 });
 
 Route::middleware('auth')->group(function () {

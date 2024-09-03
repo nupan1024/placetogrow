@@ -1,0 +1,14 @@
+<?php
+
+return [
+    'title' => 'Suscripciones',
+    'list' => 'Lista de suscripciones',
+    'create' => 'Crear suscripción',
+    'edit' => 'Editar suscripción',
+    'delete' => 'Eliminar suscripción',
+    'msj_delete' => '¿Estás seguro de eliminar el suscripción',
+    'tooltip' => 'Busca por nombre, correo electrónico o rol',
+    'success_create' => 'Se creó el suscripción con éxito.',
+    'success_update' => 'Se actualizó el suscripción con éxito.',
+
+];
