@@ -8,7 +8,7 @@ use App\Support\Definitions\StatusInvoices;
 
 class GetInvoicesByMicrositeAndUser implements Action
 {
-    public static function execute(array $params): array
+    public static function execute(array $params = [], $model = null): array
     {
         return Invoice::where('microsite_id', $params['microsite_id'])
              ->where('user_id', $params['user_id'])

@@ -42,10 +42,10 @@ const deleteMicrositio = () => {
 const searchMicrosites = (text) => {
     searchTerm.value = text;
 
-    loadMicrosites(`${route('api.admin.microsites.list')}/?filter=${text}`);
+    loadMicrosites(`${route('api.admin.microsites')}/?filter=${text}`);
 }
 const loadMicrosites = (url = null) => {
-    axios.get(url || route('api.admin.microsites.list')).then((response) => {
+    axios.get(url || route('api.admin.microsites')).then((response) => {
         microsites.value = response.data.data
 
     }).catch((error) => {
@@ -90,11 +90,11 @@ loadMicrosites();
                             <tbody>
                             <tr v-for="microsite in microsites.data" :key="microsite.id" class="hover">
                                 <td>{{ microsite.name }}</td>
-                                <td>{{ microsite.category.name }}</td>
-                                <td>{{ microsite.type.name }}</td>
+                                <td>{{ microsite.category }}</td>
+                                <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
-                                    <a :href="route('micrositio.form', microsite.id)"
+                                    <a :href="route('form.microsite', microsite.id)"
                                        target="_blank" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.see }}
                                     </a>&nbsp

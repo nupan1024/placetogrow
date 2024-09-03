@@ -82,7 +82,7 @@ class PlaceToPayService implements PaymentGateway
         if (!$response->isSuccessful()) {
             Log::channel('Payment')->error($response->status()->message());
             return new PaymentResponse(
-                0,
+                '0',
                 route('home')
             );
         }

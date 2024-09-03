@@ -22,5 +22,15 @@ test('delete user', function () {
         'password' => Hash::make('password'),
     ]);
 
-    expect(DeleteUser::execute(['user' => $user]))->toBeTrue();
+    expect(DeleteUser::execute([], $user))->toBeTrue();
+});
+
+test('Delete user catches exception', function () {
+    $model = \Mockery::mock(User::class);
+
+    // @phpstan-ignore-next-line
+    $model->shouldReceive('delete')->andThrow(new \Exception('Error deleting user'));
+    $response = DeleteUser::execute([], $model);
+
+    expect($response)->toBeFalse();
 });

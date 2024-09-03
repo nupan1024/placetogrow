@@ -30,11 +30,10 @@ class PaymentController extends Controller
         $placetopay = $paymentService->create($request->validated());
 
         UpdatePayment::execute([
-            'payment' => $payment,
             'url' => $placetopay->url,
             'request_id' => $placetopay->processIdentifier,
             'status' => StatusInvoices::PENDING->name,
-        ]);
+        ], $payment);
 
         return Inertia::location($placetopay->url);
     }

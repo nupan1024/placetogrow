@@ -44,10 +44,10 @@ const deleteInvoice = () => {
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.invoices.list')}/?filter=${text}`);
+    loadInvoices(`${route('api.admin.invoices')}/?filter=${text}`);
 }
 const loadInvoices = (url = null) => {
-    axios.get(url || route('api.invoices.list')).then((response) => {
+    axios.get(url || route('api.admin.invoices')).then((response) => {
         invoices.value = response.data.data
 
     }).catch((error) => {
@@ -91,8 +91,8 @@ loadInvoices();
                             <tbody>
                             <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover">
                                 <td>{{ invoice.code }}</td>
-                                <td>{{ invoice.user.name }}</td>
-                                <td>{{ invoice.microsite.name }}</td>
+                                <td>{{ invoice.user }}</td>
+                                <td>{{ invoice.microsite }}</td>
                                 <td>{{ invoice.description.slice(0,100) }}</td>
                                 <td>{{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>

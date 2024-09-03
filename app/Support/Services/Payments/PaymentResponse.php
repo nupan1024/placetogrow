@@ -5,7 +5,7 @@ namespace App\Support\Services\Payments;
 class PaymentResponse
 {
     public function __construct(
-        public int $processIdentifier,
+        public string $processIdentifier,
         public string $url,
     ) {
     }

@@ -45,9 +45,7 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        UpdateRole::execute([
-            'fields' => $request->validated(), 'role' => $role,
-        ]);
+        UpdateRole::execute($request->validated(), $role);
         Cache::forget(config('cache.stores.key.roles'));
         return redirect()->route('roles')->with([
             'message' => __('roles.success_update'),
@@ -57,7 +55,7 @@ class RolesController extends Controller
 
     public function delete(Role $role): RedirectResponse
     {
-        if (!DeleteRole::execute(['role' => $role])) {
+        if (!DeleteRole::execute([], $role)) {
             return redirect()->route('roles')->with([
                 'message' => trans('roles.error_delete'),
                 'type' => 'error',

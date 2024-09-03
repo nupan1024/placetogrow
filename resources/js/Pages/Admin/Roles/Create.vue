@@ -17,7 +17,7 @@ const form = useForm({
     permissions: ref([])
 });
 const submit = () => {
-    form.post(route('roles.store'), {
+    form.post(route('role.store'), {
         forceFormData: true,
     });
 };

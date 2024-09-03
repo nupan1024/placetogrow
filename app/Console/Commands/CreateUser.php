@@ -6,6 +6,7 @@ use App\Support\Definitions\Roles;
 use App\Support\Definitions\Status;
 use Illuminate\Console\Command;
 use App\Domain\Users\Actions\CreateUser as ActionCreateUser;
+use Illuminate\Support\Facades\Cache;
 
 class CreateUser extends Command
 {
@@ -41,6 +42,7 @@ class CreateUser extends Command
         ];
 
         $result = ActionCreateUser::execute($params);
+        Cache::forget(config('cache.stores.key.users'));
         (!$result) ? $this->error('Error to create user') : $this->info('User has been created!');
     }
 

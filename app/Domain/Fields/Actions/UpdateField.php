@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateField implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $params['field']->type = $params['data']['type'];
-            $params['field']->label = $params['data']['label'];
-            $params['field']->attributes = $params['data']['attributes'] ?? [];
+            $model->type = $params['type'];
+            $model->label = $params['label'];
+            $model->attributes = $params['attributes'] ?? [];
 
-            return $params['field']->save();
+            return $model->save();
         } catch (\Exception $e) {
             Log::channel('Fields')->error('Error updating field: '.$e->getMessage());
 

@@ -5,6 +5,8 @@ use App\Domain\Microsites\Actions\UpdateMicrosite;
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Definitions\Status;
 use Illuminate\Http\UploadedFile;
+use function PHPUnit\Framework\assertTrue;
+use function PHPUnit\Framework\assertFalse;
 
 test('update microsite', function () {
     $microsite = Microsite::factory()->create();
@@ -18,10 +20,7 @@ test('update microsite', function () {
         'status' => Status::ACTIVE->value,
     ];
 
-    $this->assertTrue(UpdateMicrosite::execute([
-        'fields' => $params,
-        'microsite' => $microsite
-    ]));
+    assertTrue(UpdateMicrosite::execute($params, $microsite));
 });
 
 test('generate exception', function () {
@@ -40,8 +39,5 @@ test('generate exception', function () {
         'status' => Status::ACTIVE->value,
     ];
 
-    $this->assertFalse(UpdateMicrosite::execute([
-        'fields' => $params,
-        'microsite' => $microsite
-    ]));
+    assertFalse(UpdateMicrosite::execute($params, $microsite));
 });

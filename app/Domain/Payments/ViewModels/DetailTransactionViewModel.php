@@ -2,9 +2,13 @@
 
 namespace App\Domain\Payments\ViewModels;
 
+use App\Domain\Payments\Models\Payment;
 use App\Support\Services\Payments\Gateways\PlaceToPayService;
 use App\Support\ViewModels\ViewModel;
 
+/**
+ * @extends ViewModel<Payment>
+ */
 class DetailTransactionViewModel extends ViewModel
 {
     public function toArray(): array
@@ -14,8 +18,11 @@ class DetailTransactionViewModel extends ViewModel
          */
         $placetopay = app(PlaceToPayService::class);
         return [
-            'payment' => $this->model()->with(['microsite'])->find($this->model()->id),
-            'status' => $placetopay->getPaymentStatus($this->model())
+            'payment' => $this->model()
+                ->with(['microsite'])
+                ->find($this->model()->getKey()),
+            'status' => $placetopay->getPaymentStatus($this->model()),
         ];
     }
+
 }

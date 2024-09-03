@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateStatusInvoice implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
 
-            $params['model']->status = $params['status'];
-            return $params['model']->save();
+            $model->status = $params['status'];
+            return $model->save();
         } catch (\Exception $e) {
             Log::channel('Invoices')->error('Error updating invoice: '.$e->getMessage());
 

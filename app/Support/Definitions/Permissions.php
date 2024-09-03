@@ -22,6 +22,7 @@ enum Permissions: string
     case UPDATE_FIELD = 'Update field';
     case DELETE_FIELD = 'Delete field';
     case INVOICES = 'List invoices';
+
     case CREATE_INVOICE = 'Create invoices';
     case UPDATE_INVOICE = 'Update invoices';
     case DELETE_INVOICE = 'Delete invoices';

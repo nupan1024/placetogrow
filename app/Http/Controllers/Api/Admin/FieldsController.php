@@ -10,15 +10,15 @@ use Illuminate\Http\Request;
 
 class FieldsController extends Controller
 {
-    public function list(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $filter = $request->get('filter');
-
+        $params = [
+            'filter' => $filter,
+            'page' => $request->get('page', 1),
+        ];
         return response()->json(
-            new StandardResource(ListFields::execute([
-                'filter' => $filter,
-                'page' => $request->get('page', 1),
-            ]))
+            new StandardResource(ListFields::execute($params))
         );
     }
 }

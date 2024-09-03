@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class CreateInvoice implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             $field = new Invoice();

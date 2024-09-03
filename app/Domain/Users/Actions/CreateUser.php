@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role;
 
 class CreateUser implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             $user = new User();

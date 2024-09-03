@@ -47,7 +47,7 @@ class MicrositeController extends Controller
 
     public function update(UpdateMicrositeRequest $request, Microsite $microsite): RedirectResponse
     {
-        UpdateMicrosite::execute(['fields' => $request->validated(), 'microsite' => $microsite]);
+        UpdateMicrosite::execute($request->validated(), $microsite);
         Cache::forget(config('cache.stores.key.microsites_admin'));
         Cache::forget(config('cache.stores.key.microsites'));
 
@@ -59,7 +59,7 @@ class MicrositeController extends Controller
 
     public function delete(Microsite $microsite): RedirectResponse
     {
-        $response = DeleteMicrosite::execute(['microsite' => $microsite]);
+        $response = DeleteMicrosite::execute([], $microsite);
         if($response['status'] === false) {
             return redirect()->route('microsites')->with([
                 'message' => $response['message'],

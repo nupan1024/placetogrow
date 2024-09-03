@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
 {
-    public function list(Request $request, User $user): JsonResponse
+    public function index(Request $request, User $user): JsonResponse
     {
         $filter = $request->get('filter');
 

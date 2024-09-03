@@ -12,7 +12,10 @@ class FormMicrosite extends ViewModel
 {
     public function toArray(): array
     {
-        $microsite = $this->model()->with(['category', 'type', 'currency'])->find($this->model()->id);
+        /**
+         * @var \App\Domain\Microsites\Models\Microsite $microsite
+         */
+        $microsite = $this->model()->with(['category', 'type', 'currency'])->find($this->model()->getKey());
         $invoices = [];
         if ($microsite->date_expire_pay &&
             $microsite->date_expire_pay >= now() &&

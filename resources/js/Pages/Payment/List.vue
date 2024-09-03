@@ -19,10 +19,10 @@ const user = usePage().props.auth.user ?? '';
 const searchPayments = (text) => {
     searchTerm.value = text;
 
-    loadPayments(`${route('api.payments.listUser', user.id)}/?filter=${text}`);
+    loadPayments(`${route('api.user.payments', user.id)}/?filter=${text}`);
 }
 const loadPayments = (url = null) => {
-    axios.get(url || route('api.payments.listUser', user.id)).then((response) => {
+    axios.get(url || route('api.user.payments', user.id)).then((response) => {
         payments.value = response.data.data
 
     }).catch((error) => {
@@ -60,7 +60,7 @@ loadPayments();
                             <tbody>
                             <tr v-for="payment in payments.data" :key="payment.id" class="hover">
                                 <td>{{ payment.request_id }}</td>
-                                <td>{{ payment.microsite.type.name }}</td>
+                                <td>{{ payment.microsite_type_name }}</td>
                                 <td>{{ payment.status }}</td>
                                 <td>$ {{ payment.value }}</td>
                                 <td>

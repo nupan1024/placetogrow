@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 
 class CreateRole implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             $role = new Role();

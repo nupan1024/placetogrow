@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Role;
 
 class ListRoles implements Action
 {
-    public static function execute(array $params): LengthAwarePaginator
+    public static function execute(array $params = [], $model = null): LengthAwarePaginator
     {
         $cacheKey = 'roles_page_'.$params['page'].'_filter_'.$params['filter'];
         return Cache::remember(

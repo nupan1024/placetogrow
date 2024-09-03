@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GetUsersByRole implements Action
 {
-    public static function execute(array $params): Collection
+    public static function execute(array $params = [], $model = null): Collection
     {
         return User::select('id', 'name', 'email')->where('role_id', $params['role'])->get();
     }
