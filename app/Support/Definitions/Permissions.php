@@ -26,6 +26,10 @@ enum Permissions: string
     case CREATE_INVOICE = 'Create invoices';
     case UPDATE_INVOICE = 'Update invoices';
     case DELETE_INVOICE = 'Delete invoices';
+    case SUBSCRIPTIONS = 'List subscriptions';
+    case CREATE_SUBSCRIPTION = 'Create subscriptions';
+    case UPDATE_SUBSCRIPTION = 'Update subscriptions';
+    case DELETE_SUBSCRIPTION = 'Delete subscriptions';
 
     public static function toArray(): array
     {

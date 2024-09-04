@@ -57,6 +57,10 @@ const showingNavigationDropdown = ref(false);
                                          :href="route('invoices')" :active="route().current('invoices')">
                                     {{ $page.props.$t.invoices.title }}
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.SUBSCRIPTIONS)"
+                                         :href="route('subscriptions')" :active="route().current('subscriptions')">
+                                    {{ $page.props.$t.subscriptions.title }}
+                                </NavLink>
                             </div>
                         </div>
 

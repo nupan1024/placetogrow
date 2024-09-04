@@ -2,6 +2,7 @@
 
 use App\Domain\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
+
 use function Pest\Laravel\get;
 
 test('list fields for admin', function () {

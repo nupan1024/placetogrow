@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Domain\Invoices\Actions\CreateInvoice;
-use App\Domain\Invoices\Actions\DeleteInvoice;
-use App\Domain\Invoices\Actions\UpdateInvoice;
-use App\Domain\Invoices\Models\Invoice;
-use App\Domain\Invoices\ViewModels\CreateViewInvoices;
-use App\Domain\Invoices\ViewModels\EditViewInvoices;
+use App\Domain\Subscriptions\Actions\CreateSubscription;
+use App\Domain\Subscriptions\Actions\DeleteSubscription;
+use App\Domain\Subscriptions\Actions\UpdateSubscription;
+use App\Domain\Subscriptions\Models\Subscription;
+use App\Domain\Subscriptions\ViewModels\CreateViewSubscriptions;
+use App\Domain\Subscriptions\ViewModels\EditViewSubscriptions;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Invoice\CreateInvoiceRequest;
-use App\Http\Requests\Admin\Invoice\UpdateInvoiceRequest;
+use App\Http\Requests\Admin\Subscription\CreateSubscriptionRequest;
+use App\Http\Requests\Admin\Subscription\UpdateSubscriptionRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,49 +27,52 @@ class SubscriptionController extends Controller
     {
         return Inertia::render(
             'Admin/Subscriptions/Create',
-            app(CreateViewInvoices::class)
+            app(CreateViewSubscriptions::class)
         );
     }
 
-    public function store(CreateInvoiceRequest $request): RedirectResponse
+    public function store(CreateSubscriptionRequest $request): RedirectResponse
     {
-        CreateInvoice::execute($request->validated());
+        CreateSubscription::execute($request->validated());
+        Cache::forget(config('cache.stores.key.subscriptions_admin'));
 
-        return redirect()->route('invoices')->with([
-            'message' => __('invoices.success_create'),
+        return redirect()->route('subscriptions')->with([
+            'message' => __('subscriptions.success_create'),
             'type' => 'success',
         ]);
     }
 
-    public function edit(Invoice $invoice): Response
+    public function edit(Subscription $subscription): Response
     {
         return Inertia::render(
             'Admin/Subscriptions/Edit',
-            new EditViewInvoices($invoice)
+            new EditViewSubscriptions($subscription)
         );
     }
 
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice): RedirectResponse
+    public function update(UpdateSubscriptionRequest $request, Subscription $subscription): RedirectResponse
     {
-        UpdateInvoice::execute($request->validated(), $invoice);
+        UpdateSubscription::execute($request->validated(), $subscription);
+        Cache::forget(config('cache.stores.key.subscriptions_admin'));
 
-        return redirect()->route('invoices')->with([
-            'message' => __('invoices.success_update'),
+        return redirect()->route('subscriptions')->with([
+            'message' => __('subscriptions.success_update'),
             'type' => 'success',
         ]);
     }
 
-    public function delete(Invoice $invoice): RedirectResponse
+    public function delete(Subscription $subscription): RedirectResponse
     {
-        if(!DeleteInvoice::execute([], $invoice)) {
-            return redirect()->route('invoices')->with([
-                'message' => __('invoices.error_delete'),
+        if(!DeleteSubscription::execute([], $subscription)) {
+            return redirect()->route('subscriptions')->with([
+                'message' => 'error',
                 'type' => 'error',
             ]);
         }
 
-        return redirect()->route('invoices')->with([
-            'message' => __('invoices.success_delete'),
+        Cache::forget(config('cache.stores.key.subscriptions_admin'));
+        return redirect()->route('subscriptions')->with([
+            'message' => __('subscriptions.success_delete'),
             'type' => 'success',
         ]);
     }

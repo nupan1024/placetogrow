@@ -22,7 +22,7 @@ class CreateViewModel extends ViewModel
         return [
             'categories' => Category::where('status', Status::ACTIVE->value)->get(),
             'microsites_types' => MicrositeType::where('status', Status::ACTIVE->value)->get(),
-            'currencies' => Currency::where('status', Status::ACTIVE->value)->get(),
+            'currencies' => Currency::all(),
             'states' => Status::asOptions(),
             'fields' => Field::select('name', 'label')->get(),
         ];

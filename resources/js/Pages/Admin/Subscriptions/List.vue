@@ -10,13 +10,13 @@ import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 
-const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list, usePage().props.$t.subscriptions.list];
+const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.subscriptions.list];
 
 const props = defineProps({ users: Object });
 
 const message = usePage().props.$t.subscriptions.tooltip;
 const searchTerm = ref('');
-const invoices = ref([]);
+const subscriptions = ref([]);
 const isOpenModal = ref(false);
 
 const closeModal = () => {
@@ -25,36 +25,36 @@ const closeModal = () => {
     form.reset();
 };
 
-const invoiceId = ref('');
-const invoiceCode = ref('');
+const subscriptionId = ref('');
+const subscriptionName = ref('');
 const openModal = (e) => {
-    invoiceId.value = e.target.dataset.id ?? "";
-    invoiceCode.value = e.target.dataset.code ?? "";
+    subscriptionId.value = e.target.dataset.id ?? "";
+    subscriptionName.value = e.target.dataset.name ?? "";
     isOpenModal.value = true;
 };
 
 const form = useForm({});
-const deleteInvoice = () => {
-    form.delete(route('invoice.delete', invoiceId.value), {
+const deleteSubscription = () => {
+    form.delete(route('subscription.delete', subscriptionId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => loadInvoices(),
+        onFinish: () => loadSubscriptions(),
     });
 }
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.admin.invoices')}/?filter=${text}`);
+    loadSubscriptions(`${route('api.admin.subscriptions')}/?filter=${text}`);
 }
-const loadInvoices = (url = null) => {
-    axios.get(url || route('api.admin.invoices')).then((response) => {
-        invoices.value = response.data.data
+const loadSubscriptions = (url = null) => {
+    axios.get(url || route('api.admin.subscriptions')).then((response) => {
+        subscriptions.value = response.data.data
 
     }).catch((error) => {
         console.log(error);
     });
 }
-loadInvoices();
+loadSubscriptions();
 </script>
 
 <template>
@@ -69,8 +69,8 @@ loadInvoices();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_INVOICE)"
-                               :href="route('invoice.create')" class="btn btn-link">{{ $page.props.$t.subscriptions.create }}</a>
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_SUBSCRIPTION)"
+                               :href="route('subscription.create')" class="btn btn-link">{{ $page.props.$t.subscriptions.create }}</a>
                         </div>
                         <SearchForm @search="searchFields" :message="message"/>
                     </div>
@@ -79,29 +79,33 @@ loadInvoices();
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">{{ $page.props.$t.invoices.code }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.name_client }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.microsites }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.name }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.description }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.value }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.currency }}</th>
+                                <th scope="col">{{ $page.props.$t.subscriptions.amount }}</th>
+                                <th scope="col">{{ $page.props.$t.invoices.microsites }}</th>
+                                <th scope="col">{{ $page.props.$t.subscriptions.time_expire }}</th>
+                                <th scope="col">{{ $page.props.$t.subscriptions.billing_frequency }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.status }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.options }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover">
-                                <td>{{ invoice.code }}</td>
-                                <td>{{ invoice.user }}</td>
-                                <td>{{ invoice.microsite }}</td>
-                                <td>{{ invoice.description.slice(0,100) }}</td>
-                                <td>{{ invoice.value }}</td>
-                                <td>{{ invoice.status }}</td>
+                            <tr v-for="subscription in subscriptions.data" :key="subscription.id" class="hover">
+                                <td>{{ subscription.name }}</td>
+                                <td>{{ subscription.description.slice(0,100) }}</td>
+                                <td>{{ subscription.currency }}</td>
+                                <td>${{ subscription.amount }}</td>
+                                <td>{{ subscription.microsite }}</td>
+                                <td>{{ subscription.time_expire }}</td>
+                                <td>{{ subscription.billing_frequency }}</td>
+                                <td>{{ subscription.status }}</td>
                                 <td>
-                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_INVOICE)"
-                                       :href="route('invoice.edit', invoice.id)"
+                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_SUBSCRIPTION)"
+                                       :href="route('subscription.edit', subscription.id)"
                                        class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
-                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_INVOICE)"
-                                       :data-id="invoice.id" :data-code="invoice.code" @click="openModal"
+                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_SUBSCRIPTION)"
+                                       :data-id="subscription.id" :data-name="subscription.name" @click="openModal"
                                        class="btn btn-link">{{ $page.props.$t.labels.delete }}</a>
                                 </td>
                             </tr>
@@ -109,22 +113,22 @@ loadInvoices();
                         </table>
                     </div>
                 </div>
-                <Pagination v-if="invoices && invoices.data?.length > 0" class="mt-6 mb-6" :links="invoices.links"
-                            :filter="`&filter=${searchTerm}`" :click="loadInvoices"/>
+                <Pagination v-if="subscriptions && subscriptions.data?.length > 0" class="mt-6 mb-6" :links="subscriptions.links"
+                            :filter="`&filter=${searchTerm}`" :click="loadSubscriptions"/>
             </div>
         </div>
         <Modal :show="isOpenModal" @close="closeModal">
             <template v-slot>
                 <div class="p-6">
-                    <h2 class="text-lg font-semibold">{{ $page.props.$t.invoices.delete }}</h2>
-                    <p class="mt-4">{{ $page.props.$t.invoices.msj_delete }} {{ invoiceCode }}?</p>
+                    <h2 class="text-lg font-semibold">{{ $page.props.$t.subscriptions.delete }}</h2>
+                    <p class="mt-4">{{ $page.props.$t.subscriptions.msj_delete }} {{ subscriptionName }}?</p>
                     <div class="mt-6 flex justify-end">
                         <SecondaryButton @click="closeModal"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
                         <DangerButton
                             class="ml-3"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
-                            @click="deleteInvoice"
+                            @click="deleteSubscription"
                         >
                             {{ $page.props.$t.labels.delete }}
                         </DangerButton>
