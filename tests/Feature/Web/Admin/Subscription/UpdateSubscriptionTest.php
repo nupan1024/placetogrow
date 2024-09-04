@@ -1,7 +1,5 @@
 <?php
 
-use App\Domain\Currencies\Models\Currency;
-use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Subscriptions\Models\Subscription;
 use App\Domain\Users\Models\User;
 use App\Support\Definitions\BillingFrequency;

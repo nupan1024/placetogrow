@@ -4,6 +4,7 @@ namespace App\Domain\Roles\Actions;
 
 use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -28,7 +29,13 @@ class DeleteRole implements Action
             return false;
         }
 
-        return $model->delete();
+        $response = $model->delete();
+
+        if ($response) {
+            Cache::forget(config('cache.stores.key.roles'));
+        }
+
+        return $response;
     }
 
 }

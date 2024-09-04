@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Subscription\CreateSubscriptionRequest;
 use App\Http\Requests\Admin\Subscription\UpdateSubscriptionRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -34,7 +33,6 @@ class SubscriptionController extends Controller
     public function store(CreateSubscriptionRequest $request): RedirectResponse
     {
         CreateSubscription::execute($request->validated());
-        Cache::forget(config('cache.stores.key.subscriptions_admin'));
 
         return redirect()->route('subscriptions')->with([
             'message' => __('subscriptions.success_create'),
@@ -53,7 +51,6 @@ class SubscriptionController extends Controller
     public function update(UpdateSubscriptionRequest $request, Subscription $subscription): RedirectResponse
     {
         UpdateSubscription::execute($request->validated(), $subscription);
-        Cache::forget(config('cache.stores.key.subscriptions_admin'));
 
         return redirect()->route('subscriptions')->with([
             'message' => __('subscriptions.success_update'),
@@ -70,7 +67,6 @@ class SubscriptionController extends Controller
             ]);
         }
 
-        Cache::forget(config('cache.stores.key.subscriptions_admin'));
         return redirect()->route('subscriptions')->with([
             'message' => __('subscriptions.success_delete'),
             'type' => 'success',

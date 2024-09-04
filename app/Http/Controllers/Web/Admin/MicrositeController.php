@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Microsite\CreateMicrositeRequest;
 use App\Http\Requests\Admin\Microsite\UpdateMicrositeRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,8 +30,6 @@ class MicrositeController extends Controller
     public function store(CreateMicrositeRequest $request): RedirectResponse
     {
         CreateMicrosite::execute($request->validated());
-        Cache::forget(config('cache.stores.key.microsites_admin'));
-        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => __('microsites.success_create'),
@@ -48,8 +45,6 @@ class MicrositeController extends Controller
     public function update(UpdateMicrositeRequest $request, Microsite $microsite): RedirectResponse
     {
         UpdateMicrosite::execute($request->validated(), $microsite);
-        Cache::forget(config('cache.stores.key.microsites_admin'));
-        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => __('microsites.success_update'),
@@ -66,8 +61,6 @@ class MicrositeController extends Controller
                 'type' => 'error',
             ]);
         }
-        Cache::forget(config('cache.stores.key.microsites_admin'));
-        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites');
     }

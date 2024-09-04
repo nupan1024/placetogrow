@@ -1,7 +1,6 @@
 <?php
 
 use App\Domain\Subscriptions\Models\Subscription;
-use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Users\Models\User;
 use App\Support\Definitions\Permissions;
 use App\Support\Definitions\Roles;

@@ -3,6 +3,7 @@
 namespace App\Domain\Subscriptions\Actions;
 
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class UpdateSubscription implements Action
@@ -18,7 +19,13 @@ class UpdateSubscription implements Action
             $model->time_expire = $params['time_expire'];
             $model->billing_frequency = $params['billing_frequency'];
             $model->currency_id = $params['currency_id'];
-            return $model->save();
+            $result = $model->save();
+
+            if ($result) {
+                Cache::forget(config('cache.stores.key.subscriptions_admin'));
+            }
+
+            return $result;
         } catch (\Exception $e) {
             Log::channel('Subscriptions')->error('Error updating subscription: '.$e->getMessage());
 
