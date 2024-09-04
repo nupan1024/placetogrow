@@ -33,7 +33,6 @@ test('microsite with this field', function () {
 
     $currency = Currency::factory()->create([
         'name' => 'USD',
-        'status' => Status::ACTIVE->value,
     ]);
     Microsite::factory()->create([
         'microsites_type_id' => MicrositesTypes::SUBSCRIPTIONS->value,

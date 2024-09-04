@@ -21,5 +21,5 @@ test('Delete invoice with status different than pending', function () {
 
 test('Does not receive invoice model', function () {
 
-    expect(DeleteInvoice::execute(['model' => null]))->toBeFalse();
+    expect(DeleteInvoice::execute([]))->toBeFalse();
 });
