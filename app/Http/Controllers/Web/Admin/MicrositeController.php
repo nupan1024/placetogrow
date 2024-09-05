@@ -8,6 +8,7 @@ use App\Domain\Microsites\Actions\UpdateMicrosite;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\ViewModels\CreateViewModel;
 use App\Domain\Microsites\ViewModels\EditViewModel;
+use App\Domain\Microsites\ViewModels\ListByMicrositeViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Microsite\CreateMicrositeRequest;
 use App\Http\Requests\Admin\Microsite\UpdateMicrositeRequest;
@@ -20,6 +21,22 @@ class MicrositeController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/Microsites/List');
+    }
+
+    public function invoices(Microsite $microsite): Response
+    {
+        return Inertia::render(
+            'Admin/Microsites/ListInvoice',
+            new ListByMicrositeViewModel($microsite)
+        );
+    }
+
+    public function subscriptions(Microsite $microsite): Response
+    {
+        return Inertia::render(
+            'Admin/Microsites/ListSubscription',
+            new ListByMicrositeViewModel($microsite)
+        );
     }
 
     public function create(): Response

@@ -22,6 +22,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::get('/admin/microsites', [MicrositeController::class, 'index'])->name('.admin.microsites');
+    Route::get('/admin/microsite/{microsite}/subscriptions', [MicrositeController::class, 'subscriptions'])->name('.admin.microsite.subscriptions');
+    Route::get('/admin/microsite/{microsite}/invoices', [MicrositeController::class, 'invoices'])->name('.admin.microsite.invoices');
     Route::get('/admin/users', [UserController::class, 'index'])->name('.admin.users');
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('.admin.roles');
     Route::get('/admin/payments', [PaymentController::class, 'index'])->name('.admin.payments');

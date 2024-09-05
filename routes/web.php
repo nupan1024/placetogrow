@@ -92,6 +92,14 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
         ->name('microsites')
         ->middleware([Authorize::using(Permissions::MICROSITES->value)]);
 
+    Route::get('/microsite/{microsite}/subscriptions', [MicrositeController::class, 'subscriptions'])
+        ->name('microsite.subscriptions')
+        ->middleware(Authorize::using(Permissions::SUBSCRIPTIONS->value));
+
+    Route::get('/microsite/{microsite}/invoices', [MicrositeController::class, 'invoices'])
+        ->name('microsite.invoices')
+        ->middleware(Authorize::using(Permissions::INVOICES->value));
+
     Route::middleware([Authorize::using(Permissions::CREATE_MICROSITE->value)])
         ->group(function () {
             Route::get('/create', [MicrositeController::class, 'create'])

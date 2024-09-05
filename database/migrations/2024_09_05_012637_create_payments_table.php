@@ -21,6 +21,7 @@ return new class () extends Migration {
             $table->foreignId('microsite_id')->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->foreignId('invoice_id')->nullable()->constrained();
+            $table->foreignId('subscription_id')->nullable()->constrained();
             $table->string('reference');
             $table->integer('request_id')->nullable();
             $table->string('process_url', 255)->nullable();
