@@ -24,5 +24,7 @@ return [
     'code' => 'Código',
     'pay' => 'Ir a pagar',
     'pending' => 'PENDING',
+    'import' => 'Importar facturas',
+    'list_import' => 'Lista de facturas importadas',
 
 ];

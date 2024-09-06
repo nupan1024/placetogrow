@@ -33,4 +33,5 @@ return [
     'document' => 'Documento de identidad',
     'attributes' => 'Atributos',
     'label' => 'Label',
+    'import' => 'Importar',
 ];

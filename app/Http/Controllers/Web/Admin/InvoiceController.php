@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Domain\Invoices\Actions\CreateInvoice;
 use App\Domain\Invoices\Actions\DeleteInvoice;
+use App\Domain\Invoices\Actions\ImportInvoices;
 use App\Domain\Invoices\Actions\UpdateInvoice;
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Invoices\ViewModels\CreateViewInvoices;
 use App\Domain\Invoices\ViewModels\EditViewInvoices;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Invoice\CreateInvoiceRequest;
+use App\Http\Requests\Admin\Invoice\ImportInvoicesRequest;
 use App\Http\Requests\Admin\Invoice\UpdateInvoiceRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -71,6 +73,18 @@ class InvoiceController extends Controller
             'message' => __('invoices.success_delete'),
             'type' => 'success',
         ]);
+    }
+
+    public function imports(): Response
+    {
+        return Inertia::render('Admin/Invoices/Import/List');
+    }
+
+    public function import(ImportInvoicesRequest $request): Response
+    {
+        ImportInvoices::execute($request->validated());
+        dd($request->validated());
+        return Inertia::render('Admin/ImportInvoice/Create');
     }
 
 }

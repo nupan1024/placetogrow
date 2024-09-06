@@ -33,6 +33,7 @@ return [
     'document' => 'Identification document',
     'attributes' => 'Attributes',
     'label' => 'Label',
+    'import' => 'Import',
 
 
 ];

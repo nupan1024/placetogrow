@@ -24,5 +24,6 @@ return [
     'code' => 'Code',
     'pay' => 'Go to pay',
     'pending' => 'PENDING',
+    'import' => 'Import invoices',
 
 ];
