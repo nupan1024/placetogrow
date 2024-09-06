@@ -19,6 +19,7 @@ use App\Http\Controllers\Web\InvoicesController as UserInvoiceController;
 use Illuminate\Support\Facades\Session;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/reto', [HomeController::class, 'auth'])->name('auth');
 Route::get('/greeting/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'es'])) {
         abort(400);

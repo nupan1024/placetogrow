@@ -30,11 +30,22 @@ const loadMicrosites = (url = null) => {
     });
 }
 loadMicrosites();
+let msjReto = ref('');
+const  sendPostRequest = () => {
+    axios.post(route('auth')).then((response) => {
+        msjReto.value = response.data.data.message
+
+    }).catch((error) => {
+        console.log(error);
+    });
+}
 </script>
 
 <template>
     <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <GuestLayout>
+        <button @click.prevent="sendPostRequest" class="btn btn-link">Boton reto</button>
+        <h2 id="respuesta_reto">{{ msjReto }} </h2>
         <div class="flex items-center">
             <div class="p-4 grow">
                 <h2 class="mx-auto text-center font-semibold text-2xl text-gray-800 leading-tight underline">{{ $page.props.$t.microsites.list }}</h2>
