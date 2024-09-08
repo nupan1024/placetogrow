@@ -49,6 +49,28 @@ test('validate form microsite when is donation', function () {
             ->where('microsite.id', $microsite->id)
             ->has('fields')
             ->has('documents')
-            ->has('invoices')
+    );
+});
+
+test('validate form microsite when is subscription', function () {
+    MicrositeType::factory()->create([
+        'id' => MicrositesTypes::SUBSCRIPTIONS->value,
+    ]);
+    $microsite = Microsite::factory()->create([
+        'microsites_type_id' => MicrositesTypes::SUBSCRIPTIONS->value,
+    ]);
+
+    $response = $this->get('/form/microsite/' . $microsite->id);
+
+    $response->assertStatus(200);
+
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component(config('microsites.forms')[$microsite->microsites_type_id])
+            ->has('microsite')
+            ->where('microsite.id', $microsite->id)
+            ->has('fields')
+            ->has('documents')
+            ->has('subscriptions')
     );
 });

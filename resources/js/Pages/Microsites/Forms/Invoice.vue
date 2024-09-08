@@ -29,7 +29,6 @@ let set_fields = microsite.fields.reduce((fields, field) => {
 const form = useForm({
     name: usePage().props.auth.user ? usePage().props.auth.user.name : '',
     email: usePage().props.auth.user ? usePage().props.auth.user.email : '',
-    description: '',
     type_document: '',
     num_document: '',
     value: '',
@@ -37,7 +36,7 @@ const form = useForm({
     currency: microsite.currency.name,
     fields: set_fields,
     invoice_id: '',
-    gateway: 'placetopay',
+    gateway: usePage().props.$t.payments.gateway_placetopay,
 
 });
 let descriptionInvoice;
@@ -54,7 +53,7 @@ const selectInvoice = (e) => {
     }
 
     descriptionInvoice = usePage().props.$t.labels.description +': ' + description;
-    valueInvoice = usePage().props.$t.labels.value + ': ' + value;
+    valueInvoice = usePage().props.$t.invoices.value + ': ' + value;
     form.invoice_id = e.target.value;
     form.value = value;
 };

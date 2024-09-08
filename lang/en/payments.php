@@ -14,5 +14,6 @@ return [
     'tooltip' => 'Search by request, status or type',
     'error' => 'There was an error in the payment process.',
     'back' => 'Return to microsites',
+    'gateway_placetopay' => 'placetopay',
 
 ];

@@ -3,6 +3,7 @@
 namespace App\Domain\Microsites\Actions;
 
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,8 +26,14 @@ class UpdateMicrosite implements Action
 
                 $model->logo_path = Storage::disk('public')->putFile('microsites_logo', $params['logo_path']);
             }
+            $result = $model->save();
 
-            return $model->save();
+            if ($result) {
+                Cache::forget(config('cache.stores.key.microsites_admin'));
+                Cache::forget(config('cache.stores.key.microsites'));
+            }
+
+            return $result;
         } catch (\Exception $e) {
             Log::channel('MicrositesAdmin')->error('Error updating microsite: '.$e->getMessage());
 

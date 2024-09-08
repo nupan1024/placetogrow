@@ -44,6 +44,8 @@ export default {
                     return route('fields');
                 case usePage().props.$t.invoices.list:
                     return route('invoices');
+                case usePage().props.$t.subscriptions.list:
+                    return route('subscriptions');
             }
         }
     },

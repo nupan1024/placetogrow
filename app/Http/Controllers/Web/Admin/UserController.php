@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,7 +30,6 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         CreateUser::execute($request->validated());
-        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => __('users.success_create'),
@@ -47,7 +45,6 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         UpdateUser::execute($request->validated(), $user);
-        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => __('users.success_update'),
@@ -58,7 +55,6 @@ class UserController extends Controller
     public function delete(User $user): RedirectResponse
     {
         DeleteUser::execute([], $user);
-        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users');
     }

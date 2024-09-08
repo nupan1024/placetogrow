@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\CreateRoleRequest;
 use App\Http\Requests\Admin\Role\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -31,7 +30,7 @@ class RolesController extends Controller
     public function store(CreateRoleRequest $request): RedirectResponse
     {
         CreateRole::execute($request->validated());
-        Cache::forget(config('cache.stores.key.roles'));
+
         return redirect()->route('roles')->with([
             'message' => __('roles.success_create'),
             'type' => 'success',
@@ -46,7 +45,7 @@ class RolesController extends Controller
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
         UpdateRole::execute($request->validated(), $role);
-        Cache::forget(config('cache.stores.key.roles'));
+
         return redirect()->route('roles')->with([
             'message' => __('roles.success_update'),
             'type' => 'success',
@@ -61,7 +60,7 @@ class RolesController extends Controller
                 'type' => 'error',
             ]);
         }
-        Cache::forget(config('cache.stores.key.roles'));
+
         return redirect()->route('roles')->with([
             'message' => trans('roles.success_delete'),
             'type' => 'success',

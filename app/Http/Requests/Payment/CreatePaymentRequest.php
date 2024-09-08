@@ -29,6 +29,7 @@ class CreatePaymentRequest extends FormRequest
             'value' => ['required'],
             'fields' => ['array'],
             'invoice_id' => ['numeric'],
+            'subscription_id' => ['numeric'],
             'gateway' => ['required', Rule::in(PaymentGateway::toArray())],
         ];
     }

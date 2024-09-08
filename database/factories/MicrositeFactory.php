@@ -47,4 +47,13 @@ class MicrositeFactory extends Factory
             ];
         });
     }
+
+    public function subscriptionType(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'microsites_type_id' => MicrositesTypes::SUBSCRIPTIONS->value,
+            ];
+        });
+    }
 }

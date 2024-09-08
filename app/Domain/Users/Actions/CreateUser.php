@@ -4,6 +4,7 @@ namespace App\Domain\Users\Actions;
 
 use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
@@ -21,8 +22,13 @@ class CreateUser implements Action
             $user->status = $params['status'];
             $user->password = Hash::make($params['password']);
             $user->email_verified_at = now();
+            $response = $user->save();
 
-            return $user->save();
+            if ($response) {
+                Cache::forget(config('cache.stores.key.users'));
+            }
+
+            return $response;
         } catch (\Exception $e) {
             Log::channel('Users')->error('Error creating user: '.$e->getMessage());
 

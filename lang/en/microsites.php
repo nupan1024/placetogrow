@@ -15,5 +15,7 @@ return [
     'invoices_error' => 'The microsite cannot be deleted because it has invoices.',
     'tooltip' => 'Search by name, type or category',
     'tooltip_user' => 'Search by name, description or category',
+    'list_subscriptions' => 'List of subscriptions of microsite',
+    'list_invoices' => 'List of invoices of microsite',
 
 ];

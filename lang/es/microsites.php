@@ -15,5 +15,6 @@ return [
     'invoices_error' => 'No se puede eliminar el micrositio porque tiene facturas.',
     'tooltip' => 'Busca por nombre, tipo o categoría',
     'tooltip_user' => 'Busca por nombre, descripción o categoría',
-
+    'list_subscriptions' => 'Lista de suscripciones del micrositio',
+    'list_invoices' => 'Lista de facturas del micrositio',
 ];

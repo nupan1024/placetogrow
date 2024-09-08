@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 MicrositeSeeder::class,
                 InvoiceSeeder::class,
-                FieldSeeder::class
+                FieldSeeder::class,
+                SubscriptionSeeder::class,
             ]);
         }
 

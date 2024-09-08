@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Domain\Currencies\Models\Currency;
-use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +21,6 @@ class CurrencyFactory extends Factory
     {
         return [
             'name' => fake()->unique()->currencyCode(),
-            'status' => Status::ACTIVE->value,
         ];
     }
 }
