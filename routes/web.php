@@ -61,6 +61,14 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
         ->name('field.delete')
         ->middleware([Authorize::using(Permissions::DELETE_FIELD->value)]);
 
+    Route::get('/invoices/imports', [InvoiceController::class, 'imports'])
+        ->name('invoices.imports')
+        ->middleware([Authorize::using(Permissions::INVOICES->value)]);
+
+    Route::post('/invoices/import', [InvoiceController::class, 'import'])
+        ->name('invoices.import')
+        ->middleware([Authorize::using(Permissions::INVOICES->value)]);
+
     Route::get('/invoices', [InvoiceController::class, 'index'])
         ->name('invoices')
         ->middleware([Authorize::using(Permissions::INVOICES->value)]);

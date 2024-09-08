@@ -162,7 +162,7 @@ const submit = () => {
                 <div class="mt-3">
                     <InputLabel for="logo_path" value="Logo"/>
                     <FileInput
-                        id="logo_path"
+                        accept="image/*"
                         class="input mt-1 block w-full"
                         v-model="form.logo_path"
                         autofocus

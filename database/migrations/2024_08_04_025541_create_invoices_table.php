@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->integer('value');
             $table->text('description');
             $table->string('status', 45);
-            $table->string('code', 100);
+            $table->string('code', 100)->unique();
             $table->timestamps();
         });
     }

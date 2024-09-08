@@ -171,6 +171,11 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'Imports' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Imports.log'),
+        ],
+      
         'Subscriptions' => [
             'driver' => 'single',
             'path' => storage_path('logs/Subscriptions.log'),

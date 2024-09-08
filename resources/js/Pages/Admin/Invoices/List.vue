@@ -71,6 +71,9 @@ loadInvoices();
                         <div class="flex items-center justify-end text-sm font-semibold">
                             <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_INVOICE)"
                                :href="route('invoice.create')" class="btn btn-link">{{ $page.props.$t.invoices.create }}</a>
+
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_INVOICE)"
+                               :href="route('invoices.imports')" class="btn btn-link">{{ $page.props.$t.invoices.list_import }}</a>
                         </div>
                         <SearchForm @search="searchFields" :message="message"/>
                     </div>
