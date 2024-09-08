@@ -1,0 +1,6 @@
+customer_name,email,value,description,code,status
+natalia muñoz,natalia,$5.000 ,Test description,MICROSITE_PLACETOGROW_123342,PENDING
+orlando muñoz,orlando@placetogrow.com,$20.000 ,Test description,MICROSITE_PLACETOGROW_567567,PENDING
+gabriela muñoz,gabriela@placetogrow.com,$60.000 ,Test description,MICROSITE_PLACETOGROW_123456,PAID
+juan jose yandy,juanjose,$100.000 ,Test description,MICROSITE_PLACETOGROW_889900,PAID
+rebeca test,rebeca79@example.org,$80.000 ,Factura generada por ...,MICROSITE_PLACETOGROW_667755,EXPIRED
