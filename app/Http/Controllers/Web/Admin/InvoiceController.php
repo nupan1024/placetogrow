@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Domain\Imports\Actions\CreateImport;
 use App\Domain\Invoices\Actions\CreateInvoice;
 use App\Domain\Invoices\Actions\DeleteInvoice;
-use App\Domain\Invoices\Actions\ImportInvoices;
 use App\Domain\Invoices\Actions\UpdateInvoice;
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Invoices\ViewModels\CreateViewInvoices;
 use App\Domain\Invoices\ViewModels\EditViewInvoices;
+use App\Domain\Invoices\ViewModels\ImportViewInvoices;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Invoice\CreateInvoiceRequest;
 use App\Http\Requests\Admin\Invoice\ImportInvoicesRequest;
 use App\Http\Requests\Admin\Invoice\UpdateInvoiceRequest;
+use App\Jobs\ProcessImportInvoices;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -77,14 +79,17 @@ class InvoiceController extends Controller
 
     public function imports(): Response
     {
-        return Inertia::render('Admin/Invoices/Import/List');
+        return Inertia::render(
+            'Admin/Invoices/Import/List',
+            app(ImportViewInvoices::class)
+        );
     }
 
-    public function import(ImportInvoicesRequest $request): Response
+    public function import(ImportInvoicesRequest $request): RedirectResponse
     {
-        ImportInvoices::execute($request->validated());
-        dd($request->validated());
-        return Inertia::render('Admin/ImportInvoice/Create');
+        $import = CreateImport::execute($request->validated());
+        dispatch(new ProcessImportInvoices($import, $request->get('microsite_id')));
+        return redirect()->route('invoices.imports');
     }
 
 }

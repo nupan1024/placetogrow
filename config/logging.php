@@ -170,6 +170,12 @@ return [
             'path' => storage_path('logs/Invoices.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+
+        'Imports' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/Imports.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
     ],
 
 ];

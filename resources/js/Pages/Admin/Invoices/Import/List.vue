@@ -8,60 +8,51 @@ import Modal from '@/Components/Modal.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
-import DangerButton from '@/Components/DangerButton.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import FileInput from '@/Components/FileInput.vue';
 import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
 
 const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.invoices.list, usePage().props.$t.invoices.list_import];
 
-const props = defineProps({ users: Object });
-
-const message = usePage().props.$t.invoices.tooltip;
+const message = usePage().props.$t.invoices.tooltip_import;
 const searchTerm = ref('');
-const invoices = ref([]);
-const isOpenModal = ref(false);
+const imports = ref([]);
+const modalImport = ref(false);
+const microsites = usePage().props.microsites;
 
-const closeModal = () => {
-    isOpenModal.value = false;
-
-    form.reset();
-};
-
-const invoiceId = ref('');
-const invoiceCode = ref('');
 const openModal = (e) => {
-    invoiceId.value = e.target.dataset.id ?? "";
-    invoiceCode.value = e.target.dataset.code ?? "";
-    isOpenModal.value = true;
+    if (e.target.dataset.import) {
+        modalImport.value = true;
+    }
 };
 
-const form = useForm({
-    file: '',
-    microsite_id: '',
+const form = useForm({});
+const formImport = useForm({
+    file: ref(''),
+    microsite_id: ref(''),
 });
-const deleteInvoice = () => {
-    form.post(route('invoices.import'), {
+const submitImport = () => {
+    formImport.post(route('invoices.import'), {
         forceFormData: true,
-        onSuccess: () => closeModal(),
-        onFinish: () => loadInvoices(),
+        onSuccess: () => modalImport.value = false,
+        onFinish: () => loadImports(),
     });
 }
-const searchFields = (text) => {
+const searchImports = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.admin.invoices')}/?filter=${text}`);
+    loadImports(`${route('api.admin.invoices.imports')}/?filter=${text}`);
 }
-const loadInvoices = (url = null) => {
-    axios.get(url || route('api.admin.invoices')).then((response) => {
-        invoices.value = response.data.data
+const loadImports = (url = null) => {
+    axios.get(url || route('api.admin.invoices.imports')).then((response) => {
+        imports.value = response.data.data
 
     }).catch((error) => {
         console.log(error);
     });
 }
-loadInvoices();
+loadImports();
 </script>
 
 <template>
@@ -77,88 +68,79 @@ loadInvoices();
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
                             <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_INVOICE)"
-                               @click="openModal" class="btn btn-link">{{ $page.props.$t.invoices.import }}</a>
+                               :data-import="true" @click="openModal" class="btn btn-link">{{ $page.props.$t.invoices.import }}</a>
                         </div>
-                        <SearchForm @search="searchFields" :message="message"/>
+                        <SearchForm @search="searchImports" :message="message"/>
                     </div>
 
                     <div class="overflow-x-auto">
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">{{ $page.props.$t.invoices.code }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.name_client }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.microsites }}</th>
-                                <th scope="col">{{ $page.props.$t.labels.description }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.value }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.name }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.file_name }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.status }}</th>
-                                <th scope="col">{{ $page.props.$t.labels.options }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.created_at }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover">
-                                <td>{{ invoice.code }}</td>
-                                <td>{{ invoice.user }}</td>
-                                <td>{{ invoice.microsite }}</td>
-                                <td>{{ invoice.description.slice(0,100) }}</td>
-                                <td>{{ invoice.value }}</td>
-                                <td>{{ invoice.status }}</td>
-                                <td>
-                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_INVOICE)"
-                                       :href="route('invoice.edit', invoice.id)"
-                                       class="btn btn-link">{{ $page.props.$t.labels.edit }}</a>
-                                    <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_INVOICE)"
-                                       :data-id="invoice.id" :data-code="invoice.code" @click="openModal"
-                                       class="btn btn-link">{{ $page.props.$t.labels.delete }}</a>
-                                </td>
+                            <tr v-for="data in imports.data" :key="data.id" class="hover">
+                                <td>{{ data.user }}</td>
+                                <td>{{ data.file_name }}</td>
+                                <td>{{ data.status }}</td>
+                                <td>{{ data.created_at }}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <Pagination v-if="invoices && invoices.data?.length > 0" class="mt-6 mb-6" :links="invoices.links"
-                            :filter="`&filter=${searchTerm}`" :click="loadInvoices"/>
-            <nModal" @close="closeModal">
+                <Pagination v-if="imports && imports.data?.length > 0" class="mt-6 mb-6" :links="imports.links"
+                            :filter="`&filter=${searchTerm}`" :click="loadImports"/>
+            </div>
+        </div>
+
+        <Modal :show="modalImport" :data-import="true">
             <template v-slot>
                 <div class="p-6">
-                    <h1 class="text-lg font-semibold">{{ $page.props.$t.invoices.import }}</h1>
-                    <form enctype="multipart/form-data">
+                    <h2 class="text-lg font-semibold">{{ $page.props.$t.invoices.import }}</h2>
+                    <p class="mt-4">{{ $page.props.$t.invoices.msj_import }}</p>
+                    <form @submit.prevent="submitImport">
                         <div class="mt-4">
                             <InputLabel for="microsite_id" :value="$page.props.$t.invoices.microsites" />
                             <Select id="microsite_id"
                                     class="input mt-1 block w-full select"
                                     required
-                                    v-model="form.microsite_id"
+                                    v-model="formImport.microsite_id"
                                     :options="microsites"
                             />
-                            <InputError class="mt-2" :message="form.errors.microsite_id" />
+                            <InputError class="mt-2" :message="formImport.errors.microsite_id" />
                         </div>
-                        <div class="mt-4">
+
+                        <div class="mt-3">
+                            <InputLabel for="file" :value="$page.props.$t.labels.import"/>
                             <FileInput
                                 class="input mt-1 block w-full"
-                                v-model="form.file"
+                                v-model="formImport.file"
                                 required
                                 autofocus
                                 autocomplete="on"
-                                accept=".csv, .xlsx"
+                                accept=".csv,.xlsx"
                             />
-                            <InputError class="mt-2" :message="form.errors.file"/>
+                            <InputError class="mt-2" :message="formImport.errors.file"/>
                         </div>
                         <div class="mt-6 flex justify-end">
-                            <SecondaryButton @click="closeModal"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
-                            <DangerButton
-                                class="ml-3"
-                                :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing"
-                                @click="deleteInvoice"
-                            >
-                                {{ $page.props.$t.labels.import }}
-                            </DangerButton>
+                            <SecondaryButton @click="modalImport=false"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
+                            <div class="ml-3">
+                                <button class="btn" :disabled="formImport.processing">
+                                    {{ $page.props.$t.labels.import }}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </template>
         </Modal>
+
     </AuthenticatedLayout>
 </template>
 

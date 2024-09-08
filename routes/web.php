@@ -4,7 +4,6 @@ use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\FieldsController;
-use App\Http\Controllers\Web\Admin\ImportInvoiceController;
 use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;

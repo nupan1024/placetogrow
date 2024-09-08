@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/admin/payments', [PaymentController::class, 'index'])->name('.admin.payments');
     Route::get('/admin/fields', [FieldsController::class, 'index'])->name('.admin.fields');
     Route::get('/admin/invoices', [InvoicesController::class, 'index'])->name('.admin.invoices');
+    Route::get('/admin/invoices/imports', [InvoicesController::class, 'imports'])->name('.admin.invoices.imports');
     Route::get('/user/{user}/invoices', [UserInvoicesController::class, 'index'])->name('.user.invoices');
     Route::get('/user/{user}/payments', [UserPaymentController::class, 'index'])->name('.user.payments');
 });

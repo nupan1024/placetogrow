@@ -34,4 +34,7 @@ return [
     'attributes' => 'Atributos',
     'label' => 'Label',
     'import' => 'Importar',
+    'file_name' => 'Nombre del archivo',
+    'created_at' => 'Creado el',
+
 ];

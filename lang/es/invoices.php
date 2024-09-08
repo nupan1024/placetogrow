@@ -26,5 +26,9 @@ return [
     'pending' => 'PENDING',
     'import' => 'Importar facturas',
     'list_import' => 'Lista de facturas importadas',
+    'msj_import' => 'Por favor, sube un archivo .CSV, Se te enviará un correo con el resultado de la importación.',
+    'failed_import' => 'Las facturas no pudieron ser importadas.',
+    'success_import' => 'Las facturas han sido importadas exitosamente.',
+    'tooltip_import' => 'Busca por nombre del usuario o archivo, estado o fecha de creación.',
 
 ];

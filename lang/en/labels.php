@@ -34,6 +34,7 @@ return [
     'attributes' => 'Attributes',
     'label' => 'Label',
     'import' => 'Import',
-
+    'file_name' => 'File name',
+    'created_at' => 'Created at',
 
 ];
