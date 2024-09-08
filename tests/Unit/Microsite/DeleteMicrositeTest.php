@@ -25,7 +25,6 @@ test('delete microsite', function () {
 
     $currency = Currency::factory()->create([
         'name' => 'USD',
-        'status' => Status::ACTIVE->value,
     ]);
 
     $microsite = Microsite::factory()->create([

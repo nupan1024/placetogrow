@@ -14,5 +14,6 @@ return [
     'tooltip' => 'Buscar request, estado or tipo',
     'error' => 'Hubo un error en el proceso de pago.',
     'back' => 'Regresar a micrositios',
+    'gateway_placetopay' => 'placetopay',
 
 ];

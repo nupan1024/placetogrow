@@ -23,7 +23,6 @@ test('create microsite', function () {
 
     $currency = Currency::factory()->create([
         'name' => 'USD',
-        'status' => Status::ACTIVE->value,
     ]);
 
     $params = [
@@ -48,7 +47,6 @@ test('generate exception create microsite', function () {
 
     $currency = Currency::factory()->create([
         'name' => 'USD',
-        'status' => Status::ACTIVE->value,
     ]);
 
     $params = [

@@ -8,11 +8,11 @@ use App\Domain\Microsites\Actions\UpdateMicrosite;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\ViewModels\CreateViewModel;
 use App\Domain\Microsites\ViewModels\EditViewModel;
+use App\Domain\Microsites\ViewModels\ListByMicrositeViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Microsite\CreateMicrositeRequest;
 use App\Http\Requests\Admin\Microsite\UpdateMicrositeRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,6 +23,22 @@ class MicrositeController extends Controller
         return Inertia::render('Admin/Microsites/List');
     }
 
+    public function invoices(Microsite $microsite): Response
+    {
+        return Inertia::render(
+            'Admin/Microsites/ListInvoice',
+            new ListByMicrositeViewModel($microsite)
+        );
+    }
+
+    public function subscriptions(Microsite $microsite): Response
+    {
+        return Inertia::render(
+            'Admin/Microsites/ListSubscription',
+            new ListByMicrositeViewModel($microsite)
+        );
+    }
+
     public function create(): Response
     {
         return Inertia::render('Admin/Microsites/Create', new CreateViewModel());
@@ -31,8 +47,6 @@ class MicrositeController extends Controller
     public function store(CreateMicrositeRequest $request): RedirectResponse
     {
         CreateMicrosite::execute($request->validated());
-        Cache::forget(config('cache.stores.key.microsites_admin'));
-        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => __('microsites.success_create'),
@@ -48,8 +62,6 @@ class MicrositeController extends Controller
     public function update(UpdateMicrositeRequest $request, Microsite $microsite): RedirectResponse
     {
         UpdateMicrosite::execute($request->validated(), $microsite);
-        Cache::forget(config('cache.stores.key.microsites_admin'));
-        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites')->with([
             'message' => __('microsites.success_update'),
@@ -66,8 +78,6 @@ class MicrositeController extends Controller
                 'type' => 'error',
             ]);
         }
-        Cache::forget(config('cache.stores.key.microsites_admin'));
-        Cache::forget(config('cache.stores.key.microsites'));
 
         return redirect()->route('microsites');
     }

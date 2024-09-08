@@ -5,6 +5,7 @@ use App\Domain\Microsites\Actions\UpdateMicrosite;
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Definitions\Status;
 use Illuminate\Http\UploadedFile;
+
 use function PHPUnit\Framework\assertTrue;
 use function PHPUnit\Framework\assertFalse;
 
@@ -28,7 +29,6 @@ test('generate exception', function () {
 
     $currency = Currency::factory()->create([
         'name' => 'USD',
-        'status' => Status::ACTIVE->value,
     ]);
     $params = [
         'name' => 'Test update microsite',

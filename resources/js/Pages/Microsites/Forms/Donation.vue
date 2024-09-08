@@ -34,7 +34,7 @@ const form = useForm({
     microsite_id: microsite.id,
     currency: microsite.currency.name,
     fields:set_fields,
-    gateway: 'placetopay',
+    gateway: usePage().props.$t.payments.gateway_placetopay,
 });
 const submit = () => {
     form.post(route('payment.create'), {

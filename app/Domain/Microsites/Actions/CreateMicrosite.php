@@ -4,6 +4,7 @@ namespace App\Domain\Microsites\Actions;
 
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,8 +23,14 @@ class CreateMicrosite implements Action
             $microsite->date_expire_pay = $params['date_expire_pay'] ?? null;
             $microsite->status = $params['status'];
             $microsite->fields = $params['fields'] ?? [];
+            $result = $microsite->save();
 
-            return $microsite->save();
+            if ($result) {
+                Cache::forget(config('cache.stores.key.microsites_admin'));
+                Cache::forget(config('cache.stores.key.microsites'));
+            }
+
+            return $result;
         } catch (\Exception $e) {
             Log::channel('MicrositesAdmin')->error('Error creating microsite: '.$e->getMessage());
 

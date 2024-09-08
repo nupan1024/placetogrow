@@ -107,7 +107,19 @@ loadMicrosites();
                                             v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_MICROSITE)"
                                             @click="openModal" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.delete }}
-                                    </button>
+                                    </button>&nbsp
+                                        <a :href="route('microsite.subscriptions', microsite.id)"
+                                           v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.SUBSCRIPTIONS)
+                                           && microsite.type === 'Subscriptions'"
+                                           class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.subscriptions.title }}
+                                        </a>&nbsp;&nbsp
+                                        <a :href="route('microsite.invoices', microsite.id)"
+                                           v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.INVOICES)
+                                               && microsite.type === 'Invoice'"
+                                           class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.invoices.title }}
+                                        </a>&nbsp;
                                 </td>
                             </tr>
                             </tbody>

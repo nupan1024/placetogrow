@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Admin\FieldsController;
 use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
+use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
 use App\Support\Definitions\Permissions;
@@ -91,6 +92,14 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
         ->name('microsites')
         ->middleware([Authorize::using(Permissions::MICROSITES->value)]);
 
+    Route::get('/microsite/{microsite}/subscriptions', [MicrositeController::class, 'subscriptions'])
+        ->name('microsite.subscriptions')
+        ->middleware(Authorize::using(Permissions::SUBSCRIPTIONS->value));
+
+    Route::get('/microsite/{microsite}/invoices', [MicrositeController::class, 'invoices'])
+        ->name('microsite.invoices')
+        ->middleware(Authorize::using(Permissions::INVOICES->value));
+
     Route::middleware([Authorize::using(Permissions::CREATE_MICROSITE->value)])
         ->group(function () {
             Route::get('/create', [MicrositeController::class, 'create'])
@@ -164,6 +173,31 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
             Authorize::using(Permissions::DELETE_ROLE->value),
             ProtectRoles::class,
         ]);
+
+    Route::get('/subscriptions', [SubscriptionController::class, 'index'])
+        ->name('subscriptions')
+        ->middleware(Authorize::using(Permissions::SUBSCRIPTIONS->value));
+
+    Route::middleware([Authorize::using(Permissions::CREATE_SUBSCRIPTION->value)])
+        ->group(function () {
+            Route::get('/subscription/create', [SubscriptionController::class, 'create'])
+                ->name('subscription.create');
+            Route::post('/subscription/store', [SubscriptionController::class, 'store'])
+                ->name('subscription.store');
+        });
+
+
+    Route::middleware([Authorize::using(Permissions::UPDATE_SUBSCRIPTION->value)])
+        ->group(function () {
+            Route::get('/subscription/{subscription}/edit', [SubscriptionController::class, 'edit'])
+                ->name('subscription.edit');
+            Route::patch('/subscription/{subscription}/update', [SubscriptionController::class, 'update'])
+                ->name('subscription.update');
+        });
+
+    Route::delete('/subscription/{subscription}/delete', [SubscriptionController::class, 'delete'])
+        ->name('subscription.delete')
+        ->middleware(Authorize::using(Permissions::DELETE_SUBSCRIPTION->value));
 });
 
 Route::middleware('auth')->group(function () {
