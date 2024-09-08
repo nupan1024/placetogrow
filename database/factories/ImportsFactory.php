@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ImportsFactory extends Factory
 {
+    protected $model = Import::class;
+
     /**
      * Define the model's default state.
      *

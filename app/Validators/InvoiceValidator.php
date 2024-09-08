@@ -3,7 +3,6 @@
 namespace App\Validators;
 
 use App\Domain\Invoices\Actions\GetInvoiceByCode;
-use App\Domain\Users\Actions\GetUserByEmail;
 
 use App\Support\Definitions\StatusInvoices;
 
@@ -38,8 +37,8 @@ class InvoiceValidator
             $this->setError('Invalid email format', $line);
         }
 
-        if (!GetUserByEmail::execute(['email' => $row['email']])) {
-            $this->setError('Not a valid user', $line);
+        if (! isset($row['customer_name']) || strlen($row['customer_name']) > 100) {
+            $this->setError('Invalid customer name format', $line);
         }
 
         if (!isset($row['description']) || strlen($row['description']) > 512) {

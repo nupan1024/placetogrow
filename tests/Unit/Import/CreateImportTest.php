@@ -8,7 +8,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-test('create field', function () {
+test('create import', function () {
 
     Storage::fake(Import::DISK);
 
@@ -23,10 +23,9 @@ test('create field', function () {
     expect(CreateImport::execute($params))->toBeInstanceOf(Import::class);
 });
 
-test('generate exception field creation', function () {
+test('generate exception import creation', function () {
     $params = [
         'path' => 'file.csv',
-        'file_name' => 'file.csv',
         'status' => fake()->randomElement(ImportStatus::toArray()),
         'errors' => [],
     ];

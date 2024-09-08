@@ -1,6 +1,6 @@
-email,value,description,code
-natalia@placetogrow.com,$5.000 ,Test description,456456fgdf
-kevin@placetogrow.com,$20.000 ,se cobra factura por ser mi amorsito<3,ddas_placetoplay
-gabriela@placetogrow.com,$60.000 ,se cobra factura por ser tan cansona jaja,57443
-juanjose@placetogrow.com,$100.000 ,No existes en mi bd jeje,6784234sdf
-rebeca79@example.org,$80.000 ,Factura generada por ...,234236hdfgd
+customer_name,email,value,description,code,status
+natalia muñoz,natalia@placetogrow.com,$5.000 ,Test description,MICROSITE_PLACETOGROW_123342,PENDING
+orlando muñoz,orlando@placetogrow.com,$20.000 ,Test description,MICROSITE_PLACETOGROW_567567,PENDING
+gabriela muñoz,gabriela@placetogrow.com,$60.000 ,Test description,MICROSITE_PLACETOGROW_123456,PAID
+juan jose yandy,juanjose@placetogrow.com,$100.000 ,Test description,MICROSITE_PLACETOGROW_889900,PAID
+rebeca test,rebeca79@example.org,$80.000 ,Factura generada por ...,MICROSITE_PLACETOGROW_667755,EXPIRED

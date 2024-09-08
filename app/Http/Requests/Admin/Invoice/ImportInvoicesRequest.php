@@ -11,7 +11,7 @@ class ImportInvoicesRequest extends FormRequest
         return [
             'microsite_id' => ['required', 'exists:microsites,id'],
             'file' => [
-                'required', 'file', 'mimes:csv,xlsx', 'max:2048',
+                'required', 'file', 'mimes:csv', 'max:2048',
             ],
         ];
     }

@@ -5,7 +5,10 @@ namespace App\Jobs;
 use App\Domain\Imports\Actions\UpdateImport;
 use App\Domain\Imports\Models\Import;
 use App\Domain\Users\Actions\GetUserByEmail;
+use App\Domain\Users\Models\User;
 use App\Support\Definitions\ImportStatus;
+use App\Support\Definitions\Roles;
+use App\Support\Definitions\Status;
 use App\Support\Services\Imports\CsvReader;
 use App\Validators\InvoiceValidator;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,8 +17,11 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Role;
 use Throwable;
 
 class ProcessImportInvoices implements ShouldQueue
@@ -64,6 +70,13 @@ class ProcessImportInvoices implements ShouldQueue
                         'email' => $row['email']
                     ]);
 
+                    if (!$user) {
+                        $user = $this->createUser([
+                             'customer_name' => $row['customer_name'],
+                             'email' => $row['email']
+                         ]);
+                    }
+
                     $this->rows[] = [
                         'microsite_id' => $this->microsite_id,
                         'user_id' => $user->id,
@@ -77,7 +90,7 @@ class ProcessImportInvoices implements ShouldQueue
 
             if ($this->hasErrors()) {
                 $this->setImportErrors();
-                Log::channel('Imports')->error('There was a error processing invoices, line: ' . $this->line);
+                Log::channel('Imports')->error('There was a error processing invoices');
                 return;
             }
 
@@ -86,7 +99,7 @@ class ProcessImportInvoices implements ShouldQueue
             }
         } catch (Throwable $th) {
             $this->failed($th);
-            Log::channel('Invoices')->error('Error processing invoices: '.$th->getMessage());
+            Log::channel('Imports')->error('Error processing invoices: '.$th->getMessage());
         }
     }
 
@@ -140,7 +153,7 @@ class ProcessImportInvoices implements ShouldQueue
             ], $this->import);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error inserting data into invoices table: ' . $e->getMessage());
+            Log::channel('Imports')->error('Error inserting data into invoices table: ' . $e->getMessage());
             UpdateImport::execute([
                 'errors' => Arr::wrap($e->getMessage()),
                 'status' => ImportStatus::FAILED->value
@@ -150,5 +163,25 @@ class ProcessImportInvoices implements ShouldQueue
     private function hasRows(): bool
     {
         return ! empty($this->rows) && $this->isSuccessful();
+    }
+
+    public function createUser(array $params = []): User|bool
+    {
+        try {
+            $user = new User();
+            $user->name = $params['customer_name'];
+            $user->email = $params['email'];
+            $user->role_id = Roles::GUEST->value;
+            $user->assignRole(Role::findById(Roles::GUEST->value)->name);
+            $user->status = Status::ACTIVE->value;
+            $user->password = Hash::make('12345678');
+            $user->email_verified_at = now();
+            $user->save();
+            Cache::forget(config('cache.stores.key.users'));
+            return $user;
+        } catch (\Exception $e) {
+            Log::channel('Users')->error('Error creating user: '.$e->getMessage());
+            return false;
+        }
     }
 }
