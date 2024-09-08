@@ -88,7 +88,7 @@ class InvoiceController extends Controller
     public function import(ImportInvoicesRequest $request): RedirectResponse
     {
         $import = CreateImport::execute($request->validated());
-        dispatch_sync(new ProcessImportInvoices($import, $request->get('microsite_id')));
+        dispatch(new ProcessImportInvoices($import, $request->get('microsite_id')));
         return redirect()->route('invoices.imports');
     }
 
