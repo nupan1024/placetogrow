@@ -14,5 +14,7 @@ return [
     'success_delete' => 'Se eliminó la suscripción con éxito.',
     'time_expire' => 'Tiempo de expiración',
     'billing_frequency' => 'Frecuencia de facturación',
+    'days' => 'días',
+    'description_subscription' => 'Descripción de la suscripción',
 
 ];

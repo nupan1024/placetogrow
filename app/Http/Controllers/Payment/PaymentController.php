@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payment;
 use App\Domain\Payments\Actions\CreatePayment;
 use App\Domain\Payments\Actions\UpdatePayment;
 use App\Domain\Payments\Models\Payment;
+use App\Domain\Payments\ViewModels\DetailSubscriptionViewModel;
 use App\Domain\Payments\ViewModels\DetailTransactionViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\CreatePaymentRequest;
@@ -40,10 +41,16 @@ class PaymentController extends Controller
 
     public function detail(Payment $payment): Response
     {
-        return Inertia::render('Payment/Detail', new DetailTransactionViewModel($payment));
+        return Inertia::render(
+            'Payment/Detail',
+            new DetailTransactionViewModel($payment)
+        );
     }
-    public function list(): Response
+    public function subscriptionDetail(Payment $payment): Response
     {
-        return Inertia::render('Payment/List');
+        return Inertia::render(
+            'Payment/Subscription/Detail',
+            new DetailSubscriptionViewModel($payment)
+        );
     }
 }

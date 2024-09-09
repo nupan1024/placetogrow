@@ -16,7 +16,6 @@ use App\Support\Http\Middleware\ProtectRoles;
 use App\Support\Http\Middleware\ProtectSuperAdmin;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\InvoicesController as UserInvoiceController;
 use Illuminate\Support\Facades\Session;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,6 +32,7 @@ Route::get('/form/microsite/{microsite}', [HomeController::class, 'formMicrosite
 
 Route::post('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
 Route::get('/payment/{payment}/detail', [PaymentController::class, 'detail'])->name('payment.detail');
+Route::get('/payment/{payment}/subscription/detail', [PaymentController::class, 'subscriptionDetail'])->name('payment.subscription.detail');
 
 Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -216,10 +216,12 @@ Route::middleware('auth')->group(function () {
     Route::delete($url, [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
-    Route::get('/user/invoices', [UserInvoiceController::class, 'index'])
+    Route::get('/user/invoices', [UserController::class, 'invoices'])
         ->name('user.invoices.list');
-    Route::get('/user/payments', [PaymentController::class, 'list'])
+    Route::get('/user/payments', [UserController::class, 'payments'])
         ->name('user.payments.list');
+    Route::get('/user/subscriptions', [UserController::class, 'subscriptions'])
+        ->name('user.subscriptions.list');
 });
 
 require __DIR__.'/auth.php';

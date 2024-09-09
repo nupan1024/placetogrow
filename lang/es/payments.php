@@ -15,5 +15,7 @@ return [
     'error' => 'Hubo un error en el proceso de pago.',
     'back' => 'Regresar a micrositios',
     'gateway_placetopay' => 'placetopay',
+    'subscription_detail' => 'Detalles de la suscripción',
+    'payment_method' => 'Metodo de pago',
 
 ];

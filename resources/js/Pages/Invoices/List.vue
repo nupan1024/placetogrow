@@ -1,14 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
-import Modal from '@/Components/Modal.vue';
-import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import DangerButton from '@/Components/DangerButton.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 
 const props = defineProps({ user: Object });

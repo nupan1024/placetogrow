@@ -36,5 +36,6 @@ return [
     'import' => 'Importar',
     'file_name' => 'Nombre del archivo',
     'created_at' => 'Creado el',
+    'customer_name' => 'Nombre del cliente',
 
 ];

@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'role_id' => Roles::SUPER_ADMIN->value,
             'status' => Status::ACTIVE->value,
             'email_verified_at' => now(),
-            'password' => bcrypt('12345678'),
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
         ])->assignRole(Roles::getRoles()[Roles::SUPER_ADMIN->name]);
     }

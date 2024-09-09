@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Microsites',
+    'microsite' => 'Microsite',
     'list' => 'Microsites list',
     'create' => 'Create microsite',
     'edit' => 'Edit Microsite',

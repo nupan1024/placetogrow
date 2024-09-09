@@ -7,6 +7,7 @@ class PaymentResponse
     public function __construct(
         public string $processIdentifier,
         public string $url,
+        public string $status,
     ) {
     }
 
@@ -15,6 +16,7 @@ class PaymentResponse
         return [
             'url' => $this->url,
             'process_identifier' => $this->processIdentifier,
+            'status' => $this->status,
         ];
     }
 }

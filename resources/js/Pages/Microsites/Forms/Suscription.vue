@@ -43,7 +43,8 @@ const selectSubscription = (e) => {
 
     description = usePage().props.$t.labels.description +': ' + description;
     amount = usePage().props.$t.subscriptions.amount + ': $' + amount;
-    billing_frequency = usePage().props.$t.subscriptions.billing_frequency + ': ' + billing_frequency;
+    billing_frequency = usePage().props.$t.subscriptions.billing_frequency + ': ' + billing_frequency +
+      " " + usePage().props.$t.subscriptions.days;
     form.subscription_id = e.target.value;
     form.value = data.dataset.amount;
 };

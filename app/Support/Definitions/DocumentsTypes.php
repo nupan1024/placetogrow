@@ -2,10 +2,10 @@
 
 namespace App\Support\Definitions;
 
-enum DocumentsTypes: int
+enum DocumentsTypes: string
 {
-    case CC = 1;
-    case CE = 2;
+    case CC = 'CC';
+    case CE = 'CE';
     public static function toArray(): array
     {
         $documents = self::cases();
