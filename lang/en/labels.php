@@ -36,5 +36,6 @@ return [
     'import' => 'Import',
     'file_name' => 'File name',
     'created_at' => 'Created at',
+    'customer_name' => 'Customer name',
 
 ];

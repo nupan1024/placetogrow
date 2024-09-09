@@ -40,6 +40,11 @@ const user = usePage().props.auth.user ?? '';
                                             {{ $page.props.$t.payments.title }}
                                         </a>
                                     </li>
+                                    <li v-if="user.role_id === $page.props.$t.roles.role_guest">
+                                        <a :href="route('user.subscriptions.list')">
+                                            {{ $page.props.$t.subscriptions.title }}
+                                        </a>
+                                    </li>
                                     <li v-if="$page.props.auth.user_permissions.length === 0">
                                         <Link
                                             :href="route('logout')" method="post" as="button">

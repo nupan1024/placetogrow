@@ -16,9 +16,16 @@ class PaymentService implements PaymentServiceContract
 
     public function create(array $buyer): PaymentResponse
     {
-        $response = $this->gateway->buyer($buyer)
-            ->payment($this->payment)
-            ->process();
+        if (isset($this->payment->subscription_id)) {
+            $response = $this->gateway->buyer($buyer)
+                ->subscription($this->payment)
+                ->process();
+        } else {
+            $response = $this->gateway->buyer($buyer)
+                ->payment($this->payment)
+                ->process();
+        }
+
 
         $this->payment->update([
             'process_identifier' => $response->processIdentifier,

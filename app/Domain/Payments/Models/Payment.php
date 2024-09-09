@@ -3,6 +3,7 @@
 namespace App\Domain\Payments\Models;
 
 use App\Domain\Microsites\Models\Microsite;
+use App\Domain\Subscriptions\Models\Subscription;
 use Database\Factories\PaymentFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,5 +36,10 @@ class Payment extends Model
     public function microsite(): BelongsTo
     {
         return $this->belongsTo(Microsite::class, 'microsite_id', 'id');
+    }
+
+    public function subscription(): BelongsTo
+    {
+        return $this->belongsTo(Subscription::class, 'subscription_id', 'id');
     }
 }

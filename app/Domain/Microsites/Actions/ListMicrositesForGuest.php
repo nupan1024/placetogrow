@@ -21,14 +21,17 @@ class ListMicrositesForGuest implements Action
                 'categories.name as category',
                 'microsites.logo_path',
                 'microsites.description',
+                'microsites_types.name as type',
             )
                 ->where('microsites.status', Status::ACTIVE->value)
                 ->join('categories', 'microsites.category_id', '=', 'categories.id')
+                ->join('microsites_types', 'microsites.microsites_type_id', '=', 'microsites_types.id')
                 ->when($params['filter'], function ($query, $filter) {
                     return $query->where(function ($query) use ($filter) {
                         $query->where('microsites.name', 'like', '%'.$filter.'%')
                             ->orWhere('categories.name', 'like', '%'.$filter.'%')
-                            ->orWhere('microsites.description', 'like', '%'.$filter.'%');
+                            ->orWhere('microsites.description', 'like', '%'.$filter.'%')
+                            ->orWhere('microsites_types.name', 'like', '%'.$filter.'%');
                     });
                 })->latest('microsites.id')->paginate(4);
         });

@@ -20,6 +20,7 @@ class CreatePayment implements Action
             $payment->value = $params['value'];
             $payment->fields = $params['fields'] ?? [];
             $payment->invoice_id = $params['invoice_id'] ?? null;
+            $payment->subscription_id = $params['subscription_id'] ?? null;
             $payment->type_document = $params['type_document'];
             $payment->num_document = $params['num_document'];
             $payment->user_id = (!is_null(Auth::user())) ? Auth::user()->id : null;

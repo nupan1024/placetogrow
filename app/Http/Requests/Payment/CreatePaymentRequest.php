@@ -28,8 +28,8 @@ class CreatePaymentRequest extends FormRequest
             'num_document' => ['required', 'numeric'],
             'value' => ['required'],
             'fields' => ['array'],
-            'invoice_id' => ['numeric'],
-            'subscription_id' => ['numeric'],
+            'invoice_id' => ['numeric', 'exists:invoices,id'],
+            'subscription_id' => ['numeric', 'exists:subscriptions,id'],
             'gateway' => ['required', Rule::in(PaymentGateway::toArray())],
         ];
     }

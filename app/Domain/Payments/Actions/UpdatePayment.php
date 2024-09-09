@@ -3,7 +3,9 @@
 namespace App\Domain\Payments\Actions;
 
 use App\Domain\Invoices\Models\Invoice;
+use App\Domain\SubscriptionUser\Actions\CreateSubscriptionUser;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePayment implements Action
 {
@@ -13,6 +15,15 @@ class UpdatePayment implements Action
             $invoice = Invoice::find($model->invoice_id);
             $invoice->status = $params['status'];
             $invoice->save();
+        }
+
+        if (is_numeric($model->subscription_id)) {
+            CreateSubscriptionUser::execute([
+                'user_id' => Auth::user()->id ?? $model->subscription->user_id,
+                'subscription_id' => $model->subscription_id,
+                'status' => $params['status'],
+                'payment_id' => $model->id,
+            ]);
         }
 
         $model->process_url = $params['url'] ?? $model->process_url;

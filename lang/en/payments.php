@@ -15,5 +15,7 @@ return [
     'error' => 'There was an error in the payment process.',
     'back' => 'Return to microsites',
     'gateway_placetopay' => 'placetopay',
+    'subscription_detail' => 'Subscription details',
+    'payment_method' => 'Payment method',
 
 ];

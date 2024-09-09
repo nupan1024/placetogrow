@@ -51,6 +51,7 @@ loadMicrosites();
                     </div>
                     <div class="card-body">
                         <h2 class="card-title">{{ microsite.name }}</h2>
+                        <p>{{ $page.props.$t.labels.type }}: {{ microsite.type }}</p>
                         <p>{{ $page.props.$t.categories.title }}: {{ microsite.category }}</p>
                         <p> {{ microsite.description }}</p>
                     </div>

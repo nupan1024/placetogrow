@@ -14,5 +14,7 @@ return [
     'success_delete' => 'The subscription was deleted successfully.',
     'time_expire' => 'Time to expire',
     'billing_frequency' => 'Billing frequency',
+    'days' => 'days',
+    'description_subscription' => 'Description subscription',
 
 ];
