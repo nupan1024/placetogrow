@@ -51,13 +51,14 @@ class UserController extends Controller
         );
     }
 
-    public function subscriptions(Request $request): JsonResponse
+    public function subscriptions(Request $request, User $user): JsonResponse
     {
         $filter = $request->get('filter');
 
         return response()->json(
             new StandardResource(ListSubscriptionUser::execute([
                 'filter' => $filter,
+                'user_id' => $user->id,
                 'page' => $request->get('page', 1),
             ]))
         );

@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'role_id' => Role::factory(),
             'status' => Status::ACTIVE->value,
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('12345678'),
+            'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }

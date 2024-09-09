@@ -24,6 +24,7 @@ class ListSubscriptionUser implements Action
             ->join('subscriptions', 'subscription_user.subscription_id', '=', 'subscriptions.id')
             ->join('users', 'subscription_user.user_id', '=', 'users.id')
             ->leftJoin('microsites', 'subscriptions.microsite_id', '=', 'microsites.id')
+            ->where('user_id', $params['user_id'])
             ->when($params['filter'], function ($query, $filter) {
                 return $query->where(function ($query) use ($filter) {
                     $query->where('subscriptions.description', 'like', '%'.$filter.'%')
