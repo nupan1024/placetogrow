@@ -2,6 +2,8 @@
 
 namespace App\Support\Http\Middleware;
 
+use App\Support\Definitions\Permissions;
+use App\Support\Definitions\Roles;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -14,17 +16,7 @@ class HandleInertiaRequests extends Middleware
      */
     protected $rootView = 'app';
 
-    /**
-     * Determine the current asset version.
-     */
-    public function version(Request $request): ?string
-    {
-        return parent::version($request);
-    }
-
-    /**
-     * Define the props that are shared by default.
-     *
+    /*
      * @return array<string, mixed>
      */
     public function share(Request $request): array
@@ -32,11 +24,26 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
+                'user_permissions' => $request->user() ? $request->user()->getAllPermissions()->pluck('name')->toArray() : [],
+                'permissions' => Permissions::getPermissions(),
+                'roles' => Roles::getRoles(),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'type' => fn () => $request->session()->get('type'),
             ],
+            '$t' => [
+                'microsites' => __('microsites'),
+                'categories' => __('categories'),
+                'labels' => __('labels'),
+                'auth' => __('auth'),
+                'roles' => __('roles'),
+                'users' => __('users'),
+                'payments' => __('payments'),
+                'fields' => __('fields'),
+                'invoices' => __('invoices'),
+                'subscriptions' => __('subscriptions'),
+                ],
         ]);
     }
 }

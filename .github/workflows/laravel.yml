@@ -36,7 +36,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: dom, curl, mysql, mbstring, xml
+          extensions: dom, curl, mysql, mbstring, xml, gd
           coverage: xdebug
 
       - name: Copy .env
@@ -63,7 +63,7 @@ jobs:
           touch database/database.sql
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-        run: vendor/bin/pest
+        run: vendor/bin/pest --coverage --coverage-clover=coverage.xml
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 

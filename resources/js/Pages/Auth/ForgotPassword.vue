@@ -24,14 +24,13 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head><title>Forgot Password</title></Head>
+        <Head><title>{{ $page.props.$t.auth.forget }}</title></Head>
         <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
-            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">Olvide mi contraseña</h2>
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">{{ $page.props.$t.auth.forget }}</h2>
         </div>
         <FormLayout>
             <div class="mb-4 text-sm text-gray-600">
-                Forgot your password? No problem. Just let us know your email address and we will email you a password reset
-                link that will allow you to choose a new one.
+                {{ $page.props.$t.auth.msj_forget }}
             </div>
 
             <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -39,7 +38,7 @@ const submit = () => {
             </div>
             <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="email" value="Email" />
+                    <InputLabel for="email" :value="$page.props.$t.labels.email" />
 
                     <TextInput
                         id="email"
@@ -56,7 +55,7 @@ const submit = () => {
 
                 <div class="flex items-center justify-end mt-4">
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Email Password Reset Link
+                        {{ $page.props.$t.auth.btn_forget }}
                     </PrimaryButton>
                 </div>
             </form>

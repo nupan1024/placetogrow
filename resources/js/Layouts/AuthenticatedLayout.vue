@@ -33,10 +33,45 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.USERS)"
+                                         :href="route('users')" :active="route().current('users')">
+                                    {{ $page.props.$t.users.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.ROLES)"
+                                         :href="route('roles')" :active="route().current('roles')">
+                                    {{ $page.props.$t.roles.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.MICROSITES)"
+                                         :href="route('microsites')" :active="route().current('microsites')">
+                                    {{ $page.props.$t.microsites.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.PAYMENTS)"
+                                         :href="route('payments')" :active="route().current('payments')">
+                                    {{ $page.props.$t.payments.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.FIELDS)"
+                                         :href="route('fields')" :active="route().current('fields')">
+                                    {{ $page.props.$t.fields.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.INVOICES)"
+                                         :href="route('invoices')" :active="route().current('invoices')">
+                                    {{ $page.props.$t.invoices.title }}
+                                </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.SUBSCRIPTIONS)"
+                                         :href="route('subscriptions')" :active="route().current('subscriptions')">
+                                    {{ $page.props.$t.subscriptions.title }}
+                                </NavLink>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
+                            <details class="dropdown">
+                                <summary class="btn m-1">Language</summary>
+                                <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                    <li><a :href="route('locale','es')">Español</a></li>
+                                    <li><a :href="route('locale','en')">English</a></li>
+                                </ul>
+                            </details>
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">
@@ -65,12 +100,8 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Perfil </DropdownLink>
-                                        <DropdownLink :href="route('users')"> Gestión de usuarios </DropdownLink>
-                                        <DropdownLink :href="route('roles')"> Gestión de roles </DropdownLink>
-                                        <DropdownLink :href="route('microsites')"> Micrositios </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Cerrar sesión
+                                            {{ $page.props.$t.auth.sign_off }}
                                         </DropdownLink>
 
                                     </template>

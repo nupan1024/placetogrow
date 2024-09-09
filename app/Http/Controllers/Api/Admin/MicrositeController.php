@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Domain\Microsites\Actions\ListInvoicesByMicrosite;
 use App\Domain\Microsites\Actions\ListMicrositesForAdmin;
+use App\Domain\Microsites\Actions\ListSubscriptionsByMicrosite;
+use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Users\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\StandardResource;
@@ -38,12 +41,37 @@ class MicrositeController extends Controller
         }
     }
 
-    public function list(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $filter = $request->get('filter');
 
         return response()->json(
-            new StandardResource(ListMicrositesForAdmin::execute(['filter' => $filter]))
+            new StandardResource(ListMicrositesForAdmin::execute([
+                'filter' => $filter,
+                'page' => $request->get('page', 1),
+            ]))
+        );
+    }
+    public function subscriptions(Request $request, Microsite $microsite): JsonResponse
+    {
+        $filter = $request->get('filter');
+
+        return response()->json(
+            new StandardResource(ListSubscriptionsByMicrosite::execute([
+                'filter' => $filter,
+                'page' => $request->get('page', 1),
+            ], $microsite))
+        );
+    }
+    public function invoices(Request $request, Microsite $microsite): JsonResponse
+    {
+        $filter = $request->get('filter');
+
+        return response()->json(
+            new StandardResource(ListInvoicesByMicrosite::execute([
+                'filter' => $filter,
+                'page' => $request->get('page', 1),
+            ], $microsite))
         );
     }
 }

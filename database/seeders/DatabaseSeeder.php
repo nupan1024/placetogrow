@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
             CurrencySeeder::class,
@@ -20,7 +21,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (env('APP_ENV') !== 'production') {
-            $this->call(MicrositeSeeder::class);
+            $this->call([
+                MicrositeSeeder::class,
+                InvoiceSeeder::class,
+                FieldSeeder::class,
+                SubscriptionSeeder::class,
+            ]);
         }
 
     }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Domain\Categories\Models\Category;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Category>
@@ -21,7 +22,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => Str::limit(fake()->unique()->name(), 10),
             'status' => Status::ACTIVE->value,
         ];
     }

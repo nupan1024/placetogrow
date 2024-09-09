@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Modal from '@/Components/Modal.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
@@ -10,11 +10,10 @@ import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 
-const  crumbs = ["Dashboard", "Listado de micrositios"];
+const  crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.microsites.list];
 
 const props = defineProps({ microsites: Object });
-
-const message = "Puedes buscar micrositios por nombre, tipo o categoría";
+const message = usePage().props.$t.microsites.tooltip;
 const searchTerm = ref('');
 const microsites = ref([]);
 const isOpenModal = ref(false);
@@ -37,16 +36,16 @@ const deleteMicrositio = () => {
     form.delete(route('microsite.delete', micrositeId.value), {
         forceFormData: true,
         onSuccess: () => closeModal(),
-        onFinish: () => router.visit('/microsites'),
+        onFinish: () => loadMicrosites(),
     });
 }
-const searchMicrosites = (text, cat) => {
+const searchMicrosites = (text) => {
     searchTerm.value = text;
 
-    loadMicrosites(`${route('api.admin.microsites.list')}/?filter=${text}`);
+    loadMicrosites(`${route('api.admin.microsites')}/?filter=${text}`);
 }
 const loadMicrosites = (url = null) => {
-    axios.get(url || route('api.admin.microsites.list')).then((response) => {
+    axios.get(url || route('api.admin.microsites')).then((response) => {
         microsites.value = response.data.data
 
     }).catch((error) => {
@@ -57,10 +56,10 @@ loadMicrosites();
 </script>
 
 <template>
-    <Head><title>Micrositios</title></Head>
+    <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Listado de micrositios</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.microsites.list }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
         <div class="py-12">
@@ -68,7 +67,11 @@ loadMicrosites();
                 <div class="bg-white relative border rounded-lg">
                     <div class="flex items-center justify-between p-4">
                         <div class="flex items-center justify-end text-sm font-semibold">
-                            <a :href="route('microsite.create')" class="btn btn-link">Crear micrositio</a>
+                            <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.CREATE_MICROSITE)"
+                               :href="route('microsite.create')" class="btn btn-link">
+                                {{ $page.props.$t.microsites.create }}
+                            </a>
+
                         </div>
                         <SearchForm @search="searchMicrosites" :message="message"/>
                     </div>
@@ -77,11 +80,11 @@ loadMicrosites();
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Categoría</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Opciones</th>
+                                <th scope="col">{{ $page.props.$t.labels.name }}</th>
+                                <th scope="col">{{ $page.props.$t.categories.title }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.type }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.status }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.options }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -91,8 +94,32 @@ loadMicrosites();
                                 <td>{{ microsite.type }}</td>
                                 <td>{{ microsite.status }}</td>
                                 <td>
-                                    <a :href="route('microsite.edit', microsite.id)" class="text-indigo-500 hover:underline"> Editar</a>&nbsp;
-                                    <button :data-id="microsite.id" :data-name="microsite.name" @click="openModal" class="text-indigo-500 hover:underline"> Eliminar</button>
+                                    <a :href="route('form.microsite', microsite.id)"
+                                       target="_blank" class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.labels.see }}
+                                    </a>&nbsp
+                                    <a :href="route('microsite.edit', microsite.id)"
+                                       v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_MICROSITE)"
+                                       class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.labels.edit }}
+                                    </a>&nbsp;
+                                    <button :data-id="microsite.id" :data-name="microsite.name"
+                                            v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.DELETE_MICROSITE)"
+                                            @click="openModal" class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.labels.delete }}
+                                    </button>&nbsp
+                                        <a :href="route('microsite.subscriptions', microsite.id)"
+                                           v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.SUBSCRIPTIONS)
+                                           && microsite.type === 'Subscriptions'"
+                                           class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.subscriptions.title }}
+                                        </a>&nbsp;&nbsp
+                                        <a :href="route('microsite.invoices', microsite.id)"
+                                           v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.INVOICES)
+                                               && microsite.type === 'Invoice'"
+                                           class="text-indigo-500 hover:underline">
+                                            {{ $page.props.$t.invoices.title }}
+                                        </a>&nbsp;
                                 </td>
                             </tr>
                             </tbody>
@@ -104,20 +131,19 @@ loadMicrosites();
             </div>
         </div>
         <Modal :show="isOpenModal" @close="closeModal">
-            <!-- Contenido del Modal -->
             <template v-slot>
                 <div class="p-6">
-                    <h2 class="text-lg font-semibold">Eliminar micrositio</h2>
-                    <p class="mt-4">¿Está seguro de eliminar el micrositio {{ micrositeName }}?</p>
+                    <h2 class="text-lg font-semibold">{{ $page.props.$t.microsites.delete }}</h2>
+                    <p class="mt-4">{{ $page.props.$t.microsites.msj_delete }} {{ micrositeName }}?</p>
                     <div class="mt-6 flex justify-end">
-                        <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+                        <SecondaryButton @click="closeModal"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
                         <DangerButton
                             class="ml-3"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                             @click="deleteMicrositio"
                         >
-                            Eliminar micrositio
+                            {{ $page.props.$t.labels.delete }}
                         </DangerButton>
                     </div>
                 </div>

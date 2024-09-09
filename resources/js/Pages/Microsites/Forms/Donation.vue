@@ -1,68 +1,61 @@
 <script setup>
 
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import TextArea from '@/Components/TextArea.vue';
-import LogoMicrositio from '@/Components/LogoMicrositio.vue';
+import Select from '@/Components/Select.vue';
+import GenerateFields from '@/Components/GenerateFields.vue';
+import HeadMicrosites from '@/Components/HeadMicrosites.vue';
 
 defineProps({
     microsite: Object,
+    documents: Array,
+    fields: Array,
 })
 
 const microsite = usePage().props.microsite;
+const documents = usePage().props.documents;
+const fields = usePage().props.fields;
+let set_fields = microsite.fields.reduce((fields, field) => {
+    fields[field] = '';
+    return fields;
+}, {});
+
 const form = useForm({
-    name: '',
-    email: '',
-    description: '',
+    name: usePage().props.auth.user ? usePage().props.auth.user.name : '',
+    email: usePage().props.auth.user ? usePage().props.auth.user.email : '',
+    type_document: '',
+    num_document: '',
     value: '',
+    microsite_id: microsite.id,
+    currency: microsite.currency.name,
+    fields:set_fields,
+    gateway: usePage().props.$t.payments.gateway_placetopay,
 });
+const submit = () => {
+    form.post(route('payment.create'), {
+        forceFormData: true,
+    });
+};
 </script>
 <template>
-    <Head><title>Micrositio</title></Head>
+    <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <GuestLayout>
-        <div class="flex p-4 border-b-2 justify-between items-center text-center mb-6">
-            <div class="shrink-0 flex items-center">
-                <Link :href="route('home')">
-                    <ApplicationLogo
-                        class="block h-9 w-auto fill-current text-gray-800"
-                    />
-                </Link>
-
-            </div>
-            <h2 class="font-semibold text-2xl text-gray-800 leading-tight underline">{{ microsite.name }}</h2>
-            <div>
-                <div class="text-right pr-4">
-                    <div v-if="$page.props.auth.user">
-                        <Link v-if="$page.props.auth.user.role_id !== 1" :href="route('logout')" method="post" as="button">Cerrar sesión</Link>
-                        <a v-else :href="route('dashboard')">Dashboard</a>
-                    </div>
-                    <div v-else>
-                        <a :href="route('login')">Iniciar sesión</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
         <FormLayout>
-            <div class="text-center" v-if="microsite.logo_path">
-                <LogoMicrositio :url="`/storage/${microsite.logo_path}`" class="w-20 h-20 fill-current text-gray-500" />
-            </div>
+           <HeadMicrosites :title="microsite.name" :logo="microsite.logo_path"></HeadMicrosites>
             <div class="text-align mb-6">
                 <p>{{ microsite.description }}</p>
-                <h2>Categoría: {{ microsite.category.name }}</h2>
-                <h2>Tipo: {{ microsite.type.name }}</h2>
-                <h2>Moneda: {{ microsite.currency.name }}</h2>
+                <h2>{{ $page.props.$t.categories.title }}: {{ microsite.category.name }}</h2>
+                <h2>{{ $page.props.$t.labels.type }}: {{ microsite.type.name }}</h2>
+                <h2>{{ $page.props.$t.labels.currency }}: {{ microsite.currency.name }}</h2>
             </div>
-            <form>
+            <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="name" value="Nombre" />
+                    <InputLabel for="name" :value="$page.props.$t.labels.name" />
 
                     <TextInput
                         id="name"
@@ -78,7 +71,7 @@ const form = useForm({
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="email" value="Correo electrónico" />
+                    <InputLabel for="email" :value="$page.props.$t.labels.email" />
 
                     <TextInput
                         id="email"
@@ -86,29 +79,51 @@ const form = useForm({
                         class="mt-1 block w-full"
                         v-model="form.email"
                         required
-                        autocomplete="username"
+                        autocomplete="off"
                     />
 
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
 
-                <div class="mt-3">
-                    <InputLabel for="description" value="¿Por qué quieres hacer una donación?" />
-                    <TextArea
-                        id="description"
-                        class="mt-1 block w-full"
-                        v-model="form.description"
-                        required
-                        autofocus
+                <div class="mt-4">
+                    <InputLabel for="type_document" :value="$page.props.$t.labels.document" />
+                    <div class="flex">
+                        <Select
+                            id="category_id"
+                            class="input mt-1 select"
+                            v-model="form.type_document"
+                            :options="documents"
+                            required
+                            autofocus
+                        />
+                        <TextInput
+                            id="num_document"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form.num_document"
+                            required
+                            autofocus
+                            autocomplete="on"
+                        />
+                        <InputError class="mt-2" :message="form.errors.num_document" />
+                    </div>
+                </div>
+
+                <div v-for="field in fields" :key="field" class="mt-3">
+                    <GenerateFields
+                        :label="field.label"
+                        :type="field.type"
+                        :fieldName="field.label"
+                        :attributes="field.attributes"
+                        v-model="form.fields[field.name]"
                     />
-                    <InputError class="mt-2" :message="form.errors.description"/>
                 </div>
 
                 <div class="mt-3">
-                    <InputLabel for="value" value="Valor de donación" />
+                    <InputLabel for="value" :value="$page.props.$t.labels.value" />
                     <TextInput
                     id="value"
-                    type="number"
+                    type="text"
                     class="mt-1 block w-full"
                     v-model="form.value"
                     required
@@ -120,7 +135,7 @@ const form = useForm({
 
                 <div class="flex items-center justify-end mt-4">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Donar
+                        {{ $page.props.$t.labels.donate }}
                     </PrimaryButton>
                 </div>
             </form>

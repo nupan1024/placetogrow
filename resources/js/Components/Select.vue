@@ -23,7 +23,7 @@ defineExpose({ focus: () => input.value.focus() });
         @change="$emit('update:modelValue', $event.target.value)"
         ref="input"
     >
-        <option value="">Seleccionar {{ text }}</option>
+        <option value="">{{ $page.props.$t.labels.select }} {{ text }}</option>
         <option v-for="opt in options" :value="opt['id']">{{opt['name']}}</option>
     </select>
 </template>

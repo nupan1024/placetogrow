@@ -1,9 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 
-const  crumbs = ['Dashboard'];
+const  crumbs = [usePage().props.$t.labels.dashboard];
 </script>
 
 <template>

@@ -17,7 +17,7 @@ defineProps({
 const roles = usePage().props.roles;
 const status = usePage().props.status;
 const user = usePage().props.user;
-const crumbs = ["Dashboard", "Listado de usuarios", "Editar usuario"];
+const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.users.list, usePage().props.$t.users.edit];
 const form = useForm({
     name: user.name,
     email: user.email,
@@ -37,14 +37,14 @@ const submit = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar usuario</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.users.edit }}</h2>
             <Breadcrumb :crumbs="crumbs"/>
         </template>
 
         <FormLayout>
             <form @submit.prevent="submit" class="mt-6 space-y-6">
                 <div>
-                    <InputLabel for="name" value="Nombre" />
+                    <InputLabel for="name" :value="$page.props.$t.labels.name" />
 
                     <TextInput
                         id="name"
@@ -60,7 +60,7 @@ const submit = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="email" value="Correo electrónico" />
+                    <InputLabel for="email" :value="$page.props.$t.labels.email" />
 
                     <TextInput
                         id="email"
@@ -75,7 +75,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="role_id" value="Rol"/>
+                    <InputLabel for="role_id" :value="$page.props.$t.labels.role"/>
                     <Select
                         id="role_id"
                         class="input mt-1 block w-full select"
@@ -88,7 +88,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-3">
-                    <InputLabel for="status" value="Estado"/>
+                    <InputLabel for="status" :value="$page.props.$t.labels.status"/>
                     <Select
                         id="status"
                         class="input mt-1 block w-full select"
@@ -101,7 +101,7 @@ const submit = () => {
 
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">
-                        Editar
+                        {{ $page.props.$t.labels.edit }}
                     </button>
                 </div>
             </form>

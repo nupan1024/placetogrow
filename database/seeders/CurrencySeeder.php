@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Domain\Currencies\Models\Currency;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use App\Support\Definitions\CurrenciesTypes;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CurrencySeeder extends Seeder
 {
@@ -13,11 +13,7 @@ class CurrencySeeder extends Seeder
      */
     public function run(): void
     {
-        Currency::factory()
-            ->count(2)
-            ->state(new Sequence(
-                ['name' => 'COP'],
-                ['name' => 'USD']
-            ))->create();
+        DB::table('currencies')->insert(CurrenciesTypes::toArray());
+
     }
 }

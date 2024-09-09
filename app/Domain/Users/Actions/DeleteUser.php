@@ -2,25 +2,30 @@
 
 namespace App\Domain\Users\Actions;
 
-use App\Domain\Users\Models\User;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DeleteUser implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $user = User::find($params['id']);
-
-            if (! $user) {
-                return false;
+            DB::table('model_has_roles')
+                ->where('model_id', $model->id)
+                ->delete();
+            $response = $model->delete();
+            if ($response) {
+                Cache::forget(config('cache.stores.key.users'));
             }
 
-            return $user->delete();
+            return $response;
         } catch (\Exception $e) {
-            logger()->error($e->getMessage());
+            Log::channel('Users')->error('Error deleting user: '.$e->getMessage());
 
             return false;
         }
     }
+
 }

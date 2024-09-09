@@ -2,25 +2,34 @@
 
 namespace App\Domain\Microsites\Actions;
 
-use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class DeleteMicrosite implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): array
     {
         try {
-            $microsite = Microsite::find($params['id']);
+            $response = $model->delete();
 
-            if (! $microsite) {
-                return false;
+            if ($response) {
+                Cache::forget(config('cache.stores.key.microsites_admin'));
+                Cache::forget(config('cache.stores.key.microsites'));
             }
 
-            return $microsite->delete();
+            return ['status' => $response];
         } catch (\Exception $e) {
-            logger()->error($e->getMessage());
+            Log::channel('MicrositesAdmin')
+                ->error('Error deleting microsite: ' . $e->getMessage());
 
-            return false;
+            return [
+                'status' => false,
+                'code' => $e->getCode(),
+                'message' => __('microsites.invoices_error')
+            ];
+
         }
     }
+
 }

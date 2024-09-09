@@ -4,11 +4,13 @@ namespace App\Domain\Microsites\Actions;
 
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CreateMicrosite implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             $microsite = new Microsite();
@@ -20,10 +22,17 @@ class CreateMicrosite implements Action
             $microsite->currency_id = $params['currency_id'];
             $microsite->date_expire_pay = $params['date_expire_pay'] ?? null;
             $microsite->status = $params['status'];
+            $microsite->fields = $params['fields'] ?? [];
+            $result = $microsite->save();
 
-            return $microsite->save();
+            if ($result) {
+                Cache::forget(config('cache.stores.key.microsites_admin'));
+                Cache::forget(config('cache.stores.key.microsites'));
+            }
+
+            return $result;
         } catch (\Exception $e) {
-            logger()->error($e->getMessage());
+            Log::channel('MicrositesAdmin')->error('Error creating microsite: '.$e->getMessage());
 
             return false;
         }
