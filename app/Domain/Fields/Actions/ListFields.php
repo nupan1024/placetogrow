@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListFields implements Action
 {
-    public static function execute(array $params): LengthAwarePaginator
+    public static function execute(array $params = [], $model = null): LengthAwarePaginator
     {
         return Field::select(
             'id',

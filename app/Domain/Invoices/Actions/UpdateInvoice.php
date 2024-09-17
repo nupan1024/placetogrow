@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateInvoice implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $params['model']->microsite_id = $params['data']['microsite_id'];
-            $params['model']->user_id = $params['data']['user_id'];
-            $params['model']->value = $params['data']['value'];
-            $params['model']->description = $params['data']['description'];
-            return $params['model']->save();
+            $model->microsite_id = $params['microsite_id'];
+            $model->user_id = $params['user_id'];
+            $model->value = $params['value'];
+            $model->description = $params['description'];
+            return $model->save();
         } catch (\Exception $e) {
             Log::channel('Invoices')->error('Error updating invoice: '.$e->getMessage());
 

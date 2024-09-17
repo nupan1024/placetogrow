@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Domain\Users\Models\Role;
 use App\Domain\Users\Models\User;
-use App\Support\Definitions\Roles;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +31,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'role_id' => collect(Roles::toArray())->pluck('id')->flatten()->random(),
+            'role_id' => Role::factory(),
             'status' => Status::ACTIVE->value,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

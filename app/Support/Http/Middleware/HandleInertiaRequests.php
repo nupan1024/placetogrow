@@ -25,8 +25,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'user_permissions' => $request->user() ? $request->user()->getAllPermissions()->pluck('name')->toArray() : [],
-                'permissions' => Permissions::getPermissions() ?? [],
-                'roles' => Roles::getRoles() ?? [],
+                'permissions' => Permissions::getPermissions(),
+                'roles' => Roles::getRoles(),
             ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
@@ -42,7 +42,8 @@ class HandleInertiaRequests extends Middleware
                 'payments' => __('payments'),
                 'fields' => __('fields'),
                 'invoices' => __('invoices'),
-            ],
+                'subscriptions' => __('subscriptions'),
+                ],
         ]);
     }
 }

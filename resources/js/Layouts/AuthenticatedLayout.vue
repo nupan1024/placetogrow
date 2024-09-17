@@ -57,10 +57,21 @@ const showingNavigationDropdown = ref(false);
                                          :href="route('invoices')" :active="route().current('invoices')">
                                     {{ $page.props.$t.invoices.title }}
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.SUBSCRIPTIONS)"
+                                         :href="route('subscriptions')" :active="route().current('subscriptions')">
+                                    {{ $page.props.$t.subscriptions.title }}
+                                </NavLink>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
+                            <details class="dropdown">
+                                <summary class="btn m-1">Language</summary>
+                                <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                    <li><a :href="route('locale','es')">Español</a></li>
+                                    <li><a :href="route('locale','en')">English</a></li>
+                                </ul>
+                            </details>
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">

@@ -50,7 +50,7 @@ class FieldsController extends Controller
 
     public function update(UpdateFieldRequest $request, Field $field): RedirectResponse
     {
-        UpdateField::execute(['field' => $field, 'data' => $request->validated()]);
+        UpdateField::execute($request->validated(), $field);
 
         return redirect()->route('fields')->with([
             'message' => __('fields.success_update'),
@@ -60,7 +60,7 @@ class FieldsController extends Controller
 
     public function delete(Field $field): RedirectResponse
     {
-        if(!DeleteField::execute(['field' => $field])) {
+        if(!DeleteField::execute([], $field)) {
             return redirect()->route('fields')->with([
                 'message' => __('fields.error_delete'),
                 'type' => 'error',

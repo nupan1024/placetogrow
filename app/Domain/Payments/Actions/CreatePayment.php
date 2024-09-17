@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class CreatePayment implements Action
 {
-    public static function execute(array $params): Payment|bool
+    public static function execute(array $params = [], $model = null): Payment|bool
     {
         try {
             $payment = new Payment();
@@ -20,11 +20,12 @@ class CreatePayment implements Action
             $payment->value = $params['value'];
             $payment->fields = $params['fields'] ?? [];
             $payment->invoice_id = $params['invoice_id'] ?? null;
+            $payment->subscription_id = $params['subscription_id'] ?? null;
             $payment->type_document = $params['type_document'];
             $payment->num_document = $params['num_document'];
             $payment->user_id = (!is_null(Auth::user())) ? Auth::user()->id : null;
             $payment->microsite_id = $params['microsite_id'];
-            $payment->status = PaymentStatus::PENDING;
+            $payment->status = PaymentStatus::PENDING->value;
             $payment->payment_type = PaymentGateway::PLACETOPAY->value;
             $payment->reference = 'PAYMENT_MICROSITE_'. date('ymdHis');
             $payment->save();

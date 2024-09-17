@@ -6,7 +6,6 @@ use App\Domain\Invoices\Actions\UpdateStatusInvoice;
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Microsites\Models\Microsite;
 use App\Support\Definitions\StatusInvoices;
-use App\Support\Services\Payments\Gateways\PlaceToPayService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,9 +22,6 @@ class UpdateStatusInvoices implements ShouldQueue
 
     public function handle(): void
     {
-        /**
-         * @var PlaceToPayService $placetopay
-         */
         Microsite::where('date_expire_pay', '<', now())
             ->chunk(100, function (Collection $microsites) {
                 foreach ($microsites as $microsite) {
@@ -34,9 +30,8 @@ class UpdateStatusInvoices implements ShouldQueue
                         ->get()
                         ->each(function (Invoice $invoice) {
                             UpdateStatusInvoice::execute([
-                                'model' => $invoice,
                                 'status' => StatusInvoices::EXPIRED->name,
-                            ]);
+                            ], $invoice);
                         });
                 }
             });

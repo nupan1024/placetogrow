@@ -5,6 +5,9 @@ namespace App\Support\ViewModels;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+* @template T of \Illuminate\Database\Eloquent\Model
+ */
 abstract class ViewModel implements Arrayable
 {
     protected Model $model;
@@ -16,7 +19,10 @@ abstract class ViewModel implements Arrayable
 
     abstract public function toArray(): array;
 
-    protected function model(): Model
+    /**
+     * @return T
+     */
+    protected function model()
     {
         return $this->model;
     }

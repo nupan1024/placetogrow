@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\Log;
 
 class CreateInvoice implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $field = new Invoice();
-            $field->microsite_id = $params['microsite_id'];
-            $field->user_id = $params['user_id'];
-            $field->value = $params['value'];
-            $field->description = $params['description'];
-            $field->status = StatusInvoices::PENDING->name;
-            $field->code = 'MICROSITE_PLACETOGROW_'.time();
+            $invoice = new Invoice();
+            $invoice->microsite_id = $params['microsite_id'];
+            $invoice->user_id = $params['user_id'];
+            $invoice->value = $params['value'];
+            $invoice->description = $params['description'];
+            $invoice->status = StatusInvoices::PENDING->name;
+            $invoice->code = 'MICROSITE_PLACETOGROW_'.time();
 
-            return $field->save();
+            return $invoice->save();
         } catch (\Exception $e) {
             Log::channel('Invoices')->error('Error creating invoice: '.$e->getMessage());
 

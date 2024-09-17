@@ -4,6 +4,7 @@ namespace App\Domain\Microsites\Models;
 
 use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
+use App\Domain\Subscriptions\Models\Subscription;
 use App\Support\Definitions\Status;
 use Database\Factories\MicrositeFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -11,7 +12,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property bool $status
+ */
 class Microsite extends Model
 {
     use HasFactory;
@@ -53,6 +58,10 @@ class Microsite extends Model
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class, 'microsite_id', 'id');
+    }
     protected function status(): Attribute
     {
         return Attribute::make(

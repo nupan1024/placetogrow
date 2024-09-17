@@ -19,11 +19,13 @@ class InvoiceSeeder extends Seeder
          * @var \Database\Factories\MicrositeFactory $micrositeFactory
          */
         $micrositeFactory = Microsite::factory();
+        $user = User::factory()->create([
+            'role_id' => Roles::GUEST->value
+        ]);
+        $user->assignRole(Roles::GUEST->name);
         Invoice::factory()->count(3)->create([
             'microsite_id' => $micrositeFactory->invoiceType()->create(),
-            'user_id' => User::factory()->create([
-                'role_id' => Roles::GUEST->value
-            ])
+            'user_id' => $user->id
         ]);
     }
 }

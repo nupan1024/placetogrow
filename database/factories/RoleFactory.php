@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Support\Definitions\Roles;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Permission\Models\Role;
 
@@ -20,7 +21,7 @@ class RoleFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => collect(Roles::toArray())->pluck('name')->flatten()->random(),
             'guard_name' => 'web',
         ];
     }

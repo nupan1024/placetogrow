@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 class DeleteInvoice implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            if ($params['model']->status != StatusInvoices::PENDING->name) {
+            if ($model->status != StatusInvoices::PENDING->name) {
                 Log::channel('Invoices')
                     ->error(
                         'Error deleting invoice: '.__('invoices.error_delete')
@@ -19,7 +19,7 @@ class DeleteInvoice implements Action
                 return false;
             }
 
-            return $params['model']->delete();
+            return $model->delete();
         } catch (\Exception $e) {
             Log::channel('Invoices')
                 ->error('Error updating invoice: '.$e->getMessage());

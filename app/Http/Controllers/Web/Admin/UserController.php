@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,7 +30,6 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         CreateUser::execute($request->validated());
-        Cache::forget(config('cache.stores.key.users'));
 
         return redirect()->route('users')->with([
             'message' => __('users.success_create'),
@@ -46,8 +44,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        UpdateUser::execute(['fields' => $request->validated(), 'user' => $user]);
-        Cache::forget(config('cache.stores.key.users'));
+        UpdateUser::execute($request->validated(), $user);
 
         return redirect()->route('users')->with([
             'message' => __('users.success_update'),
@@ -57,9 +54,21 @@ class UserController extends Controller
 
     public function delete(User $user): RedirectResponse
     {
-        DeleteUser::execute(['user' => $user]);
-        Cache::forget(config('cache.stores.key.users'));
+        DeleteUser::execute([], $user);
 
         return redirect()->route('users');
+    }
+    public function payments(): Response
+    {
+        return Inertia::render('Payment/List');
+    }
+    public function subscriptions(): Response
+    {
+        return Inertia::render('Subscription/List');
+    }
+
+    public function invoices(): Response
+    {
+        return Inertia::render('Invoices/List');
     }
 }

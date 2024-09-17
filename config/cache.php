@@ -94,6 +94,7 @@ return [
             'users' => 'users_page_1_filter_',
             'microsites' => 'microsites_page_1_filter_',
             'microsites_admin' => 'admin_microsites_page_1_filter_',
+            'subscriptions_admin' => 'admin_subscriptions_page_1_filter_',
         ],
 
     ],

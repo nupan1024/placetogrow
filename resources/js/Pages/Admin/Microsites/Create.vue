@@ -153,7 +153,7 @@ const submit = () => {
                 <div class="mt-3">
                     <InputLabel for="logo_path" value="Logo"/>
                     <FileInput
-                        id="logo_path"
+                        accept="image/*"
                         class="input mt-1 block w-full"
                         v-model="form.logo_path"
                         required
@@ -176,7 +176,7 @@ const submit = () => {
 
                 <div class="flex items-center justify-end mt-4">
                     <button class="btn" :disabled="form.processing">
-                        Crear
+                        {{ $page.props.$t.labels.save }}
                     </button>
                 </div>
             </form>

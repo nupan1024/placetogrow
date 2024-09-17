@@ -33,6 +33,9 @@ return [
     'document' => 'Identification document',
     'attributes' => 'Attributes',
     'label' => 'Label',
-
+    'import' => 'Import',
+    'file_name' => 'File name',
+    'created_at' => 'Created at',
+    'customer_name' => 'Customer name',
 
 ];

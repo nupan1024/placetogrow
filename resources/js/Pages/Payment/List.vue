@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
-import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 
@@ -19,10 +17,10 @@ const user = usePage().props.auth.user ?? '';
 const searchPayments = (text) => {
     searchTerm.value = text;
 
-    loadPayments(`${route('api.payments.listUser', user.id)}/?filter=${text}`);
+    loadPayments(`${route('api.user.payments', user.id)}/?filter=${text}`);
 }
 const loadPayments = (url = null) => {
-    axios.get(url || route('api.payments.listUser', user.id)).then((response) => {
+    axios.get(url || route('api.user.payments', user.id)).then((response) => {
         payments.value = response.data.data
 
     }).catch((error) => {
@@ -33,12 +31,11 @@ loadPayments();
 </script>
 
 <template>
-    <Head><title>{{ $page.props.$t.payments.title }}</title></Head>
+    <Head><title>{{ $page.props.$t.payments.list }}</title></Head>
     <GuestLayout>
-        <template #header>
+        <div class="text-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $page.props.$t.payments.list }}</h2>
-            <Breadcrumb :crumbs="crumbs"/>
-        </template>
+        </div>
         <div class="py-12">
             <div class="p-8 bg-gray-100 min-h-screen">
                 <div class="bg-white relative border rounded-lg">
@@ -60,14 +57,14 @@ loadPayments();
                             <tbody>
                             <tr v-for="payment in payments.data" :key="payment.id" class="hover">
                                 <td>{{ payment.request_id }}</td>
-                                <td>{{ payment.microsite.type.name }}</td>
+                                <td>{{ payment.microsite_type_name }}</td>
                                 <td>{{ payment.status }}</td>
                                 <td>$ {{ payment.value }}</td>
                                 <td>
                                     <a :href="route('payment.detail', payment.id)"
                                        target="_blank" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.see }}
-                                    </a>&nbsp
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>

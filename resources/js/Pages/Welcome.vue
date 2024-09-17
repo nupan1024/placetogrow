@@ -19,10 +19,10 @@ const message = usePage().props.$t.microsites.tooltip;
 const searchMicrosites = (text, cat) => {
     searchTerm.value = text;
 
-    loadMicrosites(`${route('api.microsites.list')}/?filter=${text}`);
+    loadMicrosites(`${route('api.microsites')}/?filter=${text}`);
 }
 const loadMicrosites = (url = null) => {
-    axios.get(url || route('api.microsites.list')).then((response) => {
+    axios.get(url || route('api.microsites')).then((response) => {
         microsites.value = response.data.data
 
     }).catch((error) => {
@@ -45,13 +45,14 @@ loadMicrosites();
         <div class="container px-3 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
 
             <div v-for="microsite in microsites.data" :key="microsite.id" class="card card-compact bg-base-100 shadow-lg mt-6">
-                <a :href="route('micrositio.form', microsite.id)">
+                <a :href="route('form.microsite', microsite.id)">
                     <div class="text-center mt-4" v-if="microsite.logo_path">
                         <LogoMicrositio :url="`/storage/${microsite.logo_path}`" />
                     </div>
                     <div class="card-body">
                         <h2 class="card-title">{{ microsite.name }}</h2>
-                        <p>{{ $page.props.$t.categories.title }}: {{ microsite.category.name }}</p>
+                        <p>{{ $page.props.$t.labels.type }}: {{ microsite.type }}</p>
+                        <p>{{ $page.props.$t.categories.title }}: {{ microsite.category }}</p>
                         <p> {{ microsite.description }}</p>
                     </div>
                 </a>

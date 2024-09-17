@@ -3,26 +3,32 @@
 namespace App\Domain\Users\Actions;
 
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class UpdateUser implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
             DB::table('model_has_roles')
-                ->where('model_id', $params['user']->id)
+                ->where('model_id', $model->id)
                 ->delete();
 
-            $params['user']->name = $params['fields']['name'];
-            $params['user']->email = $params['fields']['email'];
-            $params['user']->role_id = $params['fields']['role_id'];
-            $params['user']->status = $params['fields']['status'];
-            $params['user']->assignRole(Role::findById($params['fields']['role_id'])->name);
+            $model->name = $params['name'];
+            $model->email = $params['email'];
+            $model->role_id = $params['role_id'];
+            $model->status = $params['status'];
+            $model->assignRole(Role::findById($params['role_id'])->name);
+            $response = $model->save();
 
-            return $params['user']->save();
+            if ($response) {
+                Cache::forget(config('cache.stores.key.users'));
+            }
+
+            return $response;
         } catch (\Exception $e) {
             Log::channel('Users')
                 ->error('Error updating user: '.$e->getMessage());

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Invoices\ViewModels;
 
-use App\Domain\Fields\Models\Field;
+use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Microsites\Actions\GetMicrositesByStatusAndType;
 use App\Domain\Users\Actions\GetUsersByRole;
 use App\Support\Definitions\MicrositesTypes;
@@ -14,7 +14,7 @@ class CreateViewInvoices extends ViewModel
 {
     public function __construct()
     {
-        parent::__construct(new Field());
+        parent::__construct(new Invoice());
     }
 
     public function toArray(): array

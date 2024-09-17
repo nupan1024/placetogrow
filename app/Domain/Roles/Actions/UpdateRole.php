@@ -3,16 +3,23 @@
 namespace App\Domain\Roles\Actions;
 
 use App\Support\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class UpdateRole implements Action
 {
-    public static function execute(array $params): bool
+    public static function execute(array $params = [], $model = null): bool
     {
         try {
-            $params['role']->name = $params['fields']['name'];
-            $params['role']->syncPermissions($params['fields']['permissions']);
-            return $params['role']->save();
+            $model->name = $params['name'];
+            $model->syncPermissions($params['permissions']);
+            $response = $model->save();
+
+            if ($response) {
+                Cache::forget(config('cache.stores.key.roles'));
+            }
+
+            return $response;
         } catch (\Exception $e) {
             Log::channel('Roles')->error('Error updating role: '.$e->getMessage());
 

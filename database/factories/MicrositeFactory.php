@@ -33,7 +33,7 @@ class MicrositeFactory extends Factory
                 ->image('microsite_image.png', 640, 480),
             'description' => fake()->paragraph(),
             'currency_id' => Currency::factory(),
-            'date_expire_pay' => fake()->date(),
+            'date_expire_pay' => fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
             'status' => Status::ACTIVE->value,
             'fields' => [],
         ];
@@ -44,6 +44,15 @@ class MicrositeFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'microsites_type_id' => MicrositesTypes::INVOICE->value,
+            ];
+        });
+    }
+
+    public function subscriptionType(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'microsites_type_id' => MicrositesTypes::SUBSCRIPTIONS->value,
             ];
         });
     }

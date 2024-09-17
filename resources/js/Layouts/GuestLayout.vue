@@ -16,6 +16,14 @@ const user = usePage().props.auth.user ?? '';
                         />
                     </Link>
                 </div>
+                <details class="dropdown">
+                    <summary class="btn m-1">Language</summary>
+                    <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                        <li><a :href="route('locale','es')">Español</a></li>
+                        <li><a :href="route('locale','en')">English</a></li>
+                    </ul>
+                </details>
+
                 <div class="flex-none" v-if="$page.props.auth.user">
                     <ul class="menu menu-horizontal px-1">
                         <li>
@@ -23,13 +31,18 @@ const user = usePage().props.auth.user ?? '';
                                 <summary>{{ user.name }}</summary>
                                 <ul class="bg-base-100 rounded-t-none p-2 z-50">
                                     <li v-if="user.role_id === $page.props.$t.roles.role_guest">
-                                        <a :href="route('invoice.listUser')">
+                                        <a :href="route('user.invoices.list')">
                                             {{ $page.props.$t.invoices.title }}
                                         </a>
                                     </li>
                                     <li v-if="user.role_id === $page.props.$t.roles.role_guest">
-                                        <a :href="route('payments.listUser')">
+                                        <a :href="route('user.payments.list')">
                                             {{ $page.props.$t.payments.title }}
+                                        </a>
+                                    </li>
+                                    <li v-if="user.role_id === $page.props.$t.roles.role_guest">
+                                        <a :href="route('user.subscriptions.list')">
+                                            {{ $page.props.$t.subscriptions.title }}
                                         </a>
                                     </li>
                                     <li v-if="$page.props.auth.user_permissions.length === 0">

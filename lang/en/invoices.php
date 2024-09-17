@@ -24,5 +24,11 @@ return [
     'code' => 'Code',
     'pay' => 'Go to pay',
     'pending' => 'PENDING',
+    'import' => 'Import invoices',
+    'list_import' => 'List of invoices imported',
+    'msj_import' => 'Please upload a .CSV file, A result email will be sent with the result of the import.',
+    'failed_import' => 'The invoices could not be imported.',
+    'success_import' => 'The invoices have been imported successfully.',
+    'tooltip_import' => 'Search by name of user or file, status or creation date.',
 
 ];

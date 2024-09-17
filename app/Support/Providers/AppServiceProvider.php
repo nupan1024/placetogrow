@@ -19,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(PaymentServiceContract::class, function (Application $app, array $data) {
-            ['payment' => $payment, 'gateway' => $gateway] = $data;
+            $gateway = $data['gateway'] ?? null;
+            $payment = $data['payment'] ?? null;
 
             $gateway = $app->make(PaymentGatewayContract::class, ['gateway' => $gateway]);
 
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(PaymentGatewayContract::class, function (Application $app, array $data) {
-            return match (PaymentGateway::from($data['gateway'])) {
+            return match (PaymentGateway::from($data['gateway'] ?? null)) {
                 PaymentGateway::PLACETOPAY => new PlaceToPayService(),
             };
         });

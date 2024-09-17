@@ -2,6 +2,7 @@
 
 use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
+use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Microsites\Actions\DeleteMicrosite;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
@@ -24,7 +25,6 @@ test('delete microsite', function () {
 
     $currency = Currency::factory()->create([
         'name' => 'USD',
-        'status' => Status::ACTIVE->value,
     ]);
 
     $microsite = Microsite::factory()->create([
@@ -37,6 +37,24 @@ test('delete microsite', function () {
         'currency_id' => $currency->id,
         'status' => Status::ACTIVE->value,
     ]);
-    $response = DeleteMicrosite::execute(['microsite' => $microsite]);
+    $response = DeleteMicrosite::execute([], $microsite);
     $this->assertTrue($response['status']);
+});
+
+test('Could not delete microsite because it has invoices', function () {
+    $microsite = Microsite::factory()->create();
+
+    Invoice::factory()->create([
+        'microsite_id' => $microsite->id,
+    ]);
+
+    $response = DeleteMicrosite::execute([], $microsite);
+    $this->assertFalse($response['status']);
+});
+
+
+test('Could not delete microsite because not found model', function () {
+    $model = Microsite::factory()->make();
+    $response = DeleteMicrosite::execute([], $model);
+    $this->assertNull($response['status']);
 });

@@ -17,7 +17,7 @@ class EditViewModel extends ViewModel
         return [
             'categories' => Category::where('status', Status::ACTIVE->value)->get(),
             'microsites_types' => MicrositeType::where('status', Status::ACTIVE->value)->get(),
-            'currencies' => Currency::where('status', Status::ACTIVE->value)->get(),
+            'currencies' => Currency::all(),
             'microsite' => $this->model()->getRawOriginal(),
             'states' => Status::asOptions(),
             'is_invoice' => $this->model()->getRawOriginal('microsites_type_id') === MicrositesTypes::INVOICE->value,

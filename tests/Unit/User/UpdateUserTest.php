@@ -12,10 +12,7 @@ test('update user', function () {
         'status' => $user->status,
     ];
 
-    expect(UpdateUser::execute([
-        'fields' => $params,
-        'user' => $user,
-    ]))->toBeTrue();
+    expect(UpdateUser::execute($params, $user))->toBeTrue();
 });
 
 test('generate exception', function () {
@@ -27,8 +24,5 @@ test('generate exception', function () {
         'status' => $user->status,
     ];
 
-    expect(UpdateUser::execute([
-        'fields' => $params,
-        'user' => $user,
-    ]))->toBeFalse();
+    expect(UpdateUser::execute($params, $user))->toBeFalse();
 });

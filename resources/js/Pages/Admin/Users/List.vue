@@ -45,10 +45,10 @@ const deleteUser = () => {
 const searchUsers = (text) => {
     searchTerm.value = text;
 
-    loadUsers(`${route('api.users.list')}/?filter=${text}`);
+    loadUsers(`${route('api.admin.users')}/?filter=${text}`);
 }
 const loadUsers = (url = null) => {
-    axios.get(url || route('api.users.list')).then((response) => {
+    axios.get(url || route('api.admin.users')).then((response) => {
         users.value = response.data.data
 
     }).catch((error) => {
@@ -91,7 +91,7 @@ loadUsers();
                             <tr v-for="user in users.data" :key="user.id" class="hover">
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
-                                <td>{{ user.role.name }}</td>
+                                <td>{{ user.role }}</td>
                                 <td>{{ user.status }}</td>
                                 <td>
                                     <div v-if="!rolesProtect.includes(user.name)">

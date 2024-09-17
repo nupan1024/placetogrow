@@ -2,6 +2,8 @@
 
 return [
     'detail' => 'Payment information',
+    'data' => 'Personal data',
+    'data_payment' => 'Payment data',
     'value' => 'Value',
     'code' => 'Code',
     'status' => 'Status',
@@ -11,5 +13,9 @@ return [
     'list' => 'List payments',
     'tooltip' => 'Search by request, status or type',
     'error' => 'There was an error in the payment process.',
+    'back' => 'Return to microsites',
+    'gateway_placetopay' => 'placetopay',
+    'subscription_detail' => 'Subscription details',
+    'payment_method' => 'Payment method',
 
 ];

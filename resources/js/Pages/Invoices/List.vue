@@ -1,14 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, router, useForm, usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
-import Modal from '@/Components/Modal.vue';
-import Breadcrumb from '@/Components/Breadcrumb.vue';
 import Pagination from '@/Components/Pagination.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import DangerButton from '@/Components/DangerButton.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 
 const props = defineProps({ user: Object });
@@ -21,10 +16,10 @@ const invoices = ref([]);
 const searchFields = (text) => {
     searchTerm.value = text;
 
-    loadInvoices(`${route('api.invoices.listUser', user.id)}/?filter=${text}`);
+    loadInvoices(`${route('api.user.invoices', user.id)}/?filter=${text}`);
 }
 const loadInvoices = (url = null) => {
-    axios.get(url || route('api.invoices.listUser', user.id)).then((response) => {
+    axios.get(url || route('api.user.invoices', user.id)).then((response) => {
         invoices.value = response.data.data
 
     }).catch((error) => {
@@ -53,7 +48,6 @@ loadInvoices();
                             <thead>
                             <tr>
                                 <th scope="col">{{ $page.props.$t.invoices.code }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.name_client }}</th>
                                 <th scope="col">{{ $page.props.$t.invoices.microsites }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.description }}</th>
                                 <th scope="col">{{ $page.props.$t.invoices.value }}</th>
@@ -64,13 +58,12 @@ loadInvoices();
                             <tbody>
                             <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover">
                                 <td>{{ invoice.code }}</td>
-                                <td>{{ invoice.user.name }}</td>
-                                <td>{{ invoice.microsite.name }}</td>
+                                <td>{{ invoice.microsite }}</td>
                                 <td>{{ invoice.description.slice(0,100) }}</td>
                                 <td>{{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>
                                 <td>
-                                    <a v-if="invoice.status === $page.props.$t.invoices.pending" :href="route('micrositio.form', invoice.microsite.id)"
+                                    <a v-if="invoice.status === $page.props.$t.invoices.pending" :href="route('form.microsite', invoice.microsite_id)"
                                        class="btn btn-link">{{ $page.props.$t.invoices.pay }}</a>
                                 </td>
                             </tr>

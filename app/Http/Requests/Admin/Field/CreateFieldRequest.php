@@ -8,14 +8,15 @@ class CreateFieldRequest extends FormRequest
 {
     public function rules(): array
     {
+        $min = 'min:3';
         return [
             'name' => [
                 'required',
-                'min:3',
+                $min,
                 'regex:/^[a-z]+(_[a-z]+)*$/',
                 'unique:fields'],
-            'type' => ['required', 'min:3', 'max:50'],
-            'label' => ['required', 'min:3', 'max:50'],
+            'type' => ['required', $min, 'max:50'],
+            'label' => ['required', $min, 'max:50'],
             'attributes' => ['array'],
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Support\Services\Payments\Gateways;
 
 use App\Contracts\PaymentGateway;
 use App\Domain\Payments\Models\Payment;
+use App\Support\Definitions\PaymentStatus;
 use App\Support\Services\Payments\PaymentResponse;
 use App\Support\Services\Payments\QueryPaymentResponse;
 use Dnetix\Redirection\PlacetoPay;
@@ -74,6 +75,20 @@ class PlaceToPayService implements PaymentGateway
         return $this;
     }
 
+    public function subscription(Payment $payment): self
+    {
+
+        $this->data['subscription'] = [
+            'reference' => $payment->reference,
+            'description' => $payment->subscription->description,
+        ];
+
+        $this->data['expiration'] = $payment->subscription->time_expire;
+        $this->data['returnUrl'] = route('payment.subscription.detail', $payment);
+
+        return $this;
+    }
+
     public function process(): PaymentResponse
     {
         $placetopay = $this->init();
@@ -82,14 +97,16 @@ class PlaceToPayService implements PaymentGateway
         if (!$response->isSuccessful()) {
             Log::channel('Payment')->error($response->status()->message());
             return new PaymentResponse(
-                0,
-                route('home')
+                '0',
+                route('home'),
+                PaymentStatus::REJECTED->name
             );
         }
 
         return new PaymentResponse(
             $response->requestId(),
-            $response->processUrl()
+            $response->processUrl(),
+            $response->status()->status()
         );
     }
 

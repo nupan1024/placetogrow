@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role as RoleSpatie;
+use Spatie\Permission\Contracts\Role as ContractsRole;
 
 class Role extends Model
 {
@@ -18,7 +19,7 @@ class Role extends Model
     /**
      * @throws \Exception
      */
-    public function value(): RoleSpatie|bool
+    public function value(): ContractsRole|bool
     {
         try {
             return RoleSpatie::findById($this->id);

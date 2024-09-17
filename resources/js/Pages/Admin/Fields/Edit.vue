@@ -27,7 +27,7 @@ const form = useForm({
     attributes: field.attributes,
 });
 const submit = () => {
-    form.post(route('fields.update', field.id), {
+    form.post(route('field.update', field.id), {
         forceFormData: true,
     });
 };
