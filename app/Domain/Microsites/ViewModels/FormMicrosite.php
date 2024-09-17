@@ -6,6 +6,7 @@ use App\Domain\Fields\Actions\GetJsonFields;
 use App\Domain\Invoices\Actions\GetInvoicesByMicrositeAndUser;
 use App\Support\Definitions\DocumentsTypes;
 use App\Support\Definitions\MicrositesTypes;
+use App\Support\Definitions\Status;
 use App\Support\ViewModels\ViewModel;
 
 class FormMicrosite extends ViewModel
@@ -34,7 +35,7 @@ class FormMicrosite extends ViewModel
                 }
                 break;
             case MicrositesTypes::SUBSCRIPTIONS->value:
-                $subscriptions = $microsite->subscriptions()->get();
+                $subscriptions = $microsite->subscriptions()->where('status', Status::ACTIVE->value)->get();
                 $data['subscriptions'] = $subscriptions;
                 break;
         }
