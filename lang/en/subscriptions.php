@@ -17,5 +17,6 @@ return [
     'days' => 'days',
     'description_subscription' => 'Description subscription',
     'msj_information' => 'Click to see more information',
+    'msj_session' => 'Please login to see the subscriptions',
 
 ];

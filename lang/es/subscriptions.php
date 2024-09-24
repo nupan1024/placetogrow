@@ -17,5 +17,6 @@ return [
     'days' => 'días',
     'description_subscription' => 'Descripción de la suscripción',
     'msj_information' => 'Click para ver más información',
+    'msj_session' => 'Por favor inicia sesión para ver las suscripciones',
 
 ];
