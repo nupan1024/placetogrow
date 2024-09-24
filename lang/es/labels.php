@@ -37,5 +37,7 @@ return [
     'file_name' => 'Nombre del archivo',
     'created_at' => 'Creado el',
     'customer_name' => 'Nombre del cliente',
+    'errors' => 'Errores',
+    'title_errors' => 'Click para ver los errores',
 
 ];

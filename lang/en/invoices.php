@@ -25,7 +25,7 @@ return [
     'pay' => 'Go to pay',
     'pending' => 'PENDING',
     'import' => 'Import invoices',
-    'list_import' => 'List of invoices imported',
+    'list_import' => 'List of imported files',
     'msj_import' => 'Please upload a .CSV file, A result email will be sent with the result of the import.',
     'failed_import' => 'The invoices could not be imported.',
     'success_import' => 'The invoices have been imported successfully.',

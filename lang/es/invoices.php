@@ -25,7 +25,7 @@ return [
     'pay' => 'Ir a pagar',
     'pending' => 'PENDING',
     'import' => 'Importar facturas',
-    'list_import' => 'Lista de facturas importadas',
+    'list_import' => 'Lista de archivos importados',
     'msj_import' => 'Por favor, sube un archivo .CSV, Se te enviará un correo con el resultado de la importación.',
     'failed_import' => 'Las facturas no pudieron ser importadas.',
     'success_import' => 'Las facturas han sido importadas exitosamente.',
