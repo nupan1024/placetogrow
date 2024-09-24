@@ -91,13 +91,13 @@ loadSubscriptions();
                                     <div tabindex="0" class="collapse bg-base-200">
                                         <div class="collapse-title">{{ $page.props.$t.subscriptions.msj_information }}</div>
                                         <div class="collapse-content">
-                                            <p>{{$page.props.$t.labels.description }}: {{ subscription.description.slice(0,100) }}</p>
-                                            <p>{{$page.props.$t.labels.currency }}: {{ subscription.currency }}</p>
-                                            <p>{{$page.props.$t.subscriptions.amount }}: ${{ subscription.amount }}</p>
-                                            <p>{{$page.props.$t.invoices.microsites }}: {{ subscription.microsite }}</p>
-                                            <p>{{$page.props.$t.subscriptions.time_expire }}: {{ subscription.time_expire }}</p>
-                                            <p>{{$page.props.$t.subscriptions.billing_frequency }}: {{ subscription.billing_frequency }}</p>
-                                            <p>{{$page.props.$t.labels.status }}: {{ subscription.status }}</p>
+                                            <p>{{ $page.props.$t.labels.description }}: {{ subscription.description.slice(0,100) }}</p>
+                                            <p>{{ $page.props.$t.labels.currency }}: {{ subscription.currency }}</p>
+                                            <p>{{ $page.props.$t.subscriptions.amount }}: ${{ subscription.amount }}</p>
+                                            <p>{{ $page.props.$t.invoices.microsites }}: {{ subscription.microsite }}</p>
+                                            <p>{{ $page.props.$t.subscriptions.time_expire }}: {{ subscription.time_expire }}</p>
+                                            <p>{{ $page.props.$t.subscriptions.billing_frequency }}: {{ subscription.billing_frequency }}</p>
+                                            <p>{{ $page.props.$t.labels.status }}: {{ subscription.status }}</p>
                                         </div>
                                     </div>
                                 </td>

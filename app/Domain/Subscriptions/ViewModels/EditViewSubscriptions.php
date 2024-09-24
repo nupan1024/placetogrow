@@ -21,7 +21,7 @@ class EditViewSubscriptions extends ViewModel
                 'status' => Status::ACTIVE->value,
                 'type' => MicrositesTypes::SUBSCRIPTIONS->value,
             ]),
-            'subscription' => $this->model,
+            'subscription' => $this->model->getRawOriginal(),
         ];
     }
 

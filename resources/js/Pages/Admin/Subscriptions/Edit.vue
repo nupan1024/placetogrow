@@ -87,7 +87,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-3">
-                    <InputLabel for="time_expire" :value="$page.props.$t.labels.date_pay" />
+                    <InputLabel for="time_expire" :value="$page.props.$t.subscriptions.time_expire" />
                     <vue-tailwind-datepicker
                         :formatter="formatter"
                         :disable-date="disableData"
