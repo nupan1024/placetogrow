@@ -40,5 +40,8 @@ return [
     'errors' => 'Errors',
     'title_errors' => 'Click to see the errors',
     'information' => 'Information',
+    'language' => 'Language',
+    'spanish' => 'Spanish',
+    'english' => 'English',
 
 ];

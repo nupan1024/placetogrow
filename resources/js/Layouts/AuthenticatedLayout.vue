@@ -66,10 +66,10 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <details class="dropdown">
-                                <summary class="btn m-1">Language</summary>
+                                <summary class="btn m-1">{{ $page.props.$t.labels.language }}</summary>
                                 <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                    <li><a :href="route('locale','es')">Español</a></li>
-                                    <li><a :href="route('locale','en')">English</a></li>
+                                    <li><a :href="route('locale','es')">{{ $page.props.$t.labels.spanish }}</a></li>
+                                    <li><a :href="route('locale','en')">{{ $page.props.$t.labels.english }}</a></li>
                                 </ul>
                             </details>
                             <!-- Settings Dropdown -->
