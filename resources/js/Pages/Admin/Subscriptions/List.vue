@@ -80,26 +80,27 @@ loadSubscriptions();
                             <thead>
                             <tr>
                                 <th scope="col">{{ $page.props.$t.labels.name }}</th>
-                                <th scope="col">{{ $page.props.$t.labels.description }}</th>
-                                <th scope="col">{{ $page.props.$t.labels.currency }}</th>
-                                <th scope="col">{{ $page.props.$t.subscriptions.amount }}</th>
-                                <th scope="col">{{ $page.props.$t.invoices.microsites }}</th>
-                                <th scope="col">{{ $page.props.$t.subscriptions.time_expire }}</th>
-                                <th scope="col">{{ $page.props.$t.subscriptions.billing_frequency }}</th>
-                                <th scope="col">{{ $page.props.$t.labels.status }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.information }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.options }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="subscription in subscriptions.data" :key="subscription.id" class="hover">
                                 <td>{{ subscription.name }}</td>
-                                <td>{{ subscription.description.slice(0,100) }}</td>
-                                <td>{{ subscription.currency }}</td>
-                                <td>${{ subscription.amount }}</td>
-                                <td>{{ subscription.microsite }}</td>
-                                <td>{{ subscription.time_expire }}</td>
-                                <td>{{ subscription.billing_frequency }}</td>
-                                <td>{{ subscription.status }}</td>
+                                <td>
+                                    <div tabindex="0" class="collapse bg-base-200">
+                                        <div class="collapse-title">{{ $page.props.$t.subscriptions.msj_information }}</div>
+                                        <div class="collapse-content">
+                                            <p>{{$page.props.$t.labels.description }}: {{ subscription.description.slice(0,100) }}</p>
+                                            <p>{{$page.props.$t.labels.currency }}: {{ subscription.currency }}</p>
+                                            <p>{{$page.props.$t.subscriptions.amount }}: ${{ subscription.amount }}</p>
+                                            <p>{{$page.props.$t.invoices.microsites }}: {{ subscription.microsite }}</p>
+                                            <p>{{$page.props.$t.subscriptions.time_expire }}: {{ subscription.time_expire }}</p>
+                                            <p>{{$page.props.$t.subscriptions.billing_frequency }}: {{ subscription.billing_frequency }}</p>
+                                            <p>{{$page.props.$t.labels.status }}: {{ subscription.status }}</p>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>
                                     <a v-if="$page.props.auth.user_permissions.includes($page.props.auth.permissions.UPDATE_SUBSCRIPTION)"
                                        :href="route('subscription.edit', subscription.id)"

@@ -16,5 +16,6 @@ return [
     'billing_frequency' => 'Billing frequency',
     'days' => 'days',
     'description_subscription' => 'Description subscription',
+    'msj_information' => 'Click to see more information',
 
 ];

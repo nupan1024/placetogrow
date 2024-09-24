@@ -39,5 +39,6 @@ return [
     'customer_name' => 'Nombre del cliente',
     'errors' => 'Errores',
     'title_errors' => 'Click para ver los errores',
+    'information' => 'Información',
 
 ];

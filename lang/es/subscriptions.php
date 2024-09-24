@@ -16,5 +16,6 @@ return [
     'billing_frequency' => 'Frecuencia de facturación',
     'days' => 'días',
     'description_subscription' => 'Descripción de la suscripción',
+    'msj_information' => 'Click para ver más información',
 
 ];
