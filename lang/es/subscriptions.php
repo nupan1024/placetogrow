@@ -8,7 +8,7 @@ return [
     'delete' => 'Eliminar suscripción',
     'amount' => 'Valor',
     'msj_delete' => '¿Estás seguro de eliminar el suscripción',
-    'tooltip' => 'Buscar por descripción, nombre, moneda, valor, tiempo de expiración o frecuencia de facturación',
+    'tooltip' => 'Buscar por descripción, nombre, moneda, valor, tiempo de expiración, frecuencia de facturación o micrositio',
     'success_create' => 'Se creó el suscripción con éxito.',
     'success_update' => 'Se actualizó el suscripción con éxito.',
     'success_delete' => 'Se eliminó la suscripción con éxito.',
