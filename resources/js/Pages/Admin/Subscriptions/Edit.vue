@@ -97,6 +97,7 @@ const submit = () => {
                         as-single
                         required
                         autofocus
+                        disabled
                     />
                     <InputError class="mt-2" :message="form.errors.time_expire"/>
                 </div>
@@ -117,6 +118,7 @@ const submit = () => {
                             required
                             v-model="form.currency_id"
                             :options="currencies"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.currency_id" />
                 </div>
@@ -139,6 +141,7 @@ const submit = () => {
                             required
                             v-model="form.microsite_id"
                             :options="microsites"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
                 </div>
