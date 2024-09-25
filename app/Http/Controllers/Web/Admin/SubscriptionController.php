@@ -62,7 +62,7 @@ class SubscriptionController extends Controller
     {
         if(!DeleteSubscription::execute([], $subscription)) {
             return redirect()->route('subscriptions')->with([
-                'message' => 'error',
+                'message' => __('subscriptions.error_delete'),
                 'type' => 'error',
             ]);
         }
