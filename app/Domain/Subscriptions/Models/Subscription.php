@@ -3,6 +3,7 @@
 namespace App\Domain\Subscriptions\Models;
 
 use App\Domain\Microsites\Models\Microsite;
+use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use App\Support\Definitions\Status;
 use Database\Factories\SubscriptionFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -10,7 +11,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property bool $status
+ */
 class Subscription extends Model
 {
     use HasFactory;
@@ -35,6 +40,10 @@ class Subscription extends Model
     public function microsite(): BelongsTo
     {
         return $this->belongsTo(Microsite::class, 'microsite_id', 'id');
+    }
+    public function subscribers(): HasMany
+    {
+        return $this->hasMany(SubscriptionUser::class, 'subscription_id', 'id');
     }
     protected function status(): Attribute
     {
