@@ -10,10 +10,12 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -45,6 +47,8 @@ class RegisteredUserController extends Controller
             'status' => Status::ACTIVE->value,
             'password' => Hash::make($request->password),
         ]);
+        $user->assignRole(Role::findById(Roles::GUEST->value)->name);
+        Cache::forget(config('cache.stores.key.users'));
 
         event(new Registered($user));
 

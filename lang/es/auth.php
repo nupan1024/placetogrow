@@ -17,6 +17,7 @@ return [
     'password' => 'Contraseña incorrecta.',
     'throttle' => 'Demasiados intentos!. Por favor intenta de nuevo en :seconds segundos.',
     'login' => 'Iniciar sesión',
+    'register' => 'Registrarse',
     'sign_off' => 'Cerrar sesión',
     'forget' => 'Olvide la contraseña',
     'msj_forget' => '¿Olvidaste tu contraseña? No hay problema. Solo déjanos saber tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña que te permitirá elegir una nueva.',

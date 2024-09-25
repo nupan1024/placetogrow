@@ -59,8 +59,13 @@ const user = usePage().props.auth.user ?? '';
                         </li>
                     </ul>
                 </div>
-                <div v-else>
-                    <a :href="route('login')">{{ $page.props.$t.auth.login }}</a>
+                <div v-else class="flex justify-between space-x-1">
+                    <div>
+                        <Link :href="route('login')">{{ $page.props.$t.auth.login }}</Link>
+                    </div>
+                    <div>
+                        <Link :href="route('register')">{{ $page.props.$t.auth.register }}</Link>
+                    </div>
                 </div>
             </div>
             <main>
