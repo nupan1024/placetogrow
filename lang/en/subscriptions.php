@@ -31,7 +31,7 @@ return [
     'updated_status' => 'The subscription status has changed',
     'updated_disabled' => 'has been disabled',
     'updated_disabled_msj' => 'The subscription has been disabled.',
-    'updated_enabled' => 'has been enabled',
+    'updated_enabled' => 'has been enabled again.',
     'updated_enabled_msj' => 'The subscription has been enabled.',
     'the_subscription' => 'The subscription',
     'has_subscribers' => 'has subscribers',

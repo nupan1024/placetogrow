@@ -41,7 +41,7 @@
             <p>{{ __('subscriptions.the_subscription') }} {{ $subscription->name }} {{ __('subscriptions.updated_disabled') }}.</p>
             <p>{{ __('subscriptions.updated_disabled_msj') }}: {{ $subscription->time_expire }}.</p>
         @else
-            <p>{{ __('subscriptions.the_subscription') }} {{ $subscription->name }} {{ __('subscriptions.updated_enabled') }}.</p>
+            <p>{{ __('subscriptions.the_subscription') }} <b>{{ $subscription->name }}</b> {{ __('subscriptions.updated_enabled') }}</p>
             <p>{{ __('subscriptions.updated_enabled_msj') }}</p>
         @endif
     @endisset

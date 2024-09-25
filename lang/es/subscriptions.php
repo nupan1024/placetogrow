@@ -30,9 +30,9 @@ return [
     'updated_amount_label' => 'Nuevo monto',
     'updated_frequency_label' => 'Nueva frecuencia de cobro en días',
     'updated_status' => 'Se ha cambiado el estado de la suscripción',
-    'the_subscription' => 'la suscripción',
+    'the_subscription' => 'La suscripción',
     'updated_disabled' => 'ha sido desactivada',
-    'updated_enabled' => 'ha sido activada',
+    'updated_enabled' => 'ha sido activada nuevamente.',
     'updated_disabled_msj' => 'El servicio de tu suscripción estará disponible hasta',
     'updated_enabled_msj' => 'Estamos felices de volver para estar 100% disponible para ti.',
 
