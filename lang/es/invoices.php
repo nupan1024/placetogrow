@@ -30,5 +30,5 @@ return [
     'failed_import' => 'Las facturas no pudieron ser importadas.',
     'success_import' => 'Las facturas han sido importadas exitosamente.',
     'tooltip_import' => 'Busca por nombre del usuario o archivo, estado o fecha de creación.',
-
+    'msj_date_expire_pay' => 'La fecha de pago debe ser mayor a la fecha de pago  almacenada.'
 ];

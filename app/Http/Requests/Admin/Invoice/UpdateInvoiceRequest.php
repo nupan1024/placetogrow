@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\Admin\Invoice;
 
-use Carbon\Carbon;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateInvoiceRequest extends FormRequest
 {
@@ -18,19 +17,13 @@ class UpdateInvoiceRequest extends FormRequest
             'date_expire_pay' => [
                 'date',
                 'required',
-                Rule::when(
-                    fn () => $this->canChangeDate(),
-                    ['after_or_equal:today'],
-                    ['same:date_expire_pay']
-                ),
+                'after:'.date('Y-m-d'),
+                function (string $attribute, mixed $value, Closure $fail) {
+                    if($value !== $this->invoice->date_expire_pay && $value < $this->invoice->date_expire_pay) {
+                        $fail(__('invoices.msj_date_expire_pay'));
+                    }
+                },
             ],
         ];
-    }
-
-    public function canChangeDate(): bool
-    {
-        $createdAt = Carbon::parse($this->invoice->created_at);
-        $threeDaysAgo = Carbon::now()->subDays(3);
-        return $createdAt >= $threeDaysAgo;
     }
 }

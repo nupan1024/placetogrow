@@ -30,5 +30,6 @@ return [
     'failed_import' => 'The invoices could not be imported.',
     'success_import' => 'The invoices have been imported successfully.',
     'tooltip_import' => 'Search by name of user or file, status or creation date.',
+    'msj_date_expire_pay' => 'The payment date must be greater than the payment date stored.'
 
 ];

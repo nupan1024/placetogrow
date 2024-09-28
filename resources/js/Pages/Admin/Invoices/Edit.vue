@@ -26,13 +26,6 @@ const formatter = ref({
     date: 'YYYY-MM-DD',
     month:'MMM',
 });
-
-const canChangeDate = () => {
-    const invoiceDate = new Date(invoice.created_at);
-    const currentDateMinus3Days = new Date();
-    currentDateMinus3Days.setDate(currentDateMinus3Days.getDate() - 3);
-    return invoiceDate >= currentDateMinus3Days;
-}
 function disableData(date) {
     return date < new Date();
 }
@@ -124,7 +117,6 @@ const submit = () => {
                         as-single
                         required
                         autofocus
-                        :disabled="!canChangeDate()"
                     />
                     <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
@@ -153,7 +145,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.value" />
                 </div>
 
-                <div class="flex items-center justify-end mt-4" v-if="invoice.status === 'PENDING'">
+                <div class="flex items-center justify-end mt-4" v-if="invoice.status === 'PENDING' || invoice.status === 'EXPIRED'">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         {{ $page.props.$t.labels.edit }}
                     </PrimaryButton>
