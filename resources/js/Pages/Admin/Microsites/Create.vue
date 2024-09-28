@@ -25,24 +25,12 @@ const types = usePage().props.microsites_types;
 const currencies = usePage().props.currencies;
 const states = usePage().props.states;
 const fields = usePage().props.fields;
-const hiddenField = ref(true);
-const formatter = ref({
-    date: 'YYYY-MM-DD',
-    month:'MMM',
-});
-function disableData(date) {
-    return date < new Date();
-}
-const changeType = (e) => {
-    hiddenField.value = e.target.value !== '1';
-}
 
 const form = useForm({
     name: '',
     category_id: '',
     microsites_type_id: '',
     currency_id: '',
-    date_expire_pay: ref(''),
     logo_path: '',
     status: '',
     description: '',
@@ -79,7 +67,6 @@ const submit = () => {
                 <div class="mt-3">
                     <InputLabel for="microsites_type_id" :value="$page.props.$t.labels.type"/>
                     <Select
-                        v-on:change="changeType"
                         id="microsites_type_id"
                         class="input mt-1 block w-full select"
                         v-model="form.microsites_type_id"
@@ -88,21 +75,6 @@ const submit = () => {
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
-                </div>
-                <div class="mt-3" v-if="!hiddenField">
-                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
-                    <vue-tailwind-datepicker
-                        :formatter="formatter"
-                        :disable-date="disableData"
-                        id="date_expire_pay"
-                        name="date_expire_pay"
-                        v-model="form.date_expire_pay"
-                        class="mt-1 block w-full"
-                        as-single
-                        required
-                        autofocus
-                    />
-                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
                 <div class="mt-3">
                     <InputLabel for="category_id" :value="$page.props.$t.categories.title"/>

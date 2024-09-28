@@ -18,10 +18,6 @@ class CreateMicrositeRequest extends FormRequest
             ],
             'description' => ['required', 'string'],
             'currency_id' => ['required', 'exists:currencies,id'],
-            'date_expire_pay' => [
-                'exclude_unless:microsites_type_id,'.MicrositesTypes::INVOICE->value,
-                'date', 'required', 'after:'.date('Y-m-d'),
-            ],
             'status' => ['required', 'boolean'],
             'fields' => ['array'],
         ];

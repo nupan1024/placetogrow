@@ -19,7 +19,6 @@ defineProps({
     currencies: Array,
     microsite: Object,
     states: Array,
-    is_invoice: Boolean,
     fields: Array
 })
 
@@ -30,16 +29,7 @@ const currencies = usePage().props.currencies;
 const microsite = usePage().props.microsite;
 const fields = usePage().props.fields;
 const states = usePage().props.states;
-const is_invoice = usePage().props.is_invoice;
 const field_microsite = JSON.parse(microsite.fields)
-const formatter = ref({
-    date: 'YYYY-MM-DD',
-    month:'MMM',
-});
-
-function disableData(date) {
-    return date < new Date();
-}
 
 const form = useForm({
     name: microsite.name,
@@ -98,20 +88,6 @@ const submit = () => {
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.microsites_type_id"/>
-                </div>
-                <div class="mt-3" v-if="is_invoice">
-                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
-                    <vue-tailwind-datepicker
-                        id="date_expire_pay"
-                        name="date_expire_pay"
-                        :disable-date="disableData"
-                        v-model="form.date_expire_pay"
-                        :formatter="formatter"
-                        class="mt-1 block w-full"
-                        as-single
-                        required
-                        autofocus />
-                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
                 <div class="mt-3">
                     <InputLabel for="category_id" :value="$page.props.$t.categories.title"/>
