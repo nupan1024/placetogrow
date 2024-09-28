@@ -36,7 +36,6 @@ const form = useForm({
     category_id: microsite.category_id,
     microsites_type_id: microsite.microsites_type_id,
     currency_id: microsite.currency_id,
-    date_expire_pay: microsite.date_expire_pay,
     logo_path: '',
     status: microsite.status,
     description: microsite.description,

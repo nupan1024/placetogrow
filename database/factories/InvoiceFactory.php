@@ -29,6 +29,7 @@ class InvoiceFactory extends Factory
             'description' => fake()->paragraph(),
             'status' => Status::ST_PENDING,
             'code' => 'microsite_placetopay'.fake()->randomNumber(6),
+            'date_expire_pay' => fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
         ];
     }
 }

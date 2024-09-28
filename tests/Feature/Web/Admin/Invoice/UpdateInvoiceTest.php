@@ -5,6 +5,7 @@ use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Users\Models\User;
 use App\Support\Definitions\Permissions;
 use App\Support\Definitions\Roles;
+use Carbon\Carbon;
 use Database\Factories\PermissionFactory;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
@@ -35,6 +36,7 @@ test('update invoice success', function () {
         'description' => $description,
         'status' => $invoice->status,
         'code' => $invoice->code,
+        'date_expire_pay' => fake()->date(Carbon::now()->addDays(3)->format('Y-m-d')),
     ];
 
     $response = $this->post(route("invoice.update", $invoice->id), $data);

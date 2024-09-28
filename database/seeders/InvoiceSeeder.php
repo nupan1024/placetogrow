@@ -24,6 +24,7 @@ class InvoiceSeeder extends Seeder
         ]);
         $user->assignRole(Roles::GUEST->name);
         Invoice::factory()->count(3)->create([
+            'date_expire_pay' => date('Y-m-d'),
             'microsite_id' => $micrositeFactory->invoiceType()->create(),
             'user_id' => $user->id
         ]);

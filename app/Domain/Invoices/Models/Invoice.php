@@ -22,6 +22,7 @@ class Invoice extends Model
         'value',
         'description',
         'status',
+        'date_expire_pay',
     ];
 
     protected static function newFactory(): Factory

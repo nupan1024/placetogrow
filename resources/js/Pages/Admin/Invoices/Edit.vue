@@ -9,6 +9,7 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
 import Select from '@/Components/Select.vue';
 import TextArea from '@/Components/TextArea.vue';
+import { ref } from 'vue';
 
 defineProps({
     roles: Array,
@@ -20,6 +21,22 @@ const microsites = usePage().props.microsites;
 const users = usePage().props.users;
 const invoice = usePage().props.invoice;
 const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.invoices.list, usePage().props.$t.invoices.edit];
+
+const formatter = ref({
+    date: 'YYYY-MM-DD',
+    month:'MMM',
+});
+
+const canChangeDate = () => {
+    const invoiceDate = new Date(invoice.created_at);
+    const currentDateMinus3Days = new Date();
+    currentDateMinus3Days.setDate(currentDateMinus3Days.getDate() - 3);
+    return invoiceDate >= currentDateMinus3Days;
+}
+function disableData(date) {
+    return date < new Date();
+}
+
 const form = useForm({
     microsite_id: invoice.microsite_id,
     user_id: invoice.user_id,
@@ -27,6 +44,7 @@ const form = useForm({
     description: invoice.description,
     status: invoice.status,
     code: invoice.code,
+    date_expire_pay: invoice.date_expire_pay,
 });
 
 
@@ -92,6 +110,23 @@ const submit = () => {
                             :options="microsites"
                     />
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
+                </div>
+
+                <div class="mt-3">
+                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
+                    <vue-tailwind-datepicker
+                        :formatter="formatter"
+                        :disable-date="disableData"
+                        id="date_expire_pay"
+                        name="date_expire_pay"
+                        v-model="form.date_expire_pay"
+                        class="mt-1 block w-full"
+                        as-single
+                        required
+                        autofocus
+                        :disabled="!canChangeDate()"
+                    />
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
 
                 <div class="mt-4">
