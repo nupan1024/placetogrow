@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Services\Mail;
+namespace App\Support\Services\Mail\Subscription;
 
 use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use Illuminate\Bus\Queueable;
@@ -11,13 +11,8 @@ class SubscriptionEmail extends Mailable
 {
     use Queueable;
     use SerializesModels;
-
-    public SubscriptionUser $subscriptionUser;
-    private array $params;
-    public function __construct(SubscriptionUser $subscriptionUser, $params = [])
+    public function __construct(private readonly SubscriptionUser $subscriptionUser, private readonly array $params = [])
     {
-        $this->subscriptionUser = $subscriptionUser;
-        $this->params = $params;
     }
     public function build(): SubscriptionEmail
     {

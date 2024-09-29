@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin\Microsite;
 
-use App\Support\Definitions\MicrositesTypes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateMicrositeRequest extends FormRequest

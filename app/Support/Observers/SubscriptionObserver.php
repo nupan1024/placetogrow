@@ -4,6 +4,7 @@ namespace App\Support\Observers;
 
 use App\Domain\Subscriptions\Models\Subscription;
 use App\Jobs\ProcessSendEmail;
+use App\Support\Services\Mail\Subscription\SubscriptionEmail;
 
 class SubscriptionObserver
 {
@@ -11,7 +12,7 @@ class SubscriptionObserver
     {
         $subscriptionUsers = $subscription->subscribers()->get();
         if (count($subscriptionUsers) > 0) {
-            dispatch(new ProcessSendEmail('updated_subscription', $subscriptionUsers, [], $subscription->getDirty()));
+            dispatch(new ProcessSendEmail(SubscriptionEmail::class, $subscriptionUsers, $subscription->getDirty()));
         }
     }
 }

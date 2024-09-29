@@ -4,8 +4,10 @@ namespace App\Support\Providers;
 
 use App\Contracts\PaymentGateway as PaymentGatewayContract;
 use App\Contracts\PaymentService as PaymentServiceContract;
+use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Subscriptions\Models\Subscription;
 use App\Support\Definitions\PaymentGateway;
+use App\Support\Observers\InvoiceObserver;
 use App\Support\Observers\SubscriptionObserver;
 use App\Support\Services\Payments\Gateways\PlaceToPayService;
 use App\Support\Services\Payments\PaymentService;
@@ -46,5 +48,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Subscription::observe(SubscriptionObserver::class);
+        Invoice::observe(InvoiceObserver::class);
     }
 }

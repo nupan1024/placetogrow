@@ -90,6 +90,7 @@ const submit = () => {
                             required
                             v-model="form.user_id"
                             :options="users"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.user_id" />
                 </div>
@@ -101,6 +102,7 @@ const submit = () => {
                             required
                             v-model="form.microsite_id"
                             :options="microsites"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
                 </div>

@@ -30,6 +30,19 @@ return [
     'failed_import' => 'The invoices could not be imported.',
     'success_import' => 'The invoices have been imported successfully.',
     'tooltip_import' => 'Search by name of user or file, status or creation date.',
-    'msj_date_expire_pay' => 'The payment date must be greater than the payment date stored.'
+    'msj_date_expire_pay' => 'The payment date must be greater than the payment date stored.',
+    'description_invoice_email' => 'An invoice has been generated for the concept',
+    'delete_invoices_email' => 'Your invoice with the code :code has been deleted.',
+    'updated_invoices_email' => 'Your invoice with the code :code has been updated.',
+    'title_date_expire' => 'Your payment date limit has changed',
+    'new_date_expire' => ' New payment date limit: :expire',
+    'title_description' => 'Your description has changed',
+    'new_description' => 'New description: :description',
+    'title_status' => 'Your status has changed',
+    'new_status' => 'New status: :status',
+    'title_value' => 'Your value has changed',
+    'new_value' => 'New value: :value',
+    'paid_invoice' => 'The payment of your invoice with the code :code has been made.',
+    'expired_invoice' => 'Your invoice with the code :code is overdue.',
 
 ];

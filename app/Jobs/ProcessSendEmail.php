@@ -2,11 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Domain\SubscriptionUser\Models\SubscriptionUser;
-use App\Support\Services\Mail\SubscriptionEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -20,29 +17,18 @@ class ProcessSendEmail implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    private string $action;
-    private Model|Collection $model;
-    private array $emails;
-    private array $params;
-    public function __construct($action, $model, $emails, $params = [])
+    /**
+     *  @template T of \Illuminate\Mail\Mailable
+     * @param class-string<T> $mail
+     */
+    public function __construct(private readonly string $mail, private readonly Collection $users, private readonly array $params = [])
     {
-        $this->action = $action;
-        $this->model = $model;
-        $this->emails = $emails;
-        $this->params = $params;
     }
 
     public function handle(): void
     {
-        switch ($this->action) {
-            case 'updated_subscription':
-                /* @var SubscriptionUser $model */
-                foreach ($this->model as $model) {
-                    Mail::to($model->user->email)->send(new SubscriptionEmail($model, $this->params));
-                }
-                break;
-            default:
-                break;
+        foreach ($this->users as $user) {
+            Mail::to($user->email)->send(new $this->mail($user, $this->params));
         }
     }
 }

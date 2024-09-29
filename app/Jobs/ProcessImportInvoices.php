@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Domain\Imports\Actions\UpdateImport;
 use App\Domain\Imports\Models\Import;
+use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Users\Actions\GetUserByEmail;
 use App\Domain\Users\Models\User;
 use App\Support\Definitions\ImportStatus;
@@ -139,13 +140,12 @@ class ProcessImportInvoices implements ShouldQueue
     }
     private function insert(): void
     {
-        $data = collect($this->rows);
-        $chunks = $data->chunk(500);
+        $invoices = collect($this->rows);
         DB::beginTransaction();
 
         try {
-            foreach ($chunks as $chunk) {
-                DB::table('invoices')->insert($chunk->toArray());
+            foreach ($invoices as $invoice) {
+                Invoice::create($invoice);
             }
             DB::commit();
             UpdateImport::execute([
