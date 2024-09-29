@@ -1,6 +1,6 @@
-customer_name,email,value,description,code,status
-natalia muñoz,natalia@placetogrow.com,$5.000 ,Test description,MICROSITE_PLACETOGROW_123342,PENDING
-orlando muñoz,orlando@placetogrow.com,$20.000 ,Test description,MICROSITE_PLACETOGROW_567567,PENDING
-gabriela muñoz,gabriela@placetogrow.com,$60.000 ,Test description,MICROSITE_PLACETOGROW_123456,PAID
-juan jose yandy,juanjose@placetogrow.com,$100.000 ,Test description,MICROSITE_PLACETOGROW_889900,PAID
-rebeca test,rebeca79@example.org,$80.000 ,Factura generada por ...,MICROSITE_PLACETOGROW_667755,EXPIRED
+customer_name,email,value,description,code,status,date_expire_pay
+natalia muñoz,natalia@placetogrow.com,$5.000 ,Test description,MICROSITE_PLACETOGROW_123342,PENDING,2025-10-05
+orlando muñoz,orlando@placetogrow.com,$20.000 ,Test description,MICROSITE_PLACETOGROW_567567,PENDING,2025-10-05
+gabriela muñoz,gabriela@placetogrow.com,$60.000 ,Test description,MICROSITE_PLACETOGROW_123456,PAID,2024-08-05
+juan jose yandy,juanjose@placetogrow.com,$100.000 ,Test description,MICROSITE_PLACETOGROW_889900,PAID,2024-08-05
+rebeca test,rebeca79@example.org,$80.000 ,Factura generada por ...,MICROSITE_PLACETOGROW_667755,EXPIRED,2024-09-05

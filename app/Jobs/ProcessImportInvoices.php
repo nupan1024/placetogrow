@@ -83,7 +83,8 @@ class ProcessImportInvoices implements ShouldQueue
                         'value' => $row['value'],
                         'description' => $row['description'],
                         'code' => $row['code'],
-                        'status' => $row['status']
+                        'status' => $row['status'],
+                        'date_expire_pay' => $row['date_expire_pay']
                     ];
                 }
             }

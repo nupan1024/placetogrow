@@ -24,7 +24,10 @@ test('update invoice success', function () {
     $user->assignRole(Role::findById($role->id));
     Sanctum::actingAs($user);
 
-    $invoice = Invoice::factory()->create();
+    $date = Carbon::now()->addDays(3);
+    $invoice = Invoice::factory()->create([
+        'date_expire_pay' => $date->format('Y-m-d'),
+    ]);
 
     $value = fake()->numberBetween(1, 10000);
     $description = fake()->paragraph();
@@ -36,7 +39,7 @@ test('update invoice success', function () {
         'description' => $description,
         'status' => $invoice->status,
         'code' => $invoice->code,
-        'date_expire_pay' => fake()->date(Carbon::now()->addDays(3)->format('Y-m-d')),
+        'date_expire_pay' => $date->addDays(1),
     ];
 
     $response = $this->post(route("invoice.update", $invoice->id), $data);

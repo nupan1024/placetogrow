@@ -6,6 +6,8 @@ use App\Domain\Invoices\Actions\GetInvoiceByCode;
 
 use App\Support\Definitions\StatusInvoices;
 
+use DateTime;
+
 use function is_numeric;
 
 class InvoiceValidator
@@ -22,7 +24,7 @@ class InvoiceValidator
         $this->errors = [];
 
         if (!isset($row['code'])) {
-            $this->setError('Code is required', $line);
+            $this->setError('The field code is required', $line);
         }
 
         if (GetInvoiceByCode::execute(['code' => $row['code']])) {
@@ -44,10 +46,19 @@ class InvoiceValidator
         if (!isset($row['description']) || strlen($row['description']) > 512) {
             $this->setError('Invalid description format', $line);
         }
+
+        if (!isset($row['date_expire_pay']) || !$this->validateDate($row['date_expire_pay'])) {
+            $this->setError('Invalid date_expire_pay format', $line);
+        }
+
         $status = StatusInvoices::asOptions();
         $nameStatus = array_column($status, 'name');
         if (!isset($row['status']) || !in_array(ucfirst(strtolower($row['status'])), $nameStatus)) {
             $this->setError('Invalid status format', $line);
+        }
+
+        if ($row['status'] ===  StatusInvoices::PENDING->name && $row['date_expire_pay'] < now()->addDays(3)->format('Y-m-d')) {
+            $this->setError('The field date_expire_pay must be greater than 3 days from today', $line);
         }
     }
 
@@ -64,6 +75,11 @@ class InvoiceValidator
     public function fails(): bool
     {
         return !empty($this->errors);
+    }
+    public function validateDate($date, $format = 'Y-m-d'): bool
+    {
+        $formatDate = DateTime::createFromFormat($format, $date);
+        return $formatDate && $formatDate->format($format) === $date;
     }
 
 }
