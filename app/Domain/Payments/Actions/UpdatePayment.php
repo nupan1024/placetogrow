@@ -18,7 +18,7 @@ class UpdatePayment implements Action
             $invoice->save();
         }
 
-        if (is_numeric($model->subscription_id) && $params['status'] === PaymentStatus::APPROVED->value) {
+        if (is_numeric($model->subscription_id)) {
             CreateSubscriptionUser::execute([
                 'user_id' => Auth::user()->id ?? $model->subscription->user_id,
                 'subscription_id' => $model->subscription_id,
