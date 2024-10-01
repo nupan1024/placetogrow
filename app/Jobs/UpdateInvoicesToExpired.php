@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Domain\Invoices\Actions\UpdateStatusInvoice;
+use App\Domain\Invoices\Actions\UpdateExpiredInvoice;
 use App\Domain\Invoices\Models\Invoice;
 use App\Support\Definitions\StatusInvoices;
 use Illuminate\Bus\Queueable;
@@ -25,8 +25,11 @@ class UpdateInvoicesToExpired implements ShouldQueue
             ->where('status', '=', StatusInvoices::PENDING->name)
             ->chunk(100, function (Collection $invoices) {
                 foreach ($invoices as $invoice) {
-                    UpdateStatusInvoice::execute([
+                    $value = $invoice->value + ($invoice->value * 0.05);
+
+                    UpdateExpiredInvoice::execute([
                         'status' => StatusInvoices::EXPIRED->name,
+                        'value' => $value,
                     ], $invoice);
                 }
             });

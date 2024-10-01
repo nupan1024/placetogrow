@@ -5,6 +5,7 @@ namespace App\Domain\Payments\Actions;
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\SubscriptionUser\Actions\CreateSubscriptionUser;
 use App\Support\Actions\Action;
+use App\Support\Definitions\PaymentStatus;
 use Illuminate\Support\Facades\Auth;
 
 class UpdatePayment implements Action
@@ -17,7 +18,7 @@ class UpdatePayment implements Action
             $invoice->save();
         }
 
-        if (is_numeric($model->subscription_id)) {
+        if (is_numeric($model->subscription_id) && $params['status'] === PaymentStatus::APPROVED->value) {
             CreateSubscriptionUser::execute([
                 'user_id' => Auth::user()->id ?? $model->subscription->user_id,
                 'subscription_id' => $model->subscription_id,
