@@ -17,6 +17,9 @@ use App\Support\Http\Middleware\ProtectSuperAdmin;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Web\User\InvoiceController as UserInvoiceController;
+use App\Http\Controllers\Web\User\PaymentController as UserPaymentController;
+use App\Http\Controllers\Web\User\SubscriptionController as UserSubscriptionController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/greeting/{locale}', function ($locale) {
@@ -216,12 +219,14 @@ Route::middleware('auth')->group(function () {
     Route::delete($url, [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
-    Route::get('/user/invoices', [UserController::class, 'invoices'])
+    Route::get('/user/invoices', [UserInvoiceController::class, 'index'])
         ->name('user.invoices.list');
-    Route::get('/user/payments', [UserController::class, 'payments'])
+    Route::get('/user/payments', [UserPaymentController::class, 'index'])
         ->name('user.payments.list');
-    Route::get('/user/subscriptions', [UserController::class, 'subscriptions'])
+    Route::get('/user/subscriptions', [UserSubscriptionController::class, 'index'])
         ->name('user.subscriptions.list');
+    Route::delete('/user/subscriptions/{subscription}', [UserSubscriptionController::class, 'delete'])
+        ->name('user.subscriptions.delete');
 });
 
 require __DIR__.'/auth.php';

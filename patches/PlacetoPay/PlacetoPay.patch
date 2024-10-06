@@ -1,0 +1,13 @@
+diff --git a/vendor/dnetix/redirection/src/PlacetoPay.php b/vendor/dnetix/redirection/src/PlacetoPay.php
+--- a/vendor/dnetix/redirection/src/PlacetoPay.php
++++ b/vendor/dnetix/redirection/src/PlacetoPay.php	(date 1728187092437)
+@@ -68,4 +68,9 @@
+     {
+         return new Notification($data, $this->settings->tranKey());
+     }
++
++    public function invalidateToken(array $instrument): array
++    {
++        return $this->settings->carrier()->invalidateToken($instrument);
++    }
+ }

@@ -70,6 +70,10 @@ loadSubscriptions();
                                     <a :href="route('payment.subscription.detail', subscription.payment_id)"
                                        target="_blank" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.see }}
+                                    </a>&nbsp;
+                                    <a :href="route('payment.subscription.detail', subscription.payment_id)"
+                                       target="_blank" class="text-indigo-500 hover:underline">
+                                        {{ $page.props.$t.subscriptions.delete }}
                                     </a>
                                 </td>
                             </tr>

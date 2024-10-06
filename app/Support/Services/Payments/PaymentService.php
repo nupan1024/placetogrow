@@ -33,4 +33,9 @@ class PaymentService implements PaymentServiceContract
 
         return $response;
     }
+
+    public function deleteSubscription(string $token): void
+    {
+        $this->gateway->deleteSubscription($token);
+    }
 }
