@@ -4,10 +4,10 @@ namespace App\Support\Services\Payments\Gateways;
 
 use App\Contracts\PaymentGateway;
 use App\Domain\Payments\Models\Payment;
-use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use App\Support\Definitions\PaymentStatus;
 use App\Support\Services\Payments\PaymentResponse;
 use App\Support\Services\Payments\QueryPaymentResponse;
+use Dnetix\Redirection\Entities\Status;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
@@ -98,8 +98,20 @@ class PlaceToPayService implements PaymentGateway
                  'token' => Crypt::decryptString($token),
              ],
          ];
+
         $placetopay = $this->init();
-        return $placetopay->invalidateToken($this->data);
+        $response = $placetopay->invalidateToken($this->data);
+
+        if ($response['status']['status'] !== Status::ST_OK) {
+            return [
+                'status' => false,
+                'message' => $response['status']['message'],
+            ];
+        }
+
+        return [
+            'status' => true,
+        ];
     }
 
     public function process(): PaymentResponse

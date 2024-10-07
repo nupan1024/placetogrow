@@ -29,7 +29,7 @@ class UpdateStatusPayments implements ShouldQueue
         Payment::where('status', PaymentStatus::PENDING->value)
         ->chunk(100, function (Collection $payments) use ($placetopay) {
             foreach ($payments as $payment) {
-                if($payment->request_id && $payment->request_id != 0) {
+                if ($payment->request_id && $payment->request_id != 0) {
                     $statusPayment = $placetopay->init()->query($payment->request_id);
 
                     UpdatePayment::execute([

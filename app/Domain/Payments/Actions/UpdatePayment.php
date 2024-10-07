@@ -5,7 +5,6 @@ namespace App\Domain\Payments\Actions;
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\SubscriptionUser\Actions\CreateSubscriptionUser;
 use App\Support\Actions\Action;
-use App\Support\Definitions\PaymentStatus;
 use Illuminate\Support\Facades\Auth;
 
 class UpdatePayment implements Action

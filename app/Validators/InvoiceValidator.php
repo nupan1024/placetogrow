@@ -3,9 +3,7 @@
 namespace App\Validators;
 
 use App\Domain\Invoices\Actions\GetInvoiceByCode;
-
 use App\Support\Definitions\StatusInvoices;
-
 use DateTime;
 
 use function is_numeric;

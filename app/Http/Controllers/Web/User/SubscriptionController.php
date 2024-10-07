@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Web\User;
 
-use App\Domain\Subscriptions\Models\Subscription;
+use App\Domain\SubscriptionUser\Actions\DeleteSubscriptionUser;
+use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,11 +16,18 @@ class SubscriptionController extends Controller
         return Inertia::render('Subscription/List');
     }
 
-    public function delete(Subscription $subscription): Response
+    public function delete(SubscriptionUser $subscriptionUser): RedirectResponse
     {
-        //$subscription->delete();
+        if (!DeleteSubscriptionUser::execute([], $subscriptionUser)) {
+            return redirect()->route('user.subscriptions.list')->with([
+                'message' => __('subscriptions.error_delete'),
+                'type' => 'error',
+            ]);
+        }
 
-        return Inertia::render('Subscription/List');
-
+        return redirect()->route('user.subscriptions.list')->with([
+            'message' => __('subscriptions.success_delete'),
+            'type' => 'success',
+        ]);
     }
 }

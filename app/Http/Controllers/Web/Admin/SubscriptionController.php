@@ -60,7 +60,7 @@ class SubscriptionController extends Controller
 
     public function delete(Subscription $subscription): RedirectResponse
     {
-        if(!DeleteSubscription::execute([], $subscription)) {
+        if (!DeleteSubscription::execute([], $subscription)) {
             return redirect()->route('subscriptions')->with([
                 'message' => __('subscriptions.error_delete'),
                 'type' => 'error',

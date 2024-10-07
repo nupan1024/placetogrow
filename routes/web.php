@@ -225,7 +225,7 @@ Route::middleware('auth')->group(function () {
         ->name('user.payments.list');
     Route::get('/user/subscriptions', [UserSubscriptionController::class, 'index'])
         ->name('user.subscriptions.list');
-    Route::delete('/user/subscriptions/{subscription}', [UserSubscriptionController::class, 'delete'])
+    Route::delete('/user/subscriptions/{subscription_user}/delete', [UserSubscriptionController::class, 'delete'])
         ->name('user.subscriptions.delete');
 });
 

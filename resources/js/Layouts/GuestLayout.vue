@@ -1,6 +1,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import Alert from '@/Components/Alert.vue';
 
 const user = usePage().props.auth.user ?? '';
 </script>
@@ -69,6 +70,9 @@ const user = usePage().props.auth.user ?? '';
                 </div>
             </div>
             <main>
+                <div v-if="$page.props.flash.message">
+                    <Alert :type="$page.props.flash.type" :message="$page.props.flash.message" />
+                </div>
                 <slot />
             </main>
         </div>
