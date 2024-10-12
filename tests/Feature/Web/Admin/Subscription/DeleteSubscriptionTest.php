@@ -105,6 +105,6 @@ test('Cannot delete subscription when user has this subscription', function () {
     ]);
 
     $response = $this->delete(route('subscription.delete', $subscription->id));
-    $response->assertSessionHas('message', 'error');
+    $response->assertSessionHas('message', __('subscriptions.error_delete'));
     $response->assertStatus(302);
 });

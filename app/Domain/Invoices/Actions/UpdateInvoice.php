@@ -14,6 +14,8 @@ class UpdateInvoice implements Action
             $model->user_id = $params['user_id'];
             $model->value = $params['value'];
             $model->description = $params['description'];
+            $model->date_expire_pay = $params['date_expire_pay'];
+
             return $model->save();
         } catch (\Exception $e) {
             Log::channel('Invoices')->error('Error updating invoice: '.$e->getMessage());

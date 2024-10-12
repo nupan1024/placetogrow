@@ -4,7 +4,11 @@ namespace App\Support\Providers;
 
 use App\Contracts\PaymentGateway as PaymentGatewayContract;
 use App\Contracts\PaymentService as PaymentServiceContract;
+use App\Domain\Invoices\Models\Invoice;
+use App\Domain\Subscriptions\Models\Subscription;
 use App\Support\Definitions\PaymentGateway;
+use App\Support\Observers\InvoiceObserver;
+use App\Support\Observers\SubscriptionObserver;
 use App\Support\Services\Payments\Gateways\PlaceToPayService;
 use App\Support\Services\Payments\PaymentService;
 use Illuminate\Contracts\Foundation\Application;
@@ -42,5 +46,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user) {
             return $user->hasRole('Super Admin') ? true : null;
         });
+
+        Subscription::observe(SubscriptionObserver::class);
+        Invoice::observe(InvoiceObserver::class);
     }
 }

@@ -1,0 +1,12 @@
+diff --git a/vendor/dnetix/redirection/src/Carrier/RestCarrier.php b/vendor/dnetix/redirection/src/Carrier/RestCarrier.php
+--- a/vendor/dnetix/redirection/src/Carrier/RestCarrier.php
++++ b/vendor/dnetix/redirection/src/Carrier/RestCarrier.php	(date 1684950334000)
+@@ -72,4 +72,8 @@
+         ]);
+         return new ReverseResponse($result);
+     }
++
++    public function invalidateToken(array $instrument): array {
++        return $this->makeRequest($this->settings->baseUrl('api/instrument/invalidate'), $instrument);
++    }
+ }

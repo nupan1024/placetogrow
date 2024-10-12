@@ -13,6 +13,7 @@ class ListImport implements Action
         return Import::select(
             'imports.id',
             'imports.file_name',
+            'imports.errors',
             'imports.status',
             'users.name as user',
             'imports.created_at',

@@ -7,8 +7,10 @@ use App\Domain\Payments\Models\Payment;
 use App\Support\Definitions\PaymentStatus;
 use App\Support\Services\Payments\PaymentResponse;
 use App\Support\Services\Payments\QueryPaymentResponse;
+use Dnetix\Redirection\Entities\Status;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 
 class PlaceToPayService implements PaymentGateway
@@ -87,6 +89,29 @@ class PlaceToPayService implements PaymentGateway
         $this->data['returnUrl'] = route('payment.subscription.detail', $payment);
 
         return $this;
+    }
+
+    public function deleteSubscription($token): array
+    {
+        $this->data['instrument'] = [
+             'token' => [
+                 'token' => Crypt::decryptString($token),
+             ],
+         ];
+
+        $placetopay = $this->init();
+        $response = $placetopay->invalidateToken($this->data);
+
+        if ($response['status']['status'] !== Status::ST_OK) {
+            return [
+                'status' => false,
+                'message' => $response['status']['message'],
+            ];
+        }
+
+        return [
+            'status' => true,
+        ];
     }
 
     public function process(): PaymentResponse

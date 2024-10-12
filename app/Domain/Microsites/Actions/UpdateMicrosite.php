@@ -16,7 +16,6 @@ class UpdateMicrosite implements Action
             $model->name = $params['name'];
             $model->description = $params['description'];
             $model->currency_id = $params['currency_id'];
-            $model->date_expire_pay = $params['date_expire_pay'] ?? null;
             $model->status = $params['status'];
             $model->fields = $params['fields'] ?? [];
             if ($params['logo_path']) {

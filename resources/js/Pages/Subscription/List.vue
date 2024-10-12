@@ -1,17 +1,42 @@
 <script setup>
 import { ref } from 'vue';
 
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import SearchForm from '@/Components/SearchForm.vue';
 import Pagination from '@/Components/Pagination.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import Modal from '@/Components/Modal.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 
 const props = defineProps({ user: Object });
 
 const searchTerm = ref('');
 const user = usePage().props.auth.user ?? '';
 const subscriptions = ref([]);
+const subscriptionId = ref('');
+const subscriptionName = ref('');
+const isOpenModal = ref(false);
+const closeModal = () => {
+    isOpenModal.value = false;
 
+    form.reset();
+};
+
+const openModal = (e) => {
+    subscriptionId.value = e.target.dataset.id ?? "";
+    subscriptionName.value = e.target.dataset.name ?? "";
+    isOpenModal.value = true;
+};
+
+const form = useForm({});
+const deleteSubscription = () => {
+    form.delete(route('user.subscriptions.delete', subscriptionId.value), {
+        forceFormData: true,
+        onSuccess: () => closeModal(),
+        onFinish: () => loadSubscriptions(),
+    });
+}
 const searchFields = (text) => {
     searchTerm.value = text;
 
@@ -70,6 +95,9 @@ loadSubscriptions();
                                     <a :href="route('payment.subscription.detail', subscription.payment_id)"
                                        target="_blank" class="text-indigo-500 hover:underline">
                                         {{ $page.props.$t.labels.see }}
+                                    </a>&nbsp;
+                                    <a :data-id="subscription.id" :data-name="subscription.name"  @click="openModal" class="btn btn-link">
+                                        {{ $page.props.$t.subscriptions.delete }}
                                     </a>
                                 </td>
                             </tr>
@@ -81,6 +109,26 @@ loadSubscriptions();
                             :filter="`&filter=${searchTerm}`" :click="loadSubscriptions"/>
             </div>
         </div>
+
+        <Modal :show="isOpenModal" @close="closeModal">
+            <template v-slot>
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold">{{ $page.props.$t.subscriptions.delete }}</h2>
+                    <p class="mt-4">{{ $page.props.$t.subscriptions.msj_delete }} {{ subscriptionName }}?</p>
+                    <div class="mt-6 flex justify-end">
+                        <SecondaryButton @click="closeModal"> {{ $page.props.$t.labels.cancel }} </SecondaryButton>
+                        <DangerButton
+                            class="ml-3"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            @click="deleteSubscription"
+                        >
+                            {{ $page.props.$t.labels.delete }}
+                        </DangerButton>
+                    </div>
+                </div>
+            </template>
+        </Modal>
     </GuestLayout>
 </template>
 

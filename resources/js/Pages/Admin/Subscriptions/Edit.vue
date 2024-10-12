@@ -87,7 +87,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-3">
-                    <InputLabel for="time_expire" :value="$page.props.$t.labels.date_pay" />
+                    <InputLabel for="time_expire" :value="$page.props.$t.subscriptions.time_expire" />
                     <vue-tailwind-datepicker
                         :formatter="formatter"
                         :disable-date="disableData"
@@ -97,6 +97,7 @@ const submit = () => {
                         as-single
                         required
                         autofocus
+                        disabled
                     />
                     <InputError class="mt-2" :message="form.errors.time_expire"/>
                 </div>
@@ -117,6 +118,7 @@ const submit = () => {
                             required
                             v-model="form.currency_id"
                             :options="currencies"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.currency_id" />
                 </div>
@@ -139,6 +141,7 @@ const submit = () => {
                             required
                             v-model="form.microsite_id"
                             :options="microsites"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
                 </div>

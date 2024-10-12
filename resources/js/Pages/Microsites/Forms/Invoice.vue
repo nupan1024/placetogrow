@@ -163,7 +163,7 @@ const submit = () => {
                     <div class="flex gap-4" v-html="valueInvoice"></div>
                 </div>
 
-                <div class="flex items-center justify-end mt-4" v-if="invoices.length > 0">
+                <div class="flex items-center justify-end mt-4" v-if="invoices && invoices.length > 0">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         {{ $page.props.$t.labels.pay }}
                     </PrimaryButton>

@@ -80,6 +80,7 @@ loadImports();
                                 <th scope="col">{{ $page.props.$t.labels.name }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.file_name }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.status }}</th>
+                                <th scope="col">{{ $page.props.$t.labels.errors }}</th>
                                 <th scope="col">{{ $page.props.$t.labels.created_at }}</th>
                             </tr>
                             </thead>
@@ -88,6 +89,14 @@ loadImports();
                                 <td>{{ data.user }}</td>
                                 <td>{{ data.file_name }}</td>
                                 <td>{{ data.status }}</td>
+                                <td>
+                                    <div v-if="data.errors && data.errors.length > 0" tabindex="0" class="collapse bg-base-200">
+                                        <div class="collapse-title">{{ $page.props.$t.labels.title_errors }}</div>
+                                        <div class="collapse-content">
+                                            <p v-for="error in data.errors">{{ error }}</p>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ data.created_at }}</td>
                             </tr>
                             </tbody>
