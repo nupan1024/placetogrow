@@ -13,6 +13,7 @@ use App\Contracts\PaymentService;
 use App\Support\Definitions\StatusInvoices;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class PaymentController extends Controller
 {
@@ -20,7 +21,7 @@ class PaymentController extends Controller
     {
         return Inertia::render('Admin/Payments/List');
     }
-    public function create(CreatePaymentRequest $request)
+    public function create(CreatePaymentRequest $request): SymfonyResponse
     {
         $payment = CreatePayment::execute($request->validated());
         /** @var PaymentService $paymentService */

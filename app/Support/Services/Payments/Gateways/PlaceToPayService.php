@@ -60,6 +60,18 @@ class PlaceToPayService implements PaymentGateway
         return $this;
     }
 
+    public function payer(array $data): self
+    {
+        $this->data['payer'] = [
+            'name' => $data['name'],
+            'surname' => $data['name'],
+            'email' => $data['email'],
+            'documentType' => $data['type_document'],
+            'document' => $data['num_document'],
+        ];
+        return $this;
+    }
+
     public function payment(Payment $payment): self
     {
         $microsite = $payment->microsite()->with('currency')->first();
@@ -74,6 +86,15 @@ class PlaceToPayService implements PaymentGateway
 
         $this->data['returnUrl'] = route('payment.detail', $payment);
 
+        return $this;
+    }
+    public function instrument($token): self
+    {
+        $this->data['instrument'] = [
+            'token' => [
+                'token' => Crypt::decryptString($token),
+            ],
+        ];
         return $this;
     }
 
@@ -91,14 +112,8 @@ class PlaceToPayService implements PaymentGateway
         return $this;
     }
 
-    public function deleteSubscription($token): array
+    public function deleteSubscription(): array
     {
-        $this->data['instrument'] = [
-             'token' => [
-                 'token' => Crypt::decryptString($token),
-             ],
-         ];
-
         $placetopay = $this->init();
         $response = $placetopay->invalidateToken($this->data);
 
@@ -114,25 +129,61 @@ class PlaceToPayService implements PaymentGateway
         ];
     }
 
+    public function processCollect(): array
+    {
+        try {
+            $placetopay = $this->init();
+            $response = $placetopay->collect($this->data);
+
+            if (!$response->isSuccessful()) {
+                Log::channel('Payment')->error('Error collecting payment: '.$response->status()->message());
+                return [
+                    'status' => false,
+                    'message' => $response->status()->message(),
+                ];
+            }
+
+            return [
+                'status' => true,
+                'status_payment' => $response->status()->status(),
+            ];
+        } catch (\Exception $e) {
+            Log::channel('Payment')->error('Error collecting payment: '.$e->getMessage());
+            return [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
     public function process(): PaymentResponse
     {
-        $placetopay = $this->init();
-        $response = $placetopay->request($this->data);
+        try {
+            $placetopay = $this->init();
+            $response = $placetopay->request($this->data);
 
-        if (!$response->isSuccessful()) {
-            Log::channel('Payment')->error($response->status()->message());
+            if (!$response->isSuccessful()) {
+                Log::channel('Payment')->error($response->status()->message());
+                return new PaymentResponse(
+                    '0',
+                    route('home'),
+                    PaymentStatus::REJECTED->name
+                );
+            }
+
+            return new PaymentResponse(
+                $response->requestId(),
+                $response->processUrl(),
+                $response->status()->status()
+            );
+        } catch (\Exception $e) {
+            Log::channel('Payment')->error('Error processing payment: '.$e->getMessage());
             return new PaymentResponse(
                 '0',
                 route('home'),
                 PaymentStatus::REJECTED->name
             );
         }
-
-        return new PaymentResponse(
-            $response->requestId(),
-            $response->processUrl(),
-            $response->status()->status()
-        );
     }
 
     public function getPaymentStatus(Payment $payment): QueryPaymentResponse
@@ -154,4 +205,28 @@ class PlaceToPayService implements PaymentGateway
         );
     }
 
+    public function getToken(Payment $payment): array
+    {
+        if (!isset($payment->request_id)) {
+            return [
+                'message' => 'Request id is required',
+                'status' => false
+            ];
+        }
+
+        $data = $this->init()->query($payment->request_id);
+        $dataInstrument = $data->subscription()->instrumentToArray();
+
+        if (!isset($dataInstrument[0]['value'])) {
+            return [
+                'message' => 'Token not found',
+                'status' => false
+            ];
+        }
+
+        return [
+            'token' => Crypt::encryptString($dataInstrument[0]['value']),
+            'status' => true
+        ];
+    }
 }

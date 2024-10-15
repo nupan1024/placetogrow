@@ -30,6 +30,7 @@ Route::get('/greeting/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return redirect()->back();
 })->name('locale');
+Route::get('/notification', [PaymentController::class, 'notification'])->name('notification');
 
 Route::get('/form/microsite/{microsite}', [HomeController::class, 'formMicrosite'])->name('form.microsite');
 
