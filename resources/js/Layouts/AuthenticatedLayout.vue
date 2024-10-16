@@ -61,6 +61,9 @@ const showingNavigationDropdown = ref(false);
                                          :href="route('subscriptions')" :active="route().current('subscriptions')">
                                     {{ $page.props.$t.subscriptions.title }}
                                 </NavLink>
+                                <NavLink :href="route('settings')" :active="route().current('settings')">
+                                    {{ $page.props.$t.settings.title }}
+                                </NavLink>
                             </div>
                         </div>
 

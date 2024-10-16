@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Admin\FieldsController;
 use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
+use App\Http\Controllers\Web\Admin\SettingController;
 use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
@@ -210,6 +211,10 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
     Route::delete('/subscription/{subscription}/delete', [SubscriptionController::class, 'delete'])
         ->name('subscription.delete')
         ->middleware(Authorize::using(Permissions::DELETE_SUBSCRIPTION->value));
+
+    Route::get('/settings', [SettingController::class, 'index'])
+        ->name('settings');
+
 });
 
 Route::middleware('auth')->group(function () {
