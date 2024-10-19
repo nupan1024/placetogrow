@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Payment;
 
 use App\Domain\Payments\Actions\CreatePayment;
 use App\Domain\Payments\Actions\UpdatePayment;
+use App\Domain\Payments\Actions\UpdatePaymentWithPaymentTypes;
 use App\Domain\Payments\Models\Payment;
 use App\Domain\Payments\ViewModels\DetailSubscriptionViewModel;
 use App\Domain\Payments\ViewModels\DetailTransactionViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\CreatePaymentRequest;
 use App\Contracts\PaymentService;
+use App\Support\Definitions\PaymentStatus;
 use App\Support\Definitions\StatusInvoices;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -42,6 +44,10 @@ class PaymentController extends Controller
 
     public function detail(Payment $payment): Response
     {
+        if ($payment->status === PaymentStatus::PENDING->value) {
+            UpdatePaymentWithPaymentTypes::execute([], $payment);
+        }
+
         return Inertia::render(
             'Payment/Detail',
             new DetailTransactionViewModel($payment)
@@ -49,6 +55,10 @@ class PaymentController extends Controller
     }
     public function subscriptionDetail(Payment $payment): Response
     {
+        if ($payment->status === PaymentStatus::PENDING->value) {
+            UpdatePaymentWithPaymentTypes::execute([], $payment);
+        }
+
         return Inertia::render(
             'Payment/Subscription/Detail',
             new DetailSubscriptionViewModel($payment)

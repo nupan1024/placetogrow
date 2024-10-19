@@ -8,6 +8,7 @@ use App\Support\Services\Payments\QueryPaymentResponse;
 
 interface PaymentService
 {
+    public function setPayment(Payment $payment): void;
     public function create(array $buyer): PaymentResponse;
     public function createCollect(array $payer, string $token): array;
     public function deleteSubscription(string $token): array;

@@ -9,9 +9,13 @@ use App\Domain\Payments\Models\Payment;
 class PaymentService implements PaymentServiceContract
 {
     public function __construct(
-        protected Payment $payment,
+        protected ?Payment $payment,
         protected PaymentGateway $gateway,
     ) {
+    }
+    public function setPayment(Payment $payment): void
+    {
+        $this->payment = $payment;
     }
 
     public function create(array $buyer): PaymentResponse
@@ -37,9 +41,9 @@ class PaymentService implements PaymentServiceContract
     public function createCollect(array $payer, string $token): array
     {
         return  $this->gateway->payer($payer)
-             ->payment($this->payment)
+            ->payment($this->payment)
             ->instrument($token)
-             ->processCollect();
+            ->processCollect();
     }
     public function deleteSubscription(string $token): array
     {
