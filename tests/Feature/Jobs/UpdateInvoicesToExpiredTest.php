@@ -3,7 +3,7 @@
 use App\Domain\Invoices\Models\Invoice;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
-use App\Jobs\ProcessUpdateInvoicesToExpired;
+use App\Jobs\ProcessInvoices;
 use App\Support\Definitions\MicrositesTypes;
 use App\Support\Definitions\StatusInvoices;
 
@@ -21,7 +21,7 @@ test('job can process update status invoices', function () {
         'microsite_id' => $microsite->id,
     ]);
 
-    $job = new ProcessUpdateInvoicesToExpired();
+    $job = new ProcessInvoices();
     $job->handle();
 
 

@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Domain\Users\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,14 +21,12 @@ class ProcessSendEmail implements ShouldQueue
      *  @template T of \Illuminate\Mail\Mailable
      * @param class-string<T> $mail
      */
-    public function __construct(private readonly string $mail, private readonly Collection $users, private readonly array $params = [])
+    public function __construct(private readonly string $mail, private readonly User $user, private readonly array $params = [])
     {
     }
 
     public function handle(): void
     {
-        foreach ($this->users as $user) {
-            Mail::to($user->email)->send(new $this->mail($user, $this->params));
-        }
+        Mail::to($this->user->email)->send(new $this->mail($this->user, $this->params));
     }
 }

@@ -13,8 +13,7 @@ class InvoiceObserver implements ShouldHandleEventsAfterCommit
 {
     public function created(Invoice $invoice): void
     {
-        dispatch(new ProcessSendEmail(InvoiceCreatedEmail::class, collect()->push($invoice->user), ['invoice' => $invoice]));
-
+        dispatch(new ProcessSendEmail(InvoiceCreatedEmail::class, $invoice->user, ['invoice' => $invoice]));
     }
 
     public function updated(Invoice $invoice): void
@@ -24,13 +23,12 @@ class InvoiceObserver implements ShouldHandleEventsAfterCommit
             'data' => $invoice->getDirty(),
         ];
 
-        dispatch(new ProcessSendEmail(InvoiceUpdatedEmail::class, collect()->push($invoice->user), $params));
+        dispatch(new ProcessSendEmail(InvoiceUpdatedEmail::class, $invoice->user, $params));
     }
 
     public function deleted(Invoice $invoice): void
     {
-        dispatch(new ProcessSendEmail(InvoiceDeletedEmail::class, collect()->push($invoice->user), $invoice->toArray()));
-
+        dispatch(new ProcessSendEmail(InvoiceDeletedEmail::class, $invoice->user, $invoice->toArray()));
     }
 
 }

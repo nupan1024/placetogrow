@@ -12,7 +12,14 @@ class SubscriptionObserver
     {
         $subscriptionUsers = $subscription->subscribers()->get();
         if (count($subscriptionUsers) > 0) {
-            dispatch(new ProcessSendEmail(SubscriptionEmail::class, $subscriptionUsers, $subscription->getDirty()));
+            $subscriptionUsers->each(function ($subscriptionUser) use ($subscription) {
+                $params = [
+                    'subscription' => $subscription,
+                    'dirtyData' => $subscription->getDirty(),
+                ];
+
+                ProcessSendEmail::dispatch(SubscriptionEmail::class, $subscriptionUser->user, $params);
+            });
         }
     }
 }

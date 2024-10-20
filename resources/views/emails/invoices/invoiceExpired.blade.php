@@ -1,5 +1,4 @@
-@php use App\Support\Definitions\StatusInvoices; @endphp
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -84,41 +83,21 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1> Tu factura ha sido actualizada</h1>
+        <h1>¡¡Tu factura se encuentra vencida!!</h1>
     </div>
 
     <div class="content">
         <p>Hola <strong>{{ $user->name }}</strong>,</p>
-        <p>{{ __('invoices.updated_invoices_email', ['code' => $invoice->code]) }}.</p>
+        <p>Queremos informarte que tu factura <strong>#{{ $invoice->code }}</strong> se encuentra <strong>VENCIDA</strong> por esta razón se le ha incrementado el total, nuevo total: <strong>${{ $invoice->value }}</strong> .</p>
+        <p>Por favor, realiza el pago lo más pronto posible.</p>
 
-        @isset($data['date_expire_pay'])
-            <p> {{ __('invoices.title_date_expire') }}</p>
-            <p> {{ __('invoices.new_date_expire', ['expire' => $data['date_expire_pay']]) }}</p>
-        @endisset
-
-        @isset($data['description'])
-            <p>{{ __('invoices.title_description') }}</p>
-            <p>{{ __('invoices.new_description', ['description' => $data['description']]) }}</p>
-        @endisset
-
-        @isset($data['value'])
-            <p>{{ __('invoices.title_value') }}</p>
-            <p> {{ __('invoices.new_value', ['value' => $data['value']]) }}</p>
-        @endisset
-
-        @isset($data['status'])
-            @if($data['status'] === StatusInvoices::PAID->name)
-                <p>{{ __('invoices.paid_invoice', ['code' => $invoice->code]) }}</p>
-            @elseif($data['status'] === StatusInvoices::EXPIRED->name)
-                <p>{{ __('invoices.expired_invoice', ['code' => $invoice->code]) }}</p>
-
-                <div class="cta">
-                    <a href="{{ route('form.microsite', $invoice->microsite_id) }}">Pagar</a>
-                </div>
-
-                <p>Si ya realizaste el pago, por favor ignora este mensaje.</p>
-            @endif
-        @endisset
+        <div class="cta">
+            <a href="{{ route('form.microsite', $invoice->microsite_id) }}">Pagar</a>
+        </div>
+        <p>Si presentar dificultades para pagar, por favor contacta con nuestro equipo<br>
+            <a href="mailto:info@placetogrow.com">info@placetogrow.com</a>
+        </p>
+        <p>Si ya realizaste el pago, por favor ignora este mensaje.</p>
     </div>
 
     <div class="footer">
@@ -128,3 +107,4 @@
 </div>
 </body>
 </html>
+

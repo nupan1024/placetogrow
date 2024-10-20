@@ -1,5 +1,4 @@
-@php use App\Support\Definitions\StatusInvoices; @endphp
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -84,41 +83,19 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1> Tu factura ha sido actualizada</h1>
+        <h1>¡¡Tu factura vence mañana!!</h1>
     </div>
 
     <div class="content">
         <p>Hola <strong>{{ $user->name }}</strong>,</p>
-        <p>{{ __('invoices.updated_invoices_email', ['code' => $invoice->code]) }}.</p>
+        <p>Queremos informarte que tu factura <strong>#{{ $invoice->code }}</strong> con un total de <strong>${{ $invoice->value }}</strong> vencerá <strong>MAÑANA</strong>.</p>
+        <p>Por favor, realiza el pago antes de la fecha de vencimiento para evitar incrementos en el valor de la factura.</p>
 
-        @isset($data['date_expire_pay'])
-            <p> {{ __('invoices.title_date_expire') }}</p>
-            <p> {{ __('invoices.new_date_expire', ['expire' => $data['date_expire_pay']]) }}</p>
-        @endisset
+        <div class="cta">
+            <a href="{{ route('form.microsite', $invoice->microsite_id) }}">Pagar</a>
+        </div>
 
-        @isset($data['description'])
-            <p>{{ __('invoices.title_description') }}</p>
-            <p>{{ __('invoices.new_description', ['description' => $data['description']]) }}</p>
-        @endisset
-
-        @isset($data['value'])
-            <p>{{ __('invoices.title_value') }}</p>
-            <p> {{ __('invoices.new_value', ['value' => $data['value']]) }}</p>
-        @endisset
-
-        @isset($data['status'])
-            @if($data['status'] === StatusInvoices::PAID->name)
-                <p>{{ __('invoices.paid_invoice', ['code' => $invoice->code]) }}</p>
-            @elseif($data['status'] === StatusInvoices::EXPIRED->name)
-                <p>{{ __('invoices.expired_invoice', ['code' => $invoice->code]) }}</p>
-
-                <div class="cta">
-                    <a href="{{ route('form.microsite', $invoice->microsite_id) }}">Pagar</a>
-                </div>
-
-                <p>Si ya realizaste el pago, por favor ignora este mensaje.</p>
-            @endif
-        @endisset
+        <p>Si ya realizaste el pago, por favor ignora este mensaje.</p>
     </div>
 
     <div class="footer">
@@ -128,3 +105,4 @@
 </div>
 </body>
 </html>
+

@@ -31,10 +31,8 @@ Route::get('/greeting/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return redirect()->back();
 })->name('locale');
-Route::get('/notification', [PaymentController::class, 'notification'])->name('notification');
 
 Route::get('/form/microsite/{microsite}', [HomeController::class, 'formMicrosite'])->name('form.microsite');
-
 Route::post('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
 Route::get('/payment/{payment}/detail', [PaymentController::class, 'detail'])->name('payment.detail');
 Route::get('/payment/{payment}/subscription/detail', [PaymentController::class, 'subscriptionDetail'])->name('payment.subscription.detail');
