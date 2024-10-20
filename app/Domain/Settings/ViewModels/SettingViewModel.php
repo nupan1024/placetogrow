@@ -16,6 +16,7 @@ class SettingViewModel extends ViewModel
         return [
             'attempts' => Setting::where('key', 'attempts')->first(),
             'period_time' => Setting::where('key', 'period_time')->first(),
+            'settings' => $this->model(),
         ];
     }
 }

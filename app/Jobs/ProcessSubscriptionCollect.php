@@ -2,12 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Contracts\PaymentService;
 use App\Domain\Payments\Actions\CreatePayment;
-use App\Domain\SubscriptionUser\Actions\UpdateSubscriptionUser;
+use App\Domain\Payments\Actions\UpdatePaymentWithPaymentTypes;
 use App\Domain\SubscriptionUser\Models\SubscriptionUser;
-use App\Support\Definitions\PaymentGateway;
-use App\Support\Definitions\PaymentStatus;
 use App\Support\Definitions\Status;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -39,33 +36,13 @@ class ProcessSubscriptionCollect implements ShouldQueue
                             'email' => $subscriptionUser->user->email,
                             'value' => $dataLastCollect['amount'],
                             'subscription_id' => $subscriptionUser->subscription->id,
-                            'type_document' => "CC",
-                            'num_document' => "123455",
+                            'type_document' => $subscriptionUser->payment->type_document,
+                            'num_document' => $subscriptionUser->payment->num_document,
                             'user_id' => $subscriptionUser->user->id,
                             'microsite_id' => $subscriptionUser->subscription->microsite_id,
                         ];
                         $payment = CreatePayment::execute($params);
-
-                        /** @var PaymentService $paymentService */
-                        $paymentService = app(PaymentService::class, [
-                            'payment' => $payment,
-                            'gateway' => PaymentGateway::PLACETOPAY->value,
-                        ]);
-
-                        $response = $paymentService->createCollect($params, $subscriptionUser->token);
-
-                        $status = ($response->status === PaymentStatus::APPROVED->value) ? Status::ACTIVE->name : Status::INACTIVE->name;
-
-
-                        UpdateSubscriptionUser::execute([
-                            'status' => $status,
-                            'payment_id' => $payment->id,
-                        ], $subscriptionUser);
-
-                        $payment->update([
-                            'status' => $response->status,
-                            'request_id' => $response->processIdentifier,
-                        ]);
+                        UpdatePaymentWithPaymentTypes::execute([], $payment);
                     }
                 }
             });

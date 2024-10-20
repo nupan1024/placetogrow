@@ -2,10 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Contracts\PaymentService;
 use App\Domain\Payments\Actions\UpdatePaymentWithPaymentTypes;
 use App\Domain\Payments\Models\Payment;
-use App\Support\Definitions\PaymentGateway;
 use App\Support\Definitions\PaymentStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,16 +21,10 @@ class ProcessPayments implements ShouldQueue
 
     public function handle(): void
     {
-        /** @var PaymentService $paymentService */
-        $paymentService = app(PaymentService::class, [
-            'payment' => null,
-            'gateway' => PaymentGateway::PLACETOPAY->value,
-        ]);
         Payment::where('status', PaymentStatus::PENDING->value)
-        ->chunk(100, function (Collection $payments) use ($paymentService) {
+        ->chunk(100, function (Collection $payments) {
             foreach ($payments as $payment) {
                 if ($payment->request_id && $payment->request_id != 0) {
-                    $paymentService->setPayment($payment);
                     UpdatePaymentWithPaymentTypes::execute([], $payment);
                 } else {
                     UpdatePaymentWithPaymentTypes::execute([

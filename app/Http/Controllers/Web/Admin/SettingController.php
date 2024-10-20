@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Domain\Settings\Actions\UpdateSetting;
+use App\Domain\Settings\Models\Setting;
 use App\Domain\Settings\ViewModels\SettingViewModel;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Setting\UpdateSettingRequest;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SettingController extends Controller
 {
@@ -15,5 +19,15 @@ class SettingController extends Controller
             'Admin/Settings/Index',
             app(SettingViewModel::class)
         );
+    }
+
+    public function update(UpdateSettingRequest $request, Setting $setting): RedirectResponse
+    {
+        UpdateSetting::execute($request->validated(), $setting);
+
+        return redirect()->route('settings')->with([
+            'message' => __('settings.success_update'),
+            'type' => 'success',
+        ]);
     }
 }

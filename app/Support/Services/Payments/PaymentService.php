@@ -9,13 +9,9 @@ use App\Domain\Payments\Models\Payment;
 class PaymentService implements PaymentServiceContract
 {
     public function __construct(
-        protected ?Payment $payment,
+        protected Payment $payment,
         protected PaymentGateway $gateway,
     ) {
-    }
-    public function setPayment(Payment $payment): void
-    {
-        $this->payment = $payment;
     }
 
     public function create(array $buyer): PaymentResponse

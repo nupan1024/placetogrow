@@ -4,8 +4,9 @@ namespace App\Domain\Payments\Actions;
 
 use App\Contracts\PaymentService;
 use App\Domain\Invoices\Models\Invoice;
+use App\Domain\Settings\Models\Setting;
 use App\Domain\SubscriptionUser\Actions\UpdateSubscriptionUser;
-use App\Domain\SubscriptionUser\Models\SubscriptionUser;
+use App\Jobs\ProcessRetryPaymentSubscription;
 use App\Support\Actions\Action;
 use App\Support\Definitions\PaymentGateway;
 use App\Support\Definitions\PaymentStatus;
@@ -30,35 +31,41 @@ class UpdatePaymentWithPaymentTypes implements Action
         }
 
         if (is_numeric($model->subscription_id)) {
-            $dataToken = $paymentService->getToken($model);
+            $subscriptionUser = $model->subscriptionUser;
 
-            $payment = new \stdClass();
-            $payment->status = PaymentStatus::REJECTED->value;
+            $token = $subscriptionUser->token;
 
-            if ($dataToken['status']) {
-                $payer = [
-                    'name' => $model->name,
-                    'email' => $model->email,
-                    'type_document' => $model->type_document,
-                    'num_document' => $model->num_document,
-                ];
-                $payment = $paymentService->createCollect($payer, $dataToken['token']);
+            if (is_null($token)) {
+                $dataToken = $paymentService->getToken($model);
+                $token = ($dataToken['status']) ? $dataToken['token'] : $token;
             }
 
-            $subscriptionUser = SubscriptionUser::where('subscription_id', $model->subscription_id)
-                ->where('user_id', $model->user_id)
-                ->first();
-
+            $payer = [
+                'name' => $model->name,
+                'email' => $model->email,
+                'type_document' => $model->type_document,
+                'num_document' => $model->num_document,
+            ];
+            $payment = $paymentService->createCollect($payer, $token);
             $subscriptionStatus = ($payment->status === PaymentStatus::APPROVED->value) ? Status::ACTIVE->name : $subscriptionUser->status;
+
             UpdateSubscriptionUser::execute([
                 'token' => $dataToken['token'] ?? null,
                 'status' => $subscriptionStatus,
+                'payment_id' => $model->id,
             ], $subscriptionUser);
 
-            $status = $payment->status ?? $subscriptionUser->status;
+            $status = $payment->status;
+
+            if ($payment->status === PaymentStatus::REJECTED->value) {
+                $backoff = Setting::where('key', 'period_time')->first();
+                ProcessRetryPaymentSubscription::dispatch($model)
+                    ->delay(now()->addSeconds((int)$backoff->value));
+            }
         }
 
         $model->status = $status;
+        $model->request_id = $payment->processIdentifier ?? $model->request_id;
         return $model->save();
     }
 
