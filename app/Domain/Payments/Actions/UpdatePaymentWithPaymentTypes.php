@@ -8,6 +8,8 @@ use App\Domain\SubscriptionUser\Actions\UpdateSubscriptionUser;
 use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use App\Support\Actions\Action;
 use App\Support\Definitions\PaymentGateway;
+use App\Support\Definitions\PaymentStatus;
+use App\Support\Definitions\Status;
 
 class UpdatePaymentWithPaymentTypes implements Action
 {
@@ -29,6 +31,10 @@ class UpdatePaymentWithPaymentTypes implements Action
 
         if (is_numeric($model->subscription_id)) {
             $dataToken = $paymentService->getToken($model);
+
+            $payment = new \stdClass();
+            $payment->status = PaymentStatus::REJECTED->value;
+
             if ($dataToken['status']) {
                 $payer = [
                     'name' => $model->name,
@@ -43,12 +49,13 @@ class UpdatePaymentWithPaymentTypes implements Action
                 ->where('user_id', $model->user_id)
                 ->first();
 
+            $subscriptionStatus = ($payment->status === PaymentStatus::APPROVED->value) ? Status::ACTIVE->name : $subscriptionUser->status;
             UpdateSubscriptionUser::execute([
                 'token' => $dataToken['token'] ?? null,
-                'status' => $payment['status_payment'] ?? $subscriptionUser->status,
+                'status' => $subscriptionStatus,
             ], $subscriptionUser);
 
-            $status = $payment['status_payment'] ?? $subscriptionUser->status;
+            $status = $payment->status ?? $subscriptionUser->status;
         }
 
         $model->status = $status;

@@ -129,7 +129,7 @@ class PlaceToPayService implements PaymentGateway
         ];
     }
 
-    public function processCollect(): array
+    public function processCollect(): PaymentResponse
     {
         try {
             $placetopay = $this->init();
@@ -137,22 +137,25 @@ class PlaceToPayService implements PaymentGateway
 
             if (!$response->isSuccessful()) {
                 Log::channel('Payment')->error('Error collecting payment: '.$response->status()->message());
-                return [
-                    'status' => false,
-                    'message' => $response->status()->message(),
-                ];
+                return new PaymentResponse(
+                    '0',
+                    route('home'),
+                    $response->status()->status()
+                );
             }
 
-            return [
-                'status' => true,
-                'status_payment' => $response->status()->status(),
-            ];
+            return new PaymentResponse(
+                $response->requestId(),
+                route('home'),
+                $response->status()->status()
+            );
         } catch (\Exception $e) {
             Log::channel('Payment')->error('Error collecting payment: '.$e->getMessage());
-            return [
-                'status' => false,
-                'message' => $e->getMessage(),
-            ];
+            return new PaymentResponse(
+                '0',
+                route('home'),
+                PaymentStatus::REJECTED->name
+            );
         }
     }
 

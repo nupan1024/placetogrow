@@ -38,7 +38,7 @@ class PaymentService implements PaymentServiceContract
         return $response;
     }
 
-    public function createCollect(array $payer, string $token): array
+    public function createCollect(array $payer, string $token): PaymentResponse
     {
         return  $this->gateway->payer($payer)
             ->payment($this->payment)

@@ -16,7 +16,7 @@ interface PaymentGateway
     public function instrument(string $token): self;
     public function subscription(Payment $payment): self;
     public function deleteSubscription(): array;
-    public function processCollect(): array;
+    public function processCollect(): PaymentResponse;
     public function process(): PaymentResponse;
     public function getPaymentStatus(Payment $payment): QueryPaymentResponse;
     public function getToken(Payment $payment): array;
