@@ -55,8 +55,8 @@ class InvoiceValidator
             $this->setError('Invalid status format', $line);
         }
 
-        if ($row['status'] ===  StatusInvoices::PENDING->name && $row['date_expire_pay'] < now()->addDays(3)->format('Y-m-d')) {
-            $this->setError('The field date_expire_pay must be greater than 3 days from today', $line);
+        if ($row['status'] ===  StatusInvoices::PENDING->name && $row['date_expire_pay'] < now()->format('Y-m-d')) {
+            $this->setError('The field date_expire_pay must be a date after or equal to today', $line);
         }
     }
 

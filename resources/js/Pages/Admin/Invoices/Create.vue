@@ -32,10 +32,8 @@ const formatter = ref({
     date: 'YYYY-MM-DD',
     month:'MMM',
 });
-function disableData(date) {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 3);
-    return date < currentDate;
+function disableDate(date) {
+    return date < new Date();
 }
 
 const submit = () => {
@@ -80,7 +78,7 @@ const submit = () => {
                     <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
                     <vue-tailwind-datepicker
                         :formatter="formatter"
-                        :disable-date="disableData"
+                        :disable-date="disableDate"
                         id="date_expire_pay"
                         name="date_expire_pay"
                         v-model="form.date_expire_pay"
