@@ -215,6 +215,9 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
     Route::get('/settings', [SettingController::class, 'index'])
         ->name('settings');
 
+    Route::patch('/setting/update', [SettingController::class, 'update'])
+        ->name('setting.update');
+
 });
 
 Route::middleware('auth')->group(function () {

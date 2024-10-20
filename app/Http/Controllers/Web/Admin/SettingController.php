@@ -21,9 +21,9 @@ class SettingController extends Controller
         );
     }
 
-    public function update(UpdateSettingRequest $request, Setting $setting): RedirectResponse
+    public function update(UpdateSettingRequest $request): RedirectResponse
     {
-        UpdateSetting::execute($request->validated(), $setting);
+        UpdateSetting::execute($request->validated());
 
         return redirect()->route('settings')->with([
             'message' => __('settings.success_update'),

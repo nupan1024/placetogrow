@@ -10,17 +10,16 @@ const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.settings
 defineProps({
     attempts: Object,
     period_time: Object,
-    settings: Object,
 });
 const attempts = usePage().props.attempts;
 const period_time = usePage().props.period_time;
-const setting = usePage().props.settings;
 const form = useForm({
     attempts: attempts.value,
     period_time: period_time.value,
+    _method: 'patch'
 });
 const submit = () => {
-    form.post(route('setting.update', setting.id), {
+    form.post(route('setting.update'), {
         forceFormData: true,
     });
 };
