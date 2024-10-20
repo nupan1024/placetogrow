@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->foreignId('payment_id')->nullable()->constrained();
             $table->string('status', 45);
             $table->text('token')->nullable();
+            $table->json('data_last_collect')->nullable();
             $table->timestamps();
         });
     }

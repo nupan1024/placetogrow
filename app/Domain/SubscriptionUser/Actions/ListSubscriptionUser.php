@@ -4,6 +4,7 @@ namespace App\Domain\SubscriptionUser\Actions;
 
 use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use App\Support\Actions\Action;
+use App\Support\Definitions\Status;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListSubscriptionUser implements Action
@@ -25,6 +26,7 @@ class ListSubscriptionUser implements Action
             ->join('users', 'subscription_user.user_id', '=', 'users.id')
             ->leftJoin('microsites', 'subscriptions.microsite_id', '=', 'microsites.id')
             ->where('user_id', $params['user_id'])
+            ->where('subscription_user.status', Status::ACTIVE->name)
             ->when($params['filter'], function ($query, $filter) {
                 return $query->where(function ($query) use ($filter) {
                     $query->where('subscriptions.description', 'like', '%'.$filter.'%')

@@ -6,6 +6,7 @@ use App\Contracts\PaymentService;
 use App\Domain\Payments\Models\Payment;
 use App\Support\Actions\Action;
 use App\Support\Definitions\PaymentGateway;
+use App\Support\Definitions\Status;
 use Illuminate\Support\Facades\Log;
 
 class DeleteSubscriptionUser implements Action
@@ -19,13 +20,17 @@ class DeleteSubscriptionUser implements Action
                 'payment' => $payment,
                 'gateway' => PaymentGateway::PLACETOPAY->value,
             ]);
-            $placetopay = $paymentService->deleteSubscription($model->token);
 
-            if (!$placetopay['status']) {
-                Log::channel('Subscriptions')->error('Error placetopay subscription: '.$placetopay['message']);
-                return false;
+            if (!is_null($model->token)) {
+                $placetopay = $paymentService->deleteSubscription($model->token);
+
+                if (!$placetopay['status']) {
+                    Log::channel('Subscriptions')->error('Error placetopay subscription: '.$placetopay['message']);
+                    return false;
+                }
             }
-            return $model->delete();
+            $model->status = Status::INACTIVE->name;
+            return $model->save();
         } catch (\Exception $e) {
             Log::channel('Subscriptions')->error('Error deleting subscription user: '.$e->getMessage());
             return false;

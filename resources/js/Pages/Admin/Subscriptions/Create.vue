@@ -37,7 +37,6 @@ const form = useForm({
     currency_id: '',
     amount: '',
     description: '',
-    time_expire: '',
     billing_frequency: '',
     status: '',
 });
@@ -82,27 +81,14 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.description" />
                 </div>
 
-                <div class="mt-3">
-                    <InputLabel for="time_expire" :value="$page.props.$t.subscriptions.time_expire" />
-                    <vue-tailwind-datepicker
-                        :formatter="formatter"
-                        :disable-date="disableData"
-                        name="time_expire"
-                        v-model="form.time_expire"
-                        class="mt-1 block w-full"
-                        as-single
-                        required
-                        autofocus
-                    />
-                    <InputError class="mt-2" :message="form.errors.time_expire"/>
-                </div>
-
                 <div class="mt-4">
                     <InputLabel for="billing_frequency" :value="$page.props.$t.subscriptions.billing_frequency" />
-                    <Select class="input mt-1 block w-full select"
-                            required
-                            v-model="form.billing_frequency"
-                            :options="billing_frequency"
+                    <span class="block text-sm font-medium text-gray-500">{{ $page.props.$t.subscriptions.tooltip_billing_frequency }}</span>
+                    <TextInput
+                        type="number"
+                        class="mt-1 block w-full text-gray-800"
+                        v-model="form.billing_frequency"
+                        required
                     />
                     <InputError class="mt-2" :message="form.errors.billing_frequency" />
                 </div>

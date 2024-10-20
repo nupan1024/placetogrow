@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateInvoicesToExpired implements ShouldQueue
+class ProcessUpdateInvoicesToExpired implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->text('description');
             $table->foreignId('currency_id')->constrained();
             $table->date('time_expire');
-            $table->string('billing_frequency', 10);
+            $table->integer('billing_frequency');
             $table->string('status', 45);
             $table->timestamps();
         });

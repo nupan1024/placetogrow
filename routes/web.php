@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Admin\FieldsController;
 use App\Http\Controllers\Web\Admin\InvoiceController;
 use App\Http\Controllers\Web\Admin\MicrositeController;
 use App\Http\Controllers\Web\Admin\RolesController;
+use App\Http\Controllers\Web\Admin\SettingController;
 use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\HomeController;
@@ -30,6 +31,7 @@ Route::get('/greeting/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return redirect()->back();
 })->name('locale');
+Route::get('/notification', [PaymentController::class, 'notification'])->name('notification');
 
 Route::get('/form/microsite/{microsite}', [HomeController::class, 'formMicrosite'])->name('form.microsite');
 
@@ -209,6 +211,13 @@ Route::middleware(['auth', 'verified', HasRole::class])->group(function () {
     Route::delete('/subscription/{subscription}/delete', [SubscriptionController::class, 'delete'])
         ->name('subscription.delete')
         ->middleware(Authorize::using(Permissions::DELETE_SUBSCRIPTION->value));
+
+    Route::get('/settings', [SettingController::class, 'index'])
+        ->name('settings');
+
+    Route::patch('/setting/update', [SettingController::class, 'update'])
+        ->name('setting.update');
+
 });
 
 Route::middleware('auth')->group(function () {

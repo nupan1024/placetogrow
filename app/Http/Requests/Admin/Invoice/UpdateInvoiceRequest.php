@@ -17,7 +17,7 @@ class UpdateInvoiceRequest extends FormRequest
             'date_expire_pay' => [
                 'date',
                 'required',
-                'after:'.date('Y-m-d'),
+                'after_or_equal:'. date('Y-m-d'),
                 function (string $attribute, mixed $value, Closure $fail) {
                     if ($value !== $this->invoice->date_expire_pay && $value < $this->invoice->date_expire_pay) {
                         $fail(__('invoices.msj_date_expire_pay'));

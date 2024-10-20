@@ -109,4 +109,9 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    'job' => [
+        'backoff' => env('QUEUE_JOB_BACKOFF'),
+        'tries' => env('QUEUE_JOB_TRIES'),
+    ]
+
 ];

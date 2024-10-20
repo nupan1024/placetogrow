@@ -6,6 +6,7 @@ return [
     'create' => 'Crear suscripción',
     'edit' => 'Editar suscripción',
     'delete' => 'Eliminar suscripción',
+    'cancel' => 'Cancelar suscripción',
     'amount' => 'Valor',
     'msj_delete' => '¿Estás seguro de eliminar el suscripción',
     'error_delete' => 'Esta suscripción no puede ser eliminada porque tiene suscriptores.',
@@ -35,5 +36,6 @@ return [
     'updated_enabled' => 'ha sido activada nuevamente.',
     'updated_disabled_msj' => 'El servicio de tu suscripción estará disponible hasta',
     'updated_enabled_msj' => 'Estamos felices de volver para estar 100% disponible para ti.',
+    'tooltip_billing_frequency' => 'Ingrese el número de cada cuando se cobrará la suscripción',
 
 ];

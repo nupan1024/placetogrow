@@ -25,6 +25,10 @@ class SubscriptionUser extends Model
         'payment_id',
     ];
 
+    protected $casts = [
+        'data_last_collect' => 'array',
+    ];
+
     protected static function newFactory(): Factory
     {
         return SubscriptionUserFactory::new();
