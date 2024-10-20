@@ -6,6 +6,7 @@ return [
     'create' => 'Create Subscription',
     'edit' => 'Edit Subscription',
     'delete' => 'Delete Subscription',
+    'cancel' => 'Cancel Subscription',
     'amount' => 'Amount of the subscription',
     'msj_delete' => 'Are you sure to delete the subscription?',
     'error_delete' => 'This subscription cannot be deleted because it has subscribers',

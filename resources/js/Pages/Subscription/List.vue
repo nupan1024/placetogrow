@@ -97,7 +97,7 @@ loadSubscriptions();
                                         {{ $page.props.$t.labels.see }}
                                     </a>&nbsp;
                                     <a :data-id="subscription.id" :data-name="subscription.name"  @click="openModal" class="btn btn-link">
-                                        {{ $page.props.$t.subscriptions.delete }}
+                                        {{ $page.props.$t.subscriptions.cancel }}
                                     </a>
                                 </td>
                             </tr>

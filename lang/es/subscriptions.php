@@ -6,6 +6,7 @@ return [
     'create' => 'Crear suscripción',
     'edit' => 'Editar suscripción',
     'delete' => 'Eliminar suscripción',
+    'cancel' => 'Cancelar suscripción',
     'amount' => 'Valor',
     'msj_delete' => '¿Estás seguro de eliminar el suscripción',
     'error_delete' => 'Esta suscripción no puede ser eliminada porque tiene suscriptores.',

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Domain\Settings\Actions\UpdateSetting;
-use App\Domain\Settings\Models\Setting;
 use App\Domain\Settings\ViewModels\SettingViewModel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Setting\UpdateSettingRequest;

@@ -15,7 +15,7 @@ class UpdateSubscriptionUser implements Action
             $model->payment_id = $params['payment_id'] ?? $model->payment_id;
             $model->status = $params['status'];
 
-            if ($params['status'] === Status::ACTIVE->name) {
+            if ($params['status'] === Status::ACTIVE->name || is_null($model->data_last_collect)) {
                 $dataLastCollect = [
                     'date_last_collect' => now()->format('Y-m-d H:i:s'),
                     'amount' => $model->subscription->amount,
