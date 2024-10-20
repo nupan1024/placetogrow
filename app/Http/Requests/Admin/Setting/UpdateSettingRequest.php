@@ -11,6 +11,7 @@ class UpdateSettingRequest extends FormRequest
         return [
             'attempts' => ['required', 'numeric'],
             'period_time' => ['required', 'numeric'],
+            'invoice_penalty' => ['required', 'numeric'],
         ];
     }
 }

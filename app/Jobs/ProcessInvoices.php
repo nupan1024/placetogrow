@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Domain\Invoices\Actions\UpdateExpiredInvoice;
 use App\Domain\Invoices\Models\Invoice;
+use App\Domain\Settings\Models\Setting;
 use App\Support\Definitions\StatusInvoices;
 use App\Support\Services\Mail\Invoice\InvoiceCloseExpireEmail;
 use App\Support\Services\Mail\Invoice\InvoiceExpiredEmail;
@@ -40,7 +41,9 @@ class ProcessInvoices implements ShouldQueue
             ->where('status', '=', StatusInvoices::PENDING->name)
             ->chunk(100, function (Collection $invoices) {
                 foreach ($invoices as $invoice) {
-                    $value = $invoice->value + ($invoice->value * 0.05);
+                    $penalty = Setting::where('key', 'invoice_penalty')->first();
+                    $penalty = $penalty->value ?? config('invoice.invoice_penalty');
+                    $value = $invoice->value + ($invoice->value * ($penalty / 100));
 
                     UpdateExpiredInvoice::execute([
                         'status' => StatusInvoices::EXPIRED->name,

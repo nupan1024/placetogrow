@@ -10,12 +10,15 @@ const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.settings
 defineProps({
     attempts: Object,
     period_time: Object,
+    invoice_penalty: Object,
 });
 const attempts = usePage().props.attempts;
 const period_time = usePage().props.period_time;
+const invoice_penalty = usePage().props.invoice_penalty;
 const form = useForm({
     attempts: attempts.value,
     period_time: period_time.value,
+    invoice_penalty: invoice_penalty.value,
     _method: 'patch'
 });
 const submit = () => {
@@ -37,7 +40,7 @@ const submit = () => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <form @submit.prevent="submit">
-                            <div>
+                            <div class="flex items-center justify-center mt-4">
                                 <span class="block text-sm font-medium text-gray-700">{{ $page.props.$t.settings.title_payment }}</span>
                             </div>
                             <div class="mt-4 mt-6 px-6 py-4">
@@ -65,6 +68,22 @@ const submit = () => {
                                 <InputError class="mt-2" :message="form.errors.period_time"/>
                             </div>
 
+                            <div class="flex items-center justify-center mt-4">
+                                <span class="block text-sm font-medium text-gray-700">{{ $page.props.$t.settings.title_invoice }}</span>
+                            </div>
+
+                            <div class="mt-4 mt-6 px-6 py-4">
+                                <InputLabel for="period_time" :value="$page.props.$t.settings.invoice_penalty"/>
+                                <TextInput
+                                    id="invoice_penalty"
+                                    type="number"
+                                    class="mt-1 block w-full"
+                                    v-model="form.invoice_penalty"
+                                    required
+                                    autofocus
+                                />
+                                <InputError class="mt-2" :message="form.errors.invoice_penalty"/>
+                            </div>
                             <div class="flex items-center justify-end mt-4">
                                 <button class="btn" :disabled="form.processing">
                                     {{ $page.props.$t.labels.save }}
