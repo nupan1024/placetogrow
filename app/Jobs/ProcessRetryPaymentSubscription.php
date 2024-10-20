@@ -9,6 +9,7 @@ use App\Domain\SubscriptionUser\Actions\UpdateSubscriptionUser;
 use App\Support\Definitions\PaymentGateway;
 use App\Support\Definitions\PaymentStatus;
 use App\Support\Definitions\Status;
+use App\Support\Services\Mail\Payment\PaymentStatusEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -45,7 +46,7 @@ class ProcessRetryPaymentSubscription implements ShouldQueue
         ];
 
         $response = $paymentService->createCollect($payer, $subscriptionUser->token);
-        $subscriptionStatus = ($response->status === PaymentStatus::APPROVED->value) ? Status::ACTIVE->name : $subscriptionUser->status;
+        $subscriptionStatus = ($response->status === PaymentStatus::APPROVED->value) ? Status::ACTIVE->name : Status::INACTIVE->name;
 
         $this->payment->update([
             'status' => $response->status,
@@ -57,6 +58,14 @@ class ProcessRetryPaymentSubscription implements ShouldQueue
             'payment_id' => $this->payment->id,
         ], $subscriptionUser);
 
+        ProcessSendEmail::dispatch(
+            PaymentStatusEmail::class,
+            $subscriptionUser->user,
+            [
+                'subscription' => $subscriptionUser->subscription,
+                'status' => $response->status
+            ]
+        );
         if ($response->status === PaymentStatus::REJECTED->value) {
             throw new \Exception('Payment rejected');
         }

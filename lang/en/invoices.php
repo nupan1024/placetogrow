@@ -24,6 +24,7 @@ return [
     'code' => 'Code',
     'pay' => 'Go to pay',
     'pending' => 'PENDING',
+    'paid' => 'PAID',
     'import' => 'Import invoices',
     'list_import' => 'List of imported files',
     'msj_import' => 'Please upload a .CSV file, A result email will be sent with the result of the import.',

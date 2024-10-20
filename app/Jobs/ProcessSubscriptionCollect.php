@@ -6,6 +6,7 @@ use App\Domain\Payments\Actions\CreatePayment;
 use App\Domain\Payments\Actions\UpdatePaymentWithPaymentTypes;
 use App\Domain\SubscriptionUser\Models\SubscriptionUser;
 use App\Support\Definitions\Status;
+use App\Support\Services\Mail\Subscription\SubscriptionCloseCollectEmail;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,6 +31,14 @@ class ProcessSubscriptionCollect implements ShouldQueue
                     $date = Carbon::parse($dataLastCollect['date_last_collect']);
                     $date = $date->addDays($dataLastCollect['billing_frequency'])->format('Y-m-d');
 
+                    if ($date == Carbon::tomorrow()->toDateString()) {
+                        ProcessSendEmail::dispatch(
+                            SubscriptionCloseCollectEmail::class,
+                            $subscriptionUser->user,
+                            ['subscription' => $subscriptionUser->subscription]
+                        );
+                    }
+
                     if ($date == now()->format('Y-m-d')) {
                         $params = [
                             'name' => $subscriptionUser->user->name,
@@ -42,7 +51,10 @@ class ProcessSubscriptionCollect implements ShouldQueue
                             'microsite_id' => $subscriptionUser->subscription->microsite_id,
                         ];
                         $payment = CreatePayment::execute($params);
-                        UpdatePaymentWithPaymentTypes::execute([], $payment);
+                        UpdatePaymentWithPaymentTypes::execute(
+                            ['subscriptionUser' => $subscriptionUser],
+                            $payment
+                        );
                     }
                 }
             });

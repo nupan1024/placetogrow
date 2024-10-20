@@ -1,4 +1,4 @@
-@php use App\Support\Definitions\StatusInvoices; @endphp
+@php use App\Support\Definitions\Status; @endphp
     <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -84,41 +84,12 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1> Tu factura ha sido actualizada</h1>
+        <h1> Cobro de tu suscripción</h1>
     </div>
 
     <div class="content">
-        <p>Hola <strong>{{ $user->name }}</strong>,</p>
-        <p>{{ __('invoices.updated_invoices_email', ['code' => $invoice->code]) }}.</p>
-
-        @isset($data['date_expire_pay'])
-            <p> {{ __('invoices.title_date_expire') }}</p>
-            <p> {{ __('invoices.new_date_expire', ['expire' => $data['date_expire_pay']]) }}</p>
-        @endisset
-
-        @isset($data['description'])
-            <p>{{ __('invoices.title_description') }}</p>
-            <p>{{ __('invoices.new_description', ['description' => $data['description']]) }}</p>
-        @endisset
-
-        @isset($data['value'])
-            <p>{{ __('invoices.title_value') }}</p>
-            <p> {{ __('invoices.new_value', ['value' => $data['value']]) }}</p>
-        @endisset
-
-        @isset($data['status'])
-            @if($data['status'] === StatusInvoices::PAID->name)
-                <p>{{ __('invoices.paid_invoice', ['code' => $invoice->code]) }}</p>
-            @else
-                <p>{{ __('invoices.expired_invoice', ['code' => $invoice->code]) }}</p>
-
-                <div class="cta">
-                    <a href="{{ route('form.microsite', $invoice->microsite_id) }}">Pagar</a>
-                </div>
-
-                <p>Si ya realizaste el pago, por favor ignora este mensaje.</p>
-            @endif
-        @endisset
+        <p>Hola <strong>{{ $name_user }}</strong>,</p>
+        <p> Mañana se realizará el cobro de tu suscripción {{ $subscription->microsite->name }} 😉 </p>
     </div>
 
     <div class="footer">
@@ -128,3 +99,4 @@
 </div>
 </body>
 </html>
+

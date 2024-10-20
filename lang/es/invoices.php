@@ -24,6 +24,7 @@ return [
     'code' => 'Código',
     'pay' => 'Ir a pagar',
     'pending' => 'PENDING',
+    'paid' => 'PAID',
     'import' => 'Importar facturas',
     'list_import' => 'Lista de archivos importados',
     'msj_import' => 'Por favor, sube un archivo .CSV, Se te enviará un correo con el resultado de la importación.',

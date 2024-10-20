@@ -53,7 +53,7 @@ const selectInvoice = (e) => {
     }
 
     descriptionInvoice = usePage().props.$t.labels.description +': ' + description;
-    valueInvoice = usePage().props.$t.invoices.value + ': ' + value;
+    valueInvoice = usePage().props.$t.invoices.value + ': '+ '$' + value;
     form.invoice_id = e.target.value;
     form.value = value;
 };
