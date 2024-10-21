@@ -21,6 +21,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.16",
         "@vitejs/plugin-vue": "^5.0.4",
+        "chart.js": "^4.4.5",
         "vue-tailwind-datepicker": "^1.7.3"
     }
 }
