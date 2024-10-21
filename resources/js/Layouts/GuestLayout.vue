@@ -46,6 +46,11 @@ const user = usePage().props.auth.user ?? '';
                                             {{ $page.props.$t.subscriptions.title }}
                                         </a>
                                     </li>
+                                    <li v-if="user.role_id === $page.props.$t.roles.role_guest">
+                                        <a :href="route('profile.edit')">
+                                            {{ $page.props.$t.auth.profile }}
+                                        </a>
+                                    </li>
                                     <li v-if="$page.props.auth.user_permissions.length === 0">
                                         <Link
                                             :href="route('logout')" method="post" as="button">
@@ -63,9 +68,6 @@ const user = usePage().props.auth.user ?? '';
                 <div v-else class="flex justify-between space-x-1">
                     <div>
                         <Link :href="route('login')">{{ $page.props.$t.auth.login }}</Link>
-                    </div>
-                    <div>
-                        <Link :href="route('register')">{{ $page.props.$t.auth.register }}</Link>
                     </div>
                 </div>
             </div>

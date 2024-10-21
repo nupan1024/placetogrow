@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->text('token')->nullable();
             $table->json('data_last_collect')->nullable();
             $table->timestamps();
+            $table->unique(['user_id', 'subscription_id']);
         });
     }
 

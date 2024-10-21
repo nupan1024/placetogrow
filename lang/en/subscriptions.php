@@ -37,5 +37,6 @@ return [
     'updated_enabled' => 'has been enabled again',
     'updated_enabled_msj' => 'The subscription has been enabled',
     'tooltip_billing_frequency' => 'Enter the number of each time the subscription is charged',
+    'active_subscription' => 'You already have this subscription active',
 
 ];
