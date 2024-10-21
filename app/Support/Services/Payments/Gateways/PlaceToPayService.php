@@ -191,8 +191,8 @@ class PlaceToPayService implements PaymentGateway
 
     public function getPaymentStatus(Payment $payment): QueryPaymentResponse
     {
-        if (!isset($payment->request_id)) {
-            return new QueryPaymentResponse('Payment not found', 'error');
+        if (!$payment->request_id) {
+            return new QueryPaymentResponse('Payment not found', PaymentStatus::REJECTED->value);
         }
 
         return Cache::remember(

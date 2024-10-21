@@ -30,7 +30,6 @@ class Payment extends Model
         'microsite_id',
         'subscription_id',
         'invoice_id',
-
     ];
     protected $casts = [
         'fields' => 'array',

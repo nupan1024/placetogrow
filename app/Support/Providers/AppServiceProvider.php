@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(PaymentGatewayContract::class, function (Application $app, array $data) {
             return match (PaymentGateway::from($data['gateway'] ?? null)) {
-                PaymentGateway::PLACETOPAY => new PlaceToPayService(),
+                PaymentGateway::PLACETOPAY =>  app(PlaceToPayService::class),
             };
         });
     }

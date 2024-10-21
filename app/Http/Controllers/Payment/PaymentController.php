@@ -27,7 +27,7 @@ class PaymentController extends Controller
     public function create(CreatePaymentRequest $request): SymfonyResponse
     {
         $validation = ValidateIfSubscriptionExist::execute($request->validated());
-        if (!$validation) {
+        if (!$validation && $request->get('subscription_id')) {
             return redirect()->route('home')
                 ->with([
                     'message' => __('subscriptions.active_subscription'),
