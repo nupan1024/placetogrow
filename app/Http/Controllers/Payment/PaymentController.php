@@ -8,6 +8,7 @@ use App\Domain\Payments\Actions\UpdatePaymentWithPaymentTypes;
 use App\Domain\Payments\Models\Payment;
 use App\Domain\Payments\ViewModels\DetailSubscriptionViewModel;
 use App\Domain\Payments\ViewModels\DetailTransactionViewModel;
+use App\Domain\SubscriptionUser\Actions\ValidateIfSubscriptionExist;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\CreatePaymentRequest;
 use App\Contracts\PaymentService;
@@ -25,6 +26,15 @@ class PaymentController extends Controller
     }
     public function create(CreatePaymentRequest $request): SymfonyResponse
     {
+        $validation = ValidateIfSubscriptionExist::execute($request->validated());
+        if (!$validation) {
+            return redirect()->route('home')
+                ->with([
+                    'message' => __('subscriptions.active_subscription'),
+                    'type' => 'error',
+                ]);
+        }
+
         $payment = CreatePayment::execute($request->validated());
         /** @var PaymentService $paymentService */
         $paymentService = app(PaymentService::class, [

@@ -52,6 +52,22 @@ const submit = () => {
         </template>
         <FormLayout>
             <form @submit.prevent="submit">
+                <div class="mt-3">
+                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
+                    <vue-tailwind-datepicker
+                        :formatter="formatter"
+                        :disable-date="disableDate"
+                        id="date_expire_pay"
+                        name="date_expire_pay"
+                        v-model="form.date_expire_pay"
+                        class="mt-1 block w-full"
+                        as-single
+                        required
+                        autofocus
+                    />
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
+                </div>
+
                 <div class="mt-4">
                     <InputLabel for="user_id" :value="$page.props.$t.invoices.name_client" />
                     <Select id="user_id"
@@ -72,22 +88,6 @@ const submit = () => {
                             :options="microsites"
                     />
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
-                </div>
-
-                <div class="mt-3">
-                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
-                    <vue-tailwind-datepicker
-                        :formatter="formatter"
-                        :disable-date="disableDate"
-                        id="date_expire_pay"
-                        name="date_expire_pay"
-                        v-model="form.date_expire_pay"
-                        class="mt-1 block w-full"
-                        as-single
-                        required
-                        autofocus
-                    />
-                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
                 </div>
 
                 <div class="mt-4">

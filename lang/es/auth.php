@@ -23,5 +23,8 @@ return [
     'msj_forget' => '¿Olvidaste tu contraseña? No hay problema. Solo déjanos saber tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña que te permitirá elegir una nueva.',
     'remember' => 'Recuérdame',
     'btn_forget' => 'Enviar enlace para restablecer contraseña',
+    'profile' => 'Perfil',
+    'msj_register' => 'Si no tienes una cuenta, regístrate',
+    'here' => 'aquí',
 
 ];

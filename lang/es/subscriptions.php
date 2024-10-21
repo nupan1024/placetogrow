@@ -37,5 +37,6 @@ return [
     'updated_disabled_msj' => 'El servicio de tu suscripción estará disponible hasta',
     'updated_enabled_msj' => 'Estamos felices de volver para estar 100% disponible para ti.',
     'tooltip_billing_frequency' => 'Ingrese el número de cada cuando se cobrará la suscripción',
+    'active_subscription' => 'Ya tienes esta suscripción activa',
 
 ];

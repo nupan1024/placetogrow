@@ -57,6 +57,22 @@ const submit = () => {
         </template>
         <FormLayout>
             <form @submit.prevent="submit">
+                <div class="mt-3">
+                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
+                    <vue-tailwind-datepicker
+                        :formatter="formatter"
+                        :disable-date="disableData"
+                        id="date_expire_pay"
+                        name="date_expire_pay"
+                        v-model="form.date_expire_pay"
+                        class="mt-1 block w-full"
+                        as-single
+                        required
+                        autofocus
+                    />
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
+                </div>
+
                 <div class="mt-4">
                     <InputLabel for="code" :value="$page.props.$t.invoices.code" />
                     <TextInput
@@ -107,22 +123,6 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
                 </div>
 
-                <div class="mt-3">
-                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
-                    <vue-tailwind-datepicker
-                        :formatter="formatter"
-                        :disable-date="disableData"
-                        id="date_expire_pay"
-                        name="date_expire_pay"
-                        v-model="form.date_expire_pay"
-                        class="mt-1 block w-full"
-                        as-single
-                        required
-                        autofocus
-                    />
-                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
-                </div>
-
                 <div class="mt-4">
                     <InputLabel for="description" :value="$page.props.$t.labels.description" />
                     <TextArea
@@ -147,7 +147,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.value" />
                 </div>
 
-                <div class="flex items-center justify-end mt-4" v-if="invoice.status === 'PENDING' || invoice.status === 'EXPIRED'">
+                <div class="flex items-center justify-end mt-4" v-if="invoice.status !==  $page.props.$t.invoices.paid">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         {{ $page.props.$t.labels.edit }}
                     </PrimaryButton>
