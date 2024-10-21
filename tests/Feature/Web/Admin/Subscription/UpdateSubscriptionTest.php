@@ -25,17 +25,13 @@ test('update subscription', function () {
     $name = fake()->name();
     $description = fake()->paragraph();
     $status = fake()->boolean();
-    $time_expire = fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d');
     $amount = fake()->numberBetween(1000, 10000);
     $data = [
-        'microsite_id' => $subscription->microsite_id,
-        'currency_id' => $subscription->currency_id,
         'amount' => $amount,
         'description' => $description,
         'name' => $name,
         'status' => $status,
         'billing_frequency' => (string)BillingFrequency::MONTH->value,
-        'time_expire' => $time_expire,
     ];
 
     $this->actingAs($user);
@@ -56,7 +52,6 @@ test('update subscription', function () {
         'name' => $name,
         'status' => $status,
         'billing_frequency' => (string)BillingFrequency::MONTH->value,
-        'time_expire' => $time_expire,
     ]);
 });
 

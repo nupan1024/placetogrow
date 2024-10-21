@@ -14,6 +14,8 @@ class CreatePayment implements Action
     public static function execute(array $params = [], $model = null): Payment|bool
     {
         try {
+            $user_id = (!is_null(Auth::user())) ? Auth::user()->id : null;
+
             $payment = new Payment();
             $payment->name = $params['name'];
             $payment->email = $params['email'];
@@ -23,7 +25,7 @@ class CreatePayment implements Action
             $payment->subscription_id = $params['subscription_id'] ?? null;
             $payment->type_document = $params['type_document'];
             $payment->num_document = $params['num_document'];
-            $payment->user_id = (!is_null(Auth::user())) ? Auth::user()->id : null;
+            $payment->user_id = ($params['user_id'] ?? $user_id);
             $payment->microsite_id = $params['microsite_id'];
             $payment->status = PaymentStatus::PENDING->value;
             $payment->payment_type = PaymentGateway::PLACETOPAY->value;

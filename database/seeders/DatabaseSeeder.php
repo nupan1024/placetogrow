@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CurrencySeeder::class,
             CategorySeeder::class,
             MicrositeTypeSeeder::class,
+            SettingSeeder::class,
         ]);
 
         if (env('APP_ENV') !== 'production') {

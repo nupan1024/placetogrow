@@ -1,11 +1,10 @@
 <?php
 
 use App\Domain\Payments\Models\Payment;
-use App\Jobs\UpdateStatusPayments;
+use App\Jobs\ProcessPayments;
 use App\Support\Definitions\PaymentStatus;
 use App\Support\Services\Payments\Gateways\PlaceToPayService;
-use Dnetix\Redirection\Message\RedirectInformation;
-use Dnetix\Redirection\PlacetoPay;
+use App\Support\Services\Payments\QueryPaymentResponse;
 
 test('job update payments', function () {
     $payment = Payment::factory()->create([
@@ -19,18 +18,14 @@ test('job update payments', function () {
         'base_url' => fake()->url(),
     ]);
 
-    $placeToPayMock = $this->mock(PlacetoPay::class);
-    $placeToPayMock
-        ->shouldReceive('query')->andReturn(
-            new RedirectInformation(
-                json_decode(file_get_contents('./tests/Stubs/sessionResponse.json'), true)
-            )
-        );
+    $placeToPayMock = $this->mock(PlaceToPayService::class);
+    $placeToPayMock->shouldReceive('getPaymentStatus')
+        ->andReturn(new QueryPaymentResponse(
+            'OK',
+            PaymentStatus::APPROVED->value
+        ));
 
-    $this->mock(PlaceToPayService::class)
-        ->shouldReceive('init')->andReturn($placeToPayMock);
-
-    $job = new UpdateStatusPayments();
+    $job = new ProcessPayments();
     $job->handle();
 
     $this->assertDatabaseHas('payments', [
@@ -44,7 +39,7 @@ test('job update payment to rejected when request_id is 0', function () {
         'status' => PaymentStatus::PENDING->value,
         'request_id' => 0,
     ]);
-    $job = new UpdateStatusPayments();
+    $job = new ProcessPayments();
     $job->handle();
 
     $this->assertDatabaseHas('payments', [

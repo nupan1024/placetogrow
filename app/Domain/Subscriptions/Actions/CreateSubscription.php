@@ -4,6 +4,7 @@ namespace App\Domain\Subscriptions\Actions;
 
 use App\Domain\Subscriptions\Models\Subscription;
 use App\Support\Actions\Action;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -18,7 +19,7 @@ class CreateSubscription implements Action
             $subscription->amount = $params['amount'];
             $subscription->description = $params['description'];
             $subscription->status = $params['status'];
-            $subscription->time_expire = $params['time_expire'];
+            $subscription->time_expire = Carbon::now()->addYears(5);
             $subscription->billing_frequency = $params['billing_frequency'];
             $subscription->currency_id = $params['currency_id'];
             $result = $subscription->save();

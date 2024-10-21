@@ -17,10 +17,14 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'login' => 'Login',
+    'register' => 'Register',
     'sign_off' => 'Sign off',
     'forget' => 'Forget the password',
     'msj_forget' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
     'remember' => 'Remember me',
     'btn_forget' => 'Email Password Reset Link',
+    'profile' => 'Profile',
+    'msj_register' => 'If you do not have an account, please register',
+    'here' => 'here',
 
 ];

@@ -58,17 +58,4 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
-    public function payments(): Response
-    {
-        return Inertia::render('Payment/List');
-    }
-    public function subscriptions(): Response
-    {
-        return Inertia::render('Subscription/List');
-    }
-
-    public function invoices(): Response
-    {
-        return Inertia::render('Invoices/List');
-    }
 }

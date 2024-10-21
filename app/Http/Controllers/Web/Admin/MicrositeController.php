@@ -72,7 +72,7 @@ class MicrositeController extends Controller
     public function delete(Microsite $microsite): RedirectResponse
     {
         $response = DeleteMicrosite::execute([], $microsite);
-        if($response['status'] === false) {
+        if ($response['status'] === false) {
             return redirect()->route('microsites')->with([
                 'message' => $response['message'],
                 'type' => 'error',

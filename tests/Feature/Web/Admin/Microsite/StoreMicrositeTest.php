@@ -85,7 +85,6 @@ test('not store microsite because not receive every param', function () {
     $currency = Currency::factory()->create();
     $type = MicrositeType::factory()->create();
 
-    $date = fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d');
     $description = fake()->paragraph();
     $name = fake()->name();
 
@@ -96,7 +95,6 @@ test('not store microsite because not receive every param', function () {
         'logo_path' => UploadedFile::fake()->image('microsite_image.png', 640, 480),
         'currency_id' =>  $currency->id,
         'microsites_type_id' =>  $type->id,
-        'date_expire_pay' => $date,
     ];
 
     $response = $this->post(route("microsite.store"), $data);
@@ -112,6 +110,5 @@ test('not store microsite because not receive every param', function () {
         'logo_path' => UploadedFile::fake()->image('microsite_image.png', 640, 480),
         'currency_id' =>  $currency->id,
         'microsites_type_id' =>  $type->id,
-        'date_expire_pay' => $date,
     ]);
 });

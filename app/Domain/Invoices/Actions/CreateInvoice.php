@@ -19,6 +19,7 @@ class CreateInvoice implements Action
             $invoice->description = $params['description'];
             $invoice->status = StatusInvoices::PENDING->name;
             $invoice->code = 'MICROSITE_PLACETOGROW_'.time();
+            $invoice->date_expire_pay = $params['date_expire_pay'];
 
             return $invoice->save();
         } catch (\Exception $e) {

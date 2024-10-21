@@ -71,7 +71,11 @@ const submit = () => {
     <Head><title>{{ $page.props.$t.microsites.title }}</title></Head>
     <GuestLayout>
         <FormLayout>
+            <div role="alert" class="alert alert-error" v-if="!$page.props.auth.user">
+                <span>{{ $page.props.$t.subscriptions.msj_session }}</span>
+            </div>
             <HeadMicrosites :title="microsite.name" :logo="microsite.logo_path"></HeadMicrosites>
+
             <div class="text-align mb-6">
                 <p>{{ microsite.description }}</p>
                 <h2>{{ $page.props.$t.categories.title }}: {{ microsite.category.name }}</h2>
@@ -152,7 +156,7 @@ const submit = () => {
                         required
                         v-model="form.subscription_id">
                         <option value="">{{ $page.props.$t.labels.select }}</option>
-                        <option v-for="subscription in subscriptions"
+                        <option  v-for="subscription in subscriptions" v-if="$page.props.auth.user"
                                 :key="subscription.id"
                                 :value="subscription.id"
                                 :data-amount="subscription.amount"

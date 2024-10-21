@@ -40,7 +40,7 @@ const status = usePage().props.status;
                 {{ $page.props.$t.payments.value }}: ${{ payment.value }}
             </div>
             <div class="flex gap-4">
-                {{ $page.props.$t.payments.status }}: {{ status.status }}
+                {{ $page.props.$t.payments.status }}: {{ payment.status }}
             </div>
             <span class="bg-black/5 -mx-4 -mt-4 rounded-t-lg p-2 text-center flex shadow">{{ $page.props.$t.payments.subscription_detail }}</span>
             <div class="flex gap-4">

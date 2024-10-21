@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin\Microsite;
 
-use App\Support\Definitions\MicrositesTypes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateMicrositeRequest extends FormRequest
@@ -18,10 +17,6 @@ class CreateMicrositeRequest extends FormRequest
             ],
             'description' => ['required', 'string'],
             'currency_id' => ['required', 'exists:currencies,id'],
-            'date_expire_pay' => [
-                'exclude_unless:microsites_type_id,'.MicrositesTypes::INVOICE->value,
-                'date', 'required', 'after:'.date('Y-m-d'),
-            ],
             'status' => ['required', 'boolean'],
             'fields' => ['array'],
         ];

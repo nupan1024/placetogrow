@@ -5,6 +5,7 @@ use App\Domain\Users\Models\User;
 use App\Support\Definitions\Permissions;
 use App\Support\Definitions\Roles;
 use App\Support\Definitions\StatusInvoices;
+use Carbon\Carbon;
 use Database\Factories\PermissionFactory;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
@@ -27,13 +28,13 @@ test('store invoice success', function () {
 
     $value = fake()->numberBetween(1, 10000);
     $description = fake()->paragraph();
-    $code = 'MICROSITE_PLACETOGROW_'.time();
     $data = [
         'microsite_id' => $microsite->id,
         'user_id' => $user->id,
         'value' => $value,
         'description' => $description,
         'status' => StatusInvoices::PENDING->name,
+        'date_expire_pay' => fake()->date(Carbon::now()->addDays(3)->format('Y-m-d')),
     ];
 
     $response = $this->post(route("invoice.store"), $data);

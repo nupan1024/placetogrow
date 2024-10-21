@@ -37,5 +37,11 @@ return [
     'file_name' => 'File name',
     'created_at' => 'Created at',
     'customer_name' => 'Customer name',
+    'errors' => 'Errors',
+    'title_errors' => 'Click to see the errors',
+    'information' => 'Information',
+    'language' => 'Language',
+    'spanish' => 'Spanish',
+    'english' => 'English',
 
 ];

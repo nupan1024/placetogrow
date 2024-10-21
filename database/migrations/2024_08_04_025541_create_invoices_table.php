@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->integer('value');
             $table->text('description');
+            $table->date('date_expire_pay');
             $table->string('status', 45);
             $table->string('code', 100)->unique();
             $table->timestamps();

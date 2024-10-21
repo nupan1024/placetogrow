@@ -64,7 +64,7 @@ class InvoiceController extends Controller
 
     public function delete(Invoice $invoice): RedirectResponse
     {
-        if(!DeleteInvoice::execute([], $invoice)) {
+        if (!DeleteInvoice::execute([], $invoice)) {
             return redirect()->route('invoices')->with([
                 'message' => __('invoices.error_delete'),
                 'type' => 'error',

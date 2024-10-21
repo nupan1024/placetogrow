@@ -15,7 +15,6 @@ class CreateSubscriptionRequest extends FormRequest
             'name' => ['required', 'string'],
             'billing_frequency' => ['required', 'string'],
             'status' => ['required', 'boolean'],
-            'time_expire' => ['required', 'date', 'after:'.date('Y-m-d')],
             'amount' => ['required', 'numeric'],
         ];
     }

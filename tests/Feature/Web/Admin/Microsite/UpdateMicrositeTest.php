@@ -35,7 +35,6 @@ test('update microsite success', function () {
         'logo_path' => $microsite->logo_path,
         'currency_id' =>  $microsite->currency_id,
         'microsites_type_id' =>  $microsite->microsites_type_id,
-        'date_expire_pay' => $microsite->date_expire_pay,
         'status' => $status,
         'fields' => $microsite->fields,
     ];
@@ -84,7 +83,6 @@ test('not update microsite because not receive every param', function () {
         'logo_path' => $microsite->logo_path,
         'currency_id' =>  $microsite->currency_id,
         'microsites_type_id' =>  $microsite->microsites_type_id,
-        'date_expire_pay' => $microsite->date_expire_pay,
         'status' => $status,
         'fields' => $microsite->fields,
     ];
@@ -101,7 +99,6 @@ test('not update microsite because not receive every param', function () {
         'logo_path' => $microsite->logo_path,
         'currency_id' =>  $microsite->currency_id,
         'microsites_type_id' =>  $microsite->microsites_type_id,
-        'date_expire_pay' => $microsite->date_expire_pay,
         'status' => $status,
         'fields' => $microsite->fields,
     ]);

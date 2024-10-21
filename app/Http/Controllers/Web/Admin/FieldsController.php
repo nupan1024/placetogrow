@@ -60,7 +60,7 @@ class FieldsController extends Controller
 
     public function delete(Field $field): RedirectResponse
     {
-        if(!DeleteField::execute([], $field)) {
+        if (!DeleteField::execute([], $field)) {
             return redirect()->route('fields')->with([
                 'message' => __('fields.error_delete'),
                 'type' => 'error',

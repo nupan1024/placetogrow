@@ -11,7 +11,6 @@ test('validate form microsite when is invoice', function () {
     ]);
     $microsite = Microsite::factory()->create([
         'microsites_type_id' => MicrositesTypes::INVOICE->value,
-        'date_expire_pay' => now()->addDays(1),
     ]);
 
     $response = $this->get('/form/microsite/' . $microsite->id);

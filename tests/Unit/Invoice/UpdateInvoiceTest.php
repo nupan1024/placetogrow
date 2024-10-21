@@ -2,6 +2,7 @@
 
 use App\Domain\Invoices\Actions\UpdateInvoice;
 use App\Domain\Invoices\Models\Invoice;
+use Carbon\Carbon;
 
 test('update invoice', function () {
     $invoice = Invoice::factory()->create();
@@ -10,6 +11,7 @@ test('update invoice', function () {
         'user_id' => $invoice->user_id,
         'value' => '6000',
         'description' => fake()->paragraph(),
+        'date_expire_pay' => fake()->date(Carbon::now()->addDays(3)->format('Y-m-d')),
     ];
 
     expect(UpdateInvoice::execute($params, $invoice))->toBeTrue();

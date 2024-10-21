@@ -29,7 +29,6 @@ class Microsite extends Model
         'name',
         'logo_path',
         'currency_id',
-        'date_expire_pay',
         'status',
         'description',
     ];

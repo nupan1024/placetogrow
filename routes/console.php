@@ -1,10 +1,10 @@
 <?php
 
-use App\Jobs\ProcessUpdateSubscriptionUser;
-use App\Jobs\UpdateStatusInvoices;
-use App\Jobs\UpdateStatusPayments;
+use App\Jobs\ProcessSubscriptionCollect;
+use App\Jobs\ProcessInvoices;
+use App\Jobs\ProcessPayments;
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::job(new UpdateStatusPayments())->everyFiveMinutes();
-Schedule::job(new ProcessUpdateSubscriptionUser())->everyFiveMinutes();
-Schedule::job(new UpdateStatusInvoices())->daily();
+Schedule::job(new ProcessPayments())->everyFiveMinutes();
+Schedule::job(new ProcessInvoices())->daily();
+Schedule::job(new ProcessSubscriptionCollect())->daily();
