@@ -7,8 +7,10 @@ use App\Domain\Payments\Models\Payment;
 use App\Support\Definitions\PaymentStatus;
 use App\Support\Services\Payments\PaymentResponse;
 use App\Support\Services\Payments\QueryPaymentResponse;
+use Dnetix\Redirection\Entities\Status;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 
 class PlaceToPayService implements PaymentGateway
@@ -58,6 +60,18 @@ class PlaceToPayService implements PaymentGateway
         return $this;
     }
 
+    public function payer(array $data): self
+    {
+        $this->data['payer'] = [
+            'name' => $data['name'],
+            'surname' => $data['name'],
+            'email' => $data['email'],
+            'documentType' => $data['type_document'],
+            'document' => $data['num_document'],
+        ];
+        return $this;
+    }
+
     public function payment(Payment $payment): self
     {
         $microsite = $payment->microsite()->with('currency')->first();
@@ -72,6 +86,15 @@ class PlaceToPayService implements PaymentGateway
 
         $this->data['returnUrl'] = route('payment.detail', $payment);
 
+        return $this;
+    }
+    public function instrument($token): self
+    {
+        $this->data['instrument'] = [
+            'token' => [
+                'token' => Crypt::decryptString($token),
+            ],
+        ];
         return $this;
     }
 
@@ -89,31 +112,87 @@ class PlaceToPayService implements PaymentGateway
         return $this;
     }
 
-    public function process(): PaymentResponse
+    public function deleteSubscription(): array
     {
         $placetopay = $this->init();
-        $response = $placetopay->request($this->data);
+        $response = $placetopay->invalidateToken($this->data);
 
-        if (!$response->isSuccessful()) {
-            Log::channel('Payment')->error($response->status()->message());
+        if ($response['status']['status'] !== Status::ST_OK) {
+            return [
+                'status' => false,
+                'message' => $response['status']['message'],
+            ];
+        }
+
+        return [
+            'status' => true,
+        ];
+    }
+
+    public function processCollect(): PaymentResponse
+    {
+        try {
+            $placetopay = $this->init();
+            $response = $placetopay->collect($this->data);
+
+            if (!$response->isSuccessful()) {
+                Log::channel('Payment')->error('Error collecting payment: '.$response->status()->message());
+                return new PaymentResponse(
+                    '0',
+                    route('home'),
+                    $response->status()->status()
+                );
+            }
+
+            return new PaymentResponse(
+                $response->requestId(),
+                route('home'),
+                $response->status()->status()
+            );
+        } catch (\Exception $e) {
+            Log::channel('Payment')->error('Error collecting payment: '.$e->getMessage());
             return new PaymentResponse(
                 '0',
                 route('home'),
                 PaymentStatus::REJECTED->name
             );
         }
+    }
 
-        return new PaymentResponse(
-            $response->requestId(),
-            $response->processUrl(),
-            $response->status()->status()
-        );
+    public function process(): PaymentResponse
+    {
+        try {
+            $placetopay = $this->init();
+            $response = $placetopay->request($this->data);
+
+            if (!$response->isSuccessful()) {
+                Log::channel('Payment')->error($response->status()->message());
+                return new PaymentResponse(
+                    '0',
+                    route('home'),
+                    PaymentStatus::REJECTED->name
+                );
+            }
+
+            return new PaymentResponse(
+                $response->requestId(),
+                $response->processUrl(),
+                $response->status()->status()
+            );
+        } catch (\Exception $e) {
+            Log::channel('Payment')->error('Error processing payment: '.$e->getMessage());
+            return new PaymentResponse(
+                '0',
+                route('home'),
+                PaymentStatus::REJECTED->name
+            );
+        }
     }
 
     public function getPaymentStatus(Payment $payment): QueryPaymentResponse
     {
-        if (!isset($payment->request_id)) {
-            return new QueryPaymentResponse('Payment not found', 'error');
+        if (!$payment->request_id) {
+            return new QueryPaymentResponse('Payment not found', PaymentStatus::REJECTED->value);
         }
 
         return Cache::remember(
@@ -129,4 +208,28 @@ class PlaceToPayService implements PaymentGateway
         );
     }
 
+    public function getToken(Payment $payment): array
+    {
+        if (!isset($payment->request_id)) {
+            return [
+                'message' => 'Request id is required',
+                'status' => false
+            ];
+        }
+
+        $data = $this->init()->query($payment->request_id);
+        $dataInstrument = $data->subscription()->instrumentToArray();
+
+        if (!isset($dataInstrument[0]['value'])) {
+            return [
+                'message' => 'Token not found',
+                'status' => false
+            ];
+        }
+
+        return [
+            'token' => Crypt::encryptString($dataInstrument[0]['value']),
+            'status' => true
+        ];
+    }
 }

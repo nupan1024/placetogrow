@@ -6,6 +6,7 @@ use App\Domain\Categories\Models\Category;
 use App\Domain\Currencies\Models\Currency;
 use App\Domain\Microsites\Models\Microsite;
 use App\Domain\Microsites\Models\MicrositeType;
+use App\Support\Definitions\CurrenciesTypes;
 use App\Support\Definitions\MicrositesTypes;
 use App\Support\Definitions\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -33,7 +34,6 @@ class MicrositeFactory extends Factory
                 ->image('microsite_image.png', 640, 480),
             'description' => fake()->paragraph(),
             'currency_id' => Currency::factory(),
-            'date_expire_pay' => fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
             'status' => Status::ACTIVE->value,
             'fields' => [],
         ];
@@ -41,18 +41,23 @@ class MicrositeFactory extends Factory
 
     public function invoiceType(): Factory
     {
-        return $this->state(function (array $attributes) {
+        $currencyId = Currency::where('name', CurrenciesTypes::COP->name)->value('id');
+
+        return $this->state(function (array $attributes) use ($currencyId) {
             return [
                 'microsites_type_id' => MicrositesTypes::INVOICE->value,
+                'currency_id' => $currencyId,
             ];
         });
     }
 
     public function subscriptionType(): Factory
     {
-        return $this->state(function (array $attributes) {
+        $currencyId = Currency::where('name', CurrenciesTypes::COP->name)->value('id');
+        return $this->state(function (array $attributes) use ($currencyId) {
             return [
                 'microsites_type_id' => MicrositesTypes::SUBSCRIPTIONS->value,
+                'currency_id' => $currencyId,
             ];
         });
     }

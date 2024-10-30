@@ -12,7 +12,7 @@ class GetInvoicesByMicrositeAndUser implements Action
     {
         return Invoice::where('microsite_id', $params['microsite_id'])
              ->where('user_id', $params['user_id'])
-             ->where('status', StatusInvoices::PENDING->name)->get()->toArray();
+             ->where('status', '!=', StatusInvoices::PAID->name)->get()->toArray();
     }
 
 }

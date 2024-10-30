@@ -1,0 +1,10 @@
+diff --git a/vendor/dnetix/redirection/src/Contracts/Carrier.php b/vendor/dnetix/redirection/src/Contracts/Carrier.php
+--- a/vendor/dnetix/redirection/src/Contracts/Carrier.php
++++ b/vendor/dnetix/redirection/src/Contracts/Carrier.php	(date 1728185835967)
+@@ -25,4 +25,6 @@
+     abstract public function collect(CollectRequest $collectRequest): RedirectInformation;
+
+     abstract public function reverse(string $transactionId): ReverseResponse;
++
++    abstract public function invalidateToken(array $instrument): array;
+ }

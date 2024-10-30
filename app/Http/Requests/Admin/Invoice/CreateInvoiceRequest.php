@@ -13,6 +13,9 @@ class CreateInvoiceRequest extends FormRequest
             'user_id' => ['required', 'exists:users,id'],
             'description' => ['required', 'string'],
             'value' => ['required', 'numeric'],
+            'date_expire_pay' => [
+                'date', 'required', 'after_or_equal:'. date('Y-m-d'),
+            ],
         ];
     }
 }

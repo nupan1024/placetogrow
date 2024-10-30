@@ -33,4 +33,26 @@ class PaymentService implements PaymentServiceContract
 
         return $response;
     }
+
+    public function createCollect(array $payer, string $token): PaymentResponse
+    {
+        return  $this->gateway->payer($payer)
+            ->payment($this->payment)
+            ->instrument($token)
+            ->processCollect();
+    }
+    public function deleteSubscription(string $token): array
+    {
+        return $this->gateway->instrument($token)->deleteSubscription();
+    }
+
+    public function getPaymentStatus(Payment $payment): QueryPaymentResponse
+    {
+        return $this->gateway->getPaymentStatus($payment);
+    }
+
+    public function getToken(Payment $payment): array
+    {
+        return $this->gateway->getToken($payment);
+    }
 }

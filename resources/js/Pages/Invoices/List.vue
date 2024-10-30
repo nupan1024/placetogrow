@@ -60,10 +60,10 @@ loadInvoices();
                                 <td>{{ invoice.code }}</td>
                                 <td>{{ invoice.microsite }}</td>
                                 <td>{{ invoice.description.slice(0,100) }}</td>
-                                <td>{{ invoice.value }}</td>
+                                <td>${{ invoice.value }}</td>
                                 <td>{{ invoice.status }}</td>
                                 <td>
-                                    <a v-if="invoice.status === $page.props.$t.invoices.pending" :href="route('form.microsite', invoice.microsite_id)"
+                                    <a v-if="invoice.status !== $page.props.$t.invoices.paid" :href="route('form.microsite', invoice.microsite_id)"
                                        class="btn btn-link">{{ $page.props.$t.invoices.pay }}</a>
                                 </td>
                             </tr>

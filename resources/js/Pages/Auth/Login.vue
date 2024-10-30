@@ -42,6 +42,14 @@ const submit = () => {
         </div>
         <FormLayout>
             <form @submit.prevent="submit">
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <span class="ms-2 text-sm text-gray-600">{{ $page.props.$t.auth.msj_register }}</span>
+                        <Link :href="route('register')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                           &nbsp;{{ $page.props.$t.auth.here }}
+                        </Link>
+                    </label>
+                </div>
                 <div>
                     <InputLabel for="email" :value="$page.props.$t.labels.email" />
 

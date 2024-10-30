@@ -9,6 +9,7 @@ import Breadcrumb from '@/Components/Breadcrumb.vue';
 import FormLayout from '@/Layouts/FormLayout.vue';
 import Select from '@/Components/Select.vue';
 import TextArea from '@/Components/TextArea.vue';
+import { ref } from 'vue';
 
 defineProps({
     roles: Array,
@@ -20,6 +21,15 @@ const microsites = usePage().props.microsites;
 const users = usePage().props.users;
 const invoice = usePage().props.invoice;
 const crumbs = [usePage().props.$t.labels.dashboard, usePage().props.$t.invoices.list, usePage().props.$t.invoices.edit];
+
+const formatter = ref({
+    date: 'YYYY-MM-DD',
+    month:'MMM',
+});
+function disableData(date) {
+    return date < new Date();
+}
+
 const form = useForm({
     microsite_id: invoice.microsite_id,
     user_id: invoice.user_id,
@@ -27,6 +37,7 @@ const form = useForm({
     description: invoice.description,
     status: invoice.status,
     code: invoice.code,
+    date_expire_pay: invoice.date_expire_pay,
 });
 
 
@@ -46,6 +57,22 @@ const submit = () => {
         </template>
         <FormLayout>
             <form @submit.prevent="submit">
+                <div class="mt-3">
+                    <InputLabel for="date_expire_pay" :value="$page.props.$t.labels.date_pay" />
+                    <vue-tailwind-datepicker
+                        :formatter="formatter"
+                        :disable-date="disableData"
+                        id="date_expire_pay"
+                        name="date_expire_pay"
+                        v-model="form.date_expire_pay"
+                        class="mt-1 block w-full"
+                        as-single
+                        required
+                        autofocus
+                    />
+                    <InputError class="mt-2" :message="form.errors.date_expire_pay"/>
+                </div>
+
                 <div class="mt-4">
                     <InputLabel for="code" :value="$page.props.$t.invoices.code" />
                     <TextInput
@@ -79,6 +106,7 @@ const submit = () => {
                             required
                             v-model="form.user_id"
                             :options="users"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.user_id" />
                 </div>
@@ -90,6 +118,7 @@ const submit = () => {
                             required
                             v-model="form.microsite_id"
                             :options="microsites"
+                            disabled
                     />
                     <InputError class="mt-2" :message="form.errors.microsite_id" />
                 </div>
@@ -118,7 +147,7 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.value" />
                 </div>
 
-                <div class="flex items-center justify-end mt-4" v-if="invoice.status === 'PENDING'">
+                <div class="flex items-center justify-end mt-4" v-if="invoice.status !==  $page.props.$t.invoices.paid">
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         {{ $page.props.$t.labels.edit }}
                     </PrimaryButton>
